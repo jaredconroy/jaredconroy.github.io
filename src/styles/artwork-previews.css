@@ -1,0 +1,30 @@
+/* Full-frame artwork, with no matting or card padding. */
+.artwork-motion-preview{display:grid;position:relative;isolation:isolate;contain:layout paint;min-width:0;gap:2px;padding:0;overflow:hidden;background:#173458}
+.artwork-motion-preview img{display:block;width:100%;height:100%;object-fit:contain}
+.preview-design-wall{grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:minmax(0,1fr)}
+.preview-wall-column{min-width:0;min-height:0;height:100%;overflow:hidden}
+.preview-wall-track,.preview-wall-set{display:flex;flex-direction:column;gap:2px}
+.preview-wall-track{width:100%;animation:preview-wall-drift 24s linear infinite;will-change:transform}
+.preview-wall-set{flex:none}
+.preview-wall-art{width:100%;flex:none;overflow:hidden}
+.column-2 .preview-wall-track{animation-duration:30s;animation-direction:reverse}
+.column-3 .preview-wall-track{animation-duration:27s}
+@keyframes preview-wall-drift{to{transform:translateY(calc(-50% - 1px))}}
+.preview-illustration-panels{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr));background:#88281d}
+.preview-illustration-panel{min-width:0;min-height:0;height:100%;overflow:hidden}
+.preview-illustration-panel.panel-1{grid-column:1;grid-row:1/span 2}
+.preview-illustration-panel.panel-2{grid-column:2;grid-row:1}
+.preview-illustration-panel.panel-3{grid-column:2;grid-row:2}
+.preview-panel-track{height:100%;animation:preview-panel-shuffle 9.6s cubic-bezier(.22,.8,.2,1) infinite;will-change:transform}
+.preview-panel-frame{width:100%;height:100%;overflow:hidden}
+.preview-illustration-panel:not(.panel-1) img[data-preview-portrait="true"]{object-fit:cover;object-position:center 25%}
+@keyframes preview-panel-shuffle{
+ 0%,28%{transform:translateY(0)}
+ 33.333%,61.333%{transform:translateY(-100%)}
+ 66.667%,94.667%{transform:translateY(-200%)}
+ 100%{transform:translateY(-300%)}
+}
+.artwork-motion-preview[data-preview-paused="true"] .preview-wall-track,
+.artwork-motion-preview[data-preview-paused="true"] .preview-panel-track{animation-play-state:paused}
+@media(hover:hover){.artwork-motion-preview:hover .preview-wall-track,.artwork-motion-preview:hover .preview-panel-track{animation-play-state:paused}}
+@media(prefers-reduced-motion:reduce){.preview-wall-track,.preview-panel-track{animation:none!important;transform:none!important;will-change:auto}}

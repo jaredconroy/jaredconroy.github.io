@@ -1,0 +1,38 @@
+/* Short constant-speed strokes have no ease-out tail or slowdown at the peak. */
+/* Tab faces share the stationary preview plane; only their vertical reveal moves. */
+.folder-stack{position:relative;isolation:isolate}
+.folder-cover{position:relative;z-index:1;border-radius:var(--project-panel-radius) var(--project-panel-radius) 0 0}
+.folder-cover .feature-caption{background:var(--folder-color,var(--accent));transition:none}
+.folder-tabs{position:absolute;inset:0;pointer-events:none}
+.folder-tab .project-nav-label{position:absolute;inset:0 0 auto;display:flex;align-items:center;justify-content:center;height:18px;transform:none;color:#fff;--main-nav-size:clamp(8px,2.3cqw,16px);--main-nav-offset:0px}
+.folder-tab .project-letter-space{display:block;flex:0 0 .28em;width:.28em}
+@media(min-width:1001px) and (min-height:701px){.folder-tab .project-nav-label{--main-nav-size:16px}}
+.folder-tab[data-project="the-sleds"] .project-nav-label{color:#19364d}
+.folder-tab[data-project="afroman"] .project-nav-label{color:#000}
+.folder-tab{position:absolute;left:calc(var(--tab-index)*100%/var(--tab-count,5));top:var(--folder-tab-top,0px);width:calc(100%/var(--tab-count,5));height:var(--folder-tab-height,0px);background:var(--tab-color);border-radius:var(--project-panel-radius) var(--project-panel-radius) 0 0;visibility:hidden;transform:translateY(var(--tab-hidden-offset,24px));transition:transform var(--tab-motion-duration,140ms) linear,visibility 0s var(--tab-motion-duration,140ms)}
+.folder-tab[data-tab-level="half"]{visibility:visible;transform:translateY(4px);transition-delay:0s}
+.folder-stack[data-index-idle="true"] .folder-tab[data-tab-level="half"]{transform:translateY(calc(var(--tab-hidden-offset,24px)/2 + 2px))}
+.folder-tab[data-tab-level="full"]{visibility:visible;transform:translateY(0px);transition-delay:0s}
+/* Click dip/release is quicker; scheduled waves retain their shared stroke clock. */
+/* One absolute timeline reverses each passing face as the next one rises. */
+.featured-project-nav .project-nav-indicator{background:none;transition:none;overflow:visible}
+/* Five equal tracks stay aligned with the tab faces and the preview width. */
+.featured-project-nav,.header .featured-project-nav{display:grid;grid-template-columns:repeat(var(--tab-count,5),minmax(0,1fr))}
+.featured-project-nav button,.header .featured-project-nav button,.feature-project-index .featured-project-nav button{min-width:0;width:100%;padding-inline:0;transition:none}
+/* Extend the five hit areas through the blank strip, without moving labels. */
+.shell-home>.header{z-index:2}
+.featured-project-nav button{position:relative}
+.featured-project-nav button::after,.header .featured-project-nav button::after{content:'';position:absolute;inset:0 0 calc(-1 * var(--index-hover-extension,0px));cursor:pointer}
+.feature-project-index .featured-project-nav{--main-nav-size:clamp(8px,2.7cqw,18px)}
+.landing .role-pair.transition-out .role{animation-duration:var(--folder-out-duration)}
+.landing:not(.intro-handoff) .role-pair.transition-in .role{animation-duration:var(--folder-in-duration)}
+.landing:not(.intro-handoff) .project-content.transition-out{animation-duration:var(--folder-out-duration)}
+.landing:not(.intro-handoff) .project-content.transition-in{animation-duration:var(--folder-in-duration)}
+.signature-real .signature-art{transition:color 600ms var(--ease)}
+.player{transition:background-color 600ms var(--ease),color 600ms var(--ease),opacity 600ms var(--ease)}
+@media(prefers-reduced-motion:reduce){.signature-real .signature-art,.player{transition:none}}
+.app-shell[data-project-theme="afroman"] .folder-cover>.progress-track{background:#000}
+.app-shell[data-project-theme="afroman"] .folder-cover>.progress-track>span{background:var(--accent)}
+/* Explicit state supports changing the preference while the site is open. */
+.landing[data-reduced-motion="true"] .folder-tab{transition:none;animation:none}
+@media(prefers-reduced-motion:reduce){.folder-tab{transition:none;animation:none}}

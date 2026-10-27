@@ -1,0 +1,34 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {insideRecordBounds,recordFolded} from '../src/features/projects/record-interaction';
+
+const sleeve={left:50,right:450,top:100,bottom:300};
+const opening={left:100,right:900,top:90,bottom:310};
+
+test('the portion of a sleeve behind the cabinet edge cannot activate unfolding',()=>{
+ assert.equal(insideRecordBounds(99,200,sleeve,opening),false);
+ assert.equal(insideRecordBounds(100,200,sleeve,opening),true);
+});
+
+test('a folded corner protruding below the flat sleeve cannot activate its own hover',()=>{
+ assert.equal(insideRecordBounds(200,305,sleeve,opening),false);
+ assert.equal(insideRecordBounds(200,299,sleeve,opening),true);
+});
+
+test('the bottom-row loop swaps matching folded sleeves without starting a new fold',()=>{
+ const opening={left:0,right:1000},offsets={backMidpointOffset:100,frontMidpointOffset:312};
+ const hiddenOriginal={left:-2998,right:-2586,...offsets};
+ const before=recordFolded(hiddenOriginal,opening,2);
+ const after=recordFolded({left:0,right:412,...offsets},opening,3000);
+ assert.equal(before,true);
+ assert.equal(after,before);
+ // The actual half-back-cover exit still unfolds normally a little later.
+ assert.equal(recordFolded({left:-101,right:311,...offsets},opening,2899),false);
+});
+
+test('preparing a hidden duplicate does not change the front-cover entry trigger',()=>{
+ const opening={left:0,right:1000},offsets={backMidpointOffset:100,frontMidpointOffset:312};
+ assert.equal(recordFolded({left:700,right:1112,...offsets},opening),false);
+ assert.equal(recordFolded({left:687,right:1099,...offsets},opening),true);
+});
+

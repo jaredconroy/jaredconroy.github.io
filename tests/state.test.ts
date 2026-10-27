@@ -1,0 +1,10 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {shuffledQueue,previousAction} from '../src/features/audio/queue.ts';
+import {stepClock,CYCLE_MS} from '../src/features/landing/timing.ts';
+import {tabTransitionPlan} from '../src/features/landing/tabTransitions.ts';
+test('shuffle contains every track exactly once',()=>{const q=shuffledQueue(8,()=>.25);assert.equal(new Set(q).size,8);assert.deepEqual([...q].sort(),[0,1,2,3,4,5,6,7]);});
+test('previous restarts only after three seconds',()=>{assert.equal(previousAction(3.01),'restart');assert.equal(previousAction(3),'previous');assert.equal(previousAction(0),'previous');});
+test('pause preserves partial progress and resumes without a cooldown',()=>{const elapsed=stepClock(0,2500,false);assert.equal(stepClock(elapsed,30000,true),2500);assert.equal(stepClock(elapsed,500,false),3000);});
+test('the complete tab handoff holds the eight-second clock, including a long sweep',()=>{for(const reduced of [false,true]){const plan=tabTransitionPlan(4,0,reduced);const elapsed=stepClock(3000,plan.total,false,true);assert.equal(elapsed,3000);assert.equal(stepClock(elapsed,500,false),3500);}});
+test('a resumed cycle advances only after its remaining time',()=>{let elapsed=stepClock(0,3000,false);elapsed=stepClock(elapsed,10000,true);assert.equal(elapsed,3000);elapsed=stepClock(elapsed,4999,false);assert.equal(elapsed,7999);assert.equal(stepClock(elapsed,1,false),CYCLE_MS);});

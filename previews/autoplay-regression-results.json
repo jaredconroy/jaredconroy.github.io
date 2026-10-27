@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Hover and retained tab focus do not freeze cooldown",
+    "pass": true,
+    "details": {
+      "start": 30,
+      "current": "Resumes in 29s",
+      "focus": "The Sleds",
+      "expanded": true
+    }
+  },
+  {
+    "name": "Window blur suspends autoplay",
+    "pass": true,
+    "details": {
+      "copy": "On pause"
+    }
+  },
+  {
+    "name": "Window remains suspended",
+    "pass": true,
+    "details": {
+      "copy": "On pause"
+    }
+  },
+  {
+    "name": "Window focus resumes cooldown without a click",
+    "pass": true,
+    "details": {
+      "resume": 29,
+      "current": "Resumes in 27s"
+    }
+  },
+  {
+    "name": "Auto-advance resumes without neutral click or hover exit",
+    "pass": true,
+    "details": {
+      "active": "Afroman",
+      "focus": "The Sleds"
+    }
+  }
+]

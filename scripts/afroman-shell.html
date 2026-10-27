@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Afroman — Browser edition</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#10100e;color:#faf6ef;font:14px Arial,sans-serif;overflow:hidden}.stage{position:relative;width:100vw;height:100vh;display:grid;place-items:center}canvas{display:block;width:100%;height:100%;object-fit:contain;image-rendering:pixelated;outline:none}canvas:focus-visible{outline:2px solid #ef8216;outline-offset:-3px}.launch{position:absolute;inset:0;display:grid;align-content:center;justify-items:center;gap:20px;padding:24px;background:linear-gradient(#10100e88,#10100eee),url('../../media/afroman/title.jpg') center/contain no-repeat;text-align:center}.launch[hidden]{display:none}h1{font-size:clamp(24px,5vw,54px);margin:0;letter-spacing:-.06em}p{margin:0;line-height:1.6}button{font:inherit;cursor:pointer;border:0;background:#ef8216;color:#2c2621;padding:14px 28px;font-weight:bold}button:disabled{opacity:.5;cursor:wait}button:focus-visible{outline:2px solid white;outline-offset:4px}#sound{position:absolute;right:12px;top:12px;font-size:11px;padding:10px 12px;background:#10100ee8;color:#faf6ef;border:1px solid #faf6ef55}#sound[hidden]{display:none}.hint{font-size:12px;opacity:.7}.error-link{color:#ef8216}#status{max-width:400px;font-size:13px}
+</style></head><body>
+<div class="stage"><canvas id="canvas" width="1050" height="640" tabindex="0" aria-label="Afroman game. Arrow keys or WASD to move. Enter opens the level menu. Tab leaves the game." oncontextmenu="event.preventDefault()"></canvas>
+<div class="launch" id="launch"><h1>Ready for a second act?</h1><p id="status" role="status">Loading Afroman…</p><button id="play" disabled>Play Afroman ↗</button><p class="hint">Keyboard required · Sound starts when you press Play</p><a id="retry" class="error-link" href="" hidden>Reload game</a></div>
+</div>
+<script>
+const buildId='__AFROMAN_BUILD_ID__';
+const statusText=document.getElementById('status'),playButton=document.getElementById('play'),canvas=document.getElementById('canvas');
+let started=false,masterGain,gameMuted=false;
+const fail=message=>{statusText.textContent=message;document.getElementById('launch').hidden=false;document.getElementById('retry').hidden=false;};
+var Module={noInitialRun:true,canvas,
+ locateFile:(path,prefix)=>prefix+path+'?v='+buildId,
+ print:s=>console.log(s),printErr:s=>console.error(s),
+ onAbort:()=>fail('The game could not load. Please reload, or try a browser with WebGL and WebAssembly support.'),
+ setStatus:text=>{if(!started&&text)statusText.textContent=text.startsWith('Downloading')?'Downloading game assets…':text;},
+ onRuntimeInitialized:()=>{playButton.disabled=false;statusText.textContent='Ready. Press Play to start.';let saved=0;try{saved=Number(localStorage.getItem('afroman-note-offset-ms'))||0;}catch{}globalThis.AfromanAudio.syncOffsetMs=Math.max(-1000,Math.min(1000,saved));}
+};
+playButton.addEventListener('click',async()=>{
+ playButton.disabled=true;statusText.textContent='Preparing sound…';
+ try{
+  const audio=globalThis.AfromanAudio;await audio.prepare();
+  if(!masterGain){masterGain=audio.context.createGain();audio.musicGain.disconnect();audio.effectsGain.disconnect();audio.musicGain.connect(masterGain);audio.effectsGain.connect(masterGain);masterGain.connect(audio.context.destination);}
+  masterGain.gain.value=gameMuted?0:1;
+  Module.callMain([]);started=true;document.getElementById('launch').hidden=true;canvas.focus({preventScroll:true});
+ }catch(error){fail('Could not start: '+error.message);playButton.disabled=false;}
+});
+canvas.addEventListener('pointerdown',()=>{canvas.focus();const audio=globalThis.AfromanAudio;if(started&&audio?.context?.state!=='running')audio.context.resume().catch(()=>{});});
+document.addEventListener('visibilitychange',()=>{const context=globalThis.AfromanAudio?.context;if(!context)return;if(document.hidden)context.suspend();else context.resume().catch(()=>{});});
+addEventListener('message',event=>{if(event.origin!==location.origin||event.source!==parent)return;if(event.data?.type==='afroman-offset'&&Number.isFinite(event.data.value)&&globalThis.AfromanAudio)globalThis.AfromanAudio.syncOffsetMs=Math.max(-1000,Math.min(1000,event.data.value));if(event.data?.type==='afroman-mute'){gameMuted=event.data.value===true;if(masterGain)masterGain.gain.value=gameMuted?0:1;}});
+</script>
+<script async src="afroman.js?v=__AFROMAN_BUILD_ID__" onerror="fail('The game download failed. Check your connection and reload.')"></script>
+</body></html>

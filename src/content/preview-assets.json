@@ -1,0 +1,89 @@
+{
+  "design/lni-lni-stack.webp": {
+    "src": "media/design/preview-lni-lni-stack.webp",
+    "width": 720,
+    "height": 712
+  },
+  "the-sleds/dirty-hearts.webp": {
+    "src": "media/the-sleds/preview-dirty-hearts.webp",
+    "width": 720,
+    "height": 720
+  },
+  "design/ctt-logo.webp": {
+    "src": "media/design/preview-ctt-logo.webp",
+    "width": 720,
+    "height": 410,
+    "background": "#262266"
+  },
+  "design/slimthick-big-logo.webp": {
+    "src": "media/design/preview-slimthick-big-logo.webp",
+    "width": 447,
+    "height": 720
+  },
+  "design/posters-news1.webp": {
+    "src": "media/design/preview-posters-news1.webp",
+    "width": 576,
+    "height": 720
+  },
+  "design/covers-monkey.webp": {
+    "src": "media/design/preview-covers-monkey.webp",
+    "width": 720,
+    "height": 720
+  },
+  "design/boots-cats-logo.webp": {
+    "src": "media/design/preview-boots-cats-logo.webp",
+    "width": 434,
+    "height": 720
+  },
+  "the-sleds/rock-n-roll-romance.webp": {
+    "src": "media/the-sleds/preview-rock-n-roll-romance.webp",
+    "width": 720,
+    "height": 720,
+    "background": "#020206"
+  },
+  "design/phatboy-brookline-poster.webp": {
+    "src": "media/design/preview-phatboy-brookline-poster.webp",
+    "width": 468,
+    "height": 720
+  },
+  "illustration/boone.webp": {
+    "src": "media/illustration/preview-boone.webp",
+    "width": 834,
+    "height": 1200
+  },
+  "illustration/dog.webp": {
+    "src": "media/illustration/preview-dog.webp",
+    "width": 814,
+    "height": 1200,
+    "background": "#ffffff"
+  },
+  "illustration/golfer.webp": {
+    "src": "media/illustration/preview-golfer.webp",
+    "width": 1200,
+    "height": 1017,
+    "background": "#ffffff"
+  },
+  "illustration/angry.webp": {
+    "src": "media/illustration/preview-angry.webp",
+    "width": 1200,
+    "height": 932,
+    "background": "#ffffff"
+  },
+  "illustration/speech.webp": {
+    "src": "media/illustration/preview-speech.webp",
+    "width": 1200,
+    "height": 835,
+    "background": "#ffffff"
+  },
+  "illustration/newhopes.webp": {
+    "src": "media/illustration/preview-newhopes.webp",
+    "width": 922,
+    "height": 1200,
+    "background": "#ffffff"
+  },
+  "foul-balls/poster.webp": {
+    "src": "media/foul-balls/preview-poster.webp",
+    "width": 927,
+    "height": 1200
+  }
+}

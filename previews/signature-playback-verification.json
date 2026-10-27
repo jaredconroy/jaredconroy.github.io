@@ -1,0 +1,229 @@
+[
+  {
+    "ms": 262,
+    "pixels": 0,
+    "regressed": false,
+    "drawing": true,
+    "tagline": false
+  },
+  {
+    "ms": 534,
+    "pixels": 0,
+    "regressed": false,
+    "drawing": true,
+    "tagline": false
+  },
+  {
+    "ms": 754,
+    "pixels": 0,
+    "regressed": false,
+    "drawing": true,
+    "tagline": false
+  },
+  {
+    "ms": 1006,
+    "pixels": 17394,
+    "regressed": false,
+    "drawing": true,
+    "tagline": false
+  },
+  {
+    "ms": 1255,
+    "pixels": 37270,
+    "regressed": false,
+    "drawing": true,
+    "tagline": false
+  },
+  {
+    "ms": 1510,
+    "pixels": 52945,
+    "regressed": false,
+    "drawing": true,
+    "tagline": false
+  },
+  {
+    "ms": 1755,
+    "pixels": 69453,
+    "regressed": false,
+    "drawing": true,
+    "tagline": false
+  },
+  {
+    "ms": 2008,
+    "pixels": 81984,
+    "regressed": false,
+    "drawing": true,
+    "tagline": false
+  },
+  {
+    "ms": 2253,
+    "pixels": 88222,
+    "regressed": false,
+    "drawing": true,
+    "tagline": false
+  },
+  {
+    "ms": 2504,
+    "pixels": 94998,
+    "regressed": false,
+    "drawing": true,
+    "tagline": false
+  },
+  {
+    "ms": 2754,
+    "pixels": 101943,
+    "regressed": false,
+    "drawing": true,
+    "tagline": false
+  },
+  {
+    "ms": 3004,
+    "pixels": 109041,
+    "regressed": false,
+    "drawing": true,
+    "tagline": false
+  },
+  {
+    "ms": 3256,
+    "pixels": 118305,
+    "regressed": false,
+    "drawing": true,
+    "tagline": false
+  },
+  {
+    "ms": 3504,
+    "pixels": 123148,
+    "regressed": false,
+    "drawing": true,
+    "tagline": false
+  },
+  {
+    "ms": 3754,
+    "pixels": 130198,
+    "regressed": false,
+    "drawing": true,
+    "tagline": false
+  },
+  {
+    "ms": 4004,
+    "pixels": 138805,
+    "regressed": false,
+    "drawing": true,
+    "tagline": false
+  },
+  {
+    "ms": 4255,
+    "pixels": 144126,
+    "regressed": false,
+    "drawing": true,
+    "tagline": false
+  },
+  {
+    "ms": 4503,
+    "pixels": 147678,
+    "regressed": false,
+    "drawing": true,
+    "tagline": false
+  },
+  {
+    "ms": 4757,
+    "pixels": 155490,
+    "regressed": false,
+    "drawing": true,
+    "tagline": false
+  },
+  {
+    "ms": 5003,
+    "pixels": 162432,
+    "regressed": false,
+    "drawing": true,
+    "tagline": false
+  },
+  {
+    "ms": 5253,
+    "pixels": 172909,
+    "regressed": false,
+    "drawing": true,
+    "tagline": false
+  },
+  {
+    "ms": 5503,
+    "pixels": 180874,
+    "regressed": false,
+    "drawing": true,
+    "tagline": false
+  },
+  {
+    "ms": 5753,
+    "pixels": 186738,
+    "regressed": false,
+    "drawing": true,
+    "tagline": false
+  },
+  {
+    "ms": 6004,
+    "pixels": 188869,
+    "regressed": false,
+    "drawing": false,
+    "tagline": true
+  },
+  {
+    "ms": 6257,
+    "pixels": 188869,
+    "regressed": false,
+    "drawing": false,
+    "tagline": true
+  },
+  {
+    "ms": 6504,
+    "pixels": 188869,
+    "regressed": false,
+    "drawing": false,
+    "tagline": true
+  },
+  {
+    "ms": 6756,
+    "pixels": 188869,
+    "regressed": false,
+    "drawing": false,
+    "tagline": true
+  },
+  {
+    "ms": 7007,
+    "pixels": 188869,
+    "regressed": false,
+    "drawing": false,
+    "tagline": true
+  },
+  {
+    "ms": 7255,
+    "pixels": 188869,
+    "regressed": false,
+    "drawing": false,
+    "tagline": true
+  },
+  {
+    "ms": 7503,
+    "pixels": 188869,
+    "regressed": false,
+    "drawing": false,
+    "tagline": true
+  },
+  {
+    "ms": 7756,
+    "pixels": 188869,
+    "regressed": false,
+    "drawing": false,
+    "tagline": true
+  },
+  {
+    "ms": 8005,
+    "pixels": 188869,
+    "regressed": false,
+    "drawing": false,
+    "tagline": true
+  },
+  {
+    "finished": true
+  }
+]

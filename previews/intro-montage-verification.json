@@ -1,0 +1,240 @@
+[
+  {
+    "ms": 41,
+    "phase": "writing",
+    "pair": [],
+    "canvasVisible": true,
+    "signatureLeft": 299.08868408203125,
+    "signatureTop": 41.89665222167969,
+    "signatureWidth": 775.2101440429688
+  },
+  {
+    "ms": 5922,
+    "phase": "tagline",
+    "pair": [],
+    "canvasVisible": true,
+    "signatureLeft": 299.08868408203125,
+    "signatureTop": 41.89665222167969,
+    "signatureWidth": 775.2101440429688
+  },
+  {
+    "ms": 6722,
+    "phase": "titles",
+    "pair": [
+      "Creator",
+      "CreativeDirector"
+    ],
+    "canvasVisible": true,
+    "signatureLeft": 299.3334655761719,
+    "signatureTop": 41.876590728759766,
+    "signatureWidth": 774.6534423828125
+  },
+  {
+    "ms": 7320,
+    "phase": "titles",
+    "pair": [
+      "Screenwriter",
+      "LeadSinger"
+    ],
+    "canvasVisible": true,
+    "signatureLeft": 468.5081787109375,
+    "signatureTop": 28.0130615234375,
+    "signatureWidth": 389.96124267578125
+  },
+  {
+    "ms": 7401,
+    "phase": "titles",
+    "pair": [
+      "Creator",
+      "Music VideoDirector"
+    ],
+    "canvasVisible": true,
+    "signatureLeft": 468.5081787109375,
+    "signatureTop": 28.0130615234375,
+    "signatureWidth": 389.96124267578125
+  },
+  {
+    "ms": 7481,
+    "phase": "titles",
+    "pair": [
+      "CreativeProducer",
+      "SoftwareDeveloper"
+    ],
+    "canvasVisible": true,
+    "signatureLeft": 468.5081787109375,
+    "signatureTop": 28.0130615234375,
+    "signatureWidth": 389.96124267578125
+  },
+  {
+    "ms": 7564,
+    "phase": "titles",
+    "pair": [
+      "CreativeDirector",
+      "Animator"
+    ],
+    "canvasVisible": true,
+    "signatureLeft": 468.5081787109375,
+    "signatureTop": 28.0130615234375,
+    "signatureWidth": 389.96124267578125
+  },
+  {
+    "ms": 7681,
+    "phase": "titles",
+    "pair": [
+      "PerformingArtist",
+      "GraphicDesigner"
+    ],
+    "canvasVisible": true,
+    "signatureLeft": 468.5081787109375,
+    "signatureTop": 28.0130615234375,
+    "signatureWidth": 389.96124267578125
+  },
+  {
+    "ms": 7761,
+    "phase": "titles",
+    "pair": [
+      "Songwriter",
+      "LogoDesigner"
+    ],
+    "canvasVisible": true,
+    "signatureLeft": 468.5081787109375,
+    "signatureTop": 28.0130615234375,
+    "signatureWidth": 389.96124267578125
+  },
+  {
+    "ms": 7840,
+    "phase": "titles",
+    "pair": [
+      "GameDesigner",
+      "Cartoonist"
+    ],
+    "canvasVisible": true,
+    "signatureLeft": 468.5081787109375,
+    "signatureTop": 28.0130615234375,
+    "signatureWidth": 389.96124267578125
+  },
+  {
+    "ms": 7924,
+    "phase": "titles",
+    "pair": [
+      "AudioEngineer",
+      "Screenwriter"
+    ],
+    "canvasVisible": true,
+    "signatureLeft": 468.5081787109375,
+    "signatureTop": 28.0130615234375,
+    "signatureWidth": 389.96124267578125
+  },
+  {
+    "ms": 8041,
+    "phase": "titles",
+    "pair": [
+      "ArtDirector",
+      "Creator"
+    ],
+    "canvasVisible": true,
+    "signatureLeft": 468.5081787109375,
+    "signatureTop": 28.0130615234375,
+    "signatureWidth": 389.96124267578125
+  },
+  {
+    "ms": 8124,
+    "phase": "titles",
+    "pair": [
+      "BrandDesigner",
+      "CreativeProducer"
+    ],
+    "canvasVisible": true,
+    "signatureLeft": 468.5081787109375,
+    "signatureTop": 28.0130615234375,
+    "signatureWidth": 389.96124267578125
+  },
+  {
+    "ms": 8201,
+    "phase": "titles",
+    "pair": [
+      "VisualStoryteller",
+      "CreativeDirector"
+    ],
+    "canvasVisible": true,
+    "signatureLeft": 468.5081787109375,
+    "signatureTop": 28.0130615234375,
+    "signatureWidth": 389.96124267578125
+  },
+  {
+    "ms": 8285,
+    "phase": "titles",
+    "pair": [
+      "Illustrator",
+      "PerformingArtist"
+    ],
+    "canvasVisible": true,
+    "signatureLeft": 468.5081787109375,
+    "signatureTop": 28.0130615234375,
+    "signatureWidth": 389.96124267578125
+  },
+  {
+    "ms": 8402,
+    "phase": "titles",
+    "pair": [
+      "CharacterDesigner",
+      "Songwriter"
+    ],
+    "canvasVisible": true,
+    "signatureLeft": 468.5081787109375,
+    "signatureTop": 28.0130615234375,
+    "signatureWidth": 389.96124267578125
+  },
+  {
+    "ms": 8485,
+    "phase": "titles",
+    "pair": [
+      "Composer",
+      "GameDesigner"
+    ],
+    "canvasVisible": true,
+    "signatureLeft": 468.5081787109375,
+    "signatureTop": 28.0130615234375,
+    "signatureWidth": 389.96124267578125
+  },
+  {
+    "ms": 8561,
+    "phase": "titles",
+    "pair": [
+      "LeadSinger",
+      "AudioEngineer"
+    ],
+    "canvasVisible": true,
+    "signatureLeft": 468.5081787109375,
+    "signatureTop": 28.0130615234375,
+    "signatureWidth": 389.96124267578125
+  },
+  {
+    "ms": 8644,
+    "phase": "titles",
+    "pair": [
+      "Music VideoDirector",
+      "ArtDirector"
+    ],
+    "canvasVisible": true,
+    "signatureLeft": 468.5081787109375,
+    "signatureTop": 28.0130615234375,
+    "signatureWidth": 389.96124267578125
+  },
+  {
+    "ms": 8769,
+    "phase": "settled",
+    "pair": [
+      "Screenwriter",
+      "Illustrator"
+    ],
+    "canvasVisible": true,
+    "signatureLeft": 468.5081787109375,
+    "signatureTop": 28.0130615234375,
+    "signatureWidth": 389.96124267578125
+  },
+  {
+    "ms": 10489,
+    "phase": "project-shell"
+  }
+]

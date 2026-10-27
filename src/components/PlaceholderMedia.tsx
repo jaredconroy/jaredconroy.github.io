@@ -1,0 +1,14 @@
+import {ArtworkPreview} from './ArtworkPreview';
+import {afroman} from '../features/projects/afroman';
+import {sleds} from '../content/the-sleds';
+import {foulBalls} from '../content/foul-balls';
+import type {Project} from '../content/projects';
+export function PlaceholderMedia({project:p,motionPaused=true}:{project:Project;motionPaused?:boolean}){if(p.id==='design'||p.id==='illustration')return <ArtworkPreview kind={p.id} paused={motionPaused}/>;if(p.id==='foul-balls')return <div class="placeholder-media foul-balls-feature"><img src={foulBalls.poster} width="1275" height="1650" alt={foulBalls.posterAlt}/></div>;if(p.id==='the-sleds')return <div class="placeholder-media sleds-feature"><img src={sleds.photo} srcSet={`${sleds.photoSmall} 960w, ${sleds.photo} 1600w`} sizes="(max-width:1000px) 88vw, 52vw" width="1600" height="1157" alt={sleds.photoAlt}/></div>;if(p.id==='afroman')return <div class="placeholder-media afroman-feature"><img src={afroman.titleImage} width="1050" height="640" alt="Afroman title screen: a pixel-art drummer beneath blue neon lettering and spotlights"/></div>;return <div class={`placeholder-media media-${p.media}`} style={{'--project-color':p.color,'--project-ink':p.ink}} role="img" aria-label={`${p.title} ${p.media==='cover'?'pitch bible cover':p.media==='band'?'performance montage':p.media==='game'?'title screen':'artwork'} placeholder`}>
+ <span class="media-label">{p.media==='cover'?'Pitch bible':p.media==='band'?'Performance film':p.media==='game'?'Title screen':'Featured artwork'} / placeholder</span>
+ {p.media==='cover'?<><span class="cover-orbit orbit-a"/><span class="cover-orbit orbit-b"/><div class="bible-cover"><span>An animated series</span><strong>FOUL<br/>BALLS<span class="baseball">✳</span></strong><small>Pitch bible · cover placeholder</small></div></>:
+ p.media==='band'?<><div class="film-strips"><i/><i/><i/></div><div class="band-wordmark">the<br/><strong>Sleds</strong></div><span class="film-caption">SOUND / VISION / LIVE</span></>:
+ p.media==='game'?<><div class="pixel-sun"/><div class="game-wordmark">AFROMAN<small>2014 → 2026</small></div><div class="pixel-ground"/></>:
+ p.media==='design'?<div class="design-grid"><div class="design-tile tile-one">Aa<span>Identity study</span></div><div class="design-tile tile-two">↗</div><div class="design-tile tile-three">form<br/>& feeling</div><div class="design-tile tile-four">◒</div></div>:
+ <div class="illustration-grid"><div class="drawing drawing-one"><svg viewBox="0 0 200 210" aria-hidden="true"><path d="M51 130Q19 60 80 43Q117 11 151 53Q191 76 149 138L158 190H50Z"/><path d="M65 89Q72 76 80 91M115 91Q125 74 134 87M80 116Q104 137 126 112M60 145l-24 25M151 145l24 21"/></svg></div><div class="drawing drawing-two"><span>✳</span><small>Characters with character.</small></div></div>}
+ <span class="media-corner">{String(['cover','band','game','design','illustration'].indexOf(p.media)+1).padStart(2,'0')} / 05</span>
+ </div>;}

@@ -1,0 +1,79 @@
+.app-shell[data-project-theme="the-sleds"]{--muted:color-mix(in srgb,var(--ink) 86%,var(--surface))}
+.app-shell[data-project-theme="the-sleds"] :is(a,button,input):focus-visible{outline-color:var(--accent)}
+/* Powder surfaces keep the navy foreground used in the chosen palette. */
+.app-shell[data-project-theme="the-sleds"] .player{color:#19364d;--muted:#19364d;border-top-color:#19364d20}
+.app-shell[data-project-theme="the-sleds"] .player .play-button{background:#19364d;color:#b6d3e9}
+.app-shell[data-project-theme="the-sleds"] .player .seek input::-webkit-slider-runnable-track{background:linear-gradient(to right,#19364d var(--progress),#19364d40 var(--progress))}
+.app-shell[data-project-theme="the-sleds"] .player .seek input::-webkit-slider-thumb{background:#19364d}
+.app-shell[data-project-theme="the-sleds"] .player .seek input::-moz-range-track{background:#19364d40}
+.app-shell[data-project-theme="the-sleds"] .player .seek input::-moz-range-progress,.app-shell[data-project-theme="the-sleds"] .player .seek input::-moz-range-thumb{background:#19364d}
+.app-shell[data-project-theme="the-sleds"] .player :is(a,button,input):focus-visible{outline-color:#19364d}
+.app-shell[data-project-theme="the-sleds"] .player-error{color:#19364d;border-color:#19364d55}
+.sleds-page{max-width:1240px;margin:auto;padding:24px 4.2% 72px}
+.sleds-page .back-link{margin-bottom:38px;color:var(--accent);width:fit-content}
+.sleds-heading{display:flex;justify-content:space-between;align-items:end;gap:24px}
+.sleds-heading h1{font-size:clamp(64px,9vw,116px);line-height:1;margin:12px 0 0}
+.sleds-heading>p{color:var(--accent);font-weight:700;line-height:1.45;font-size:clamp(14px,1.6vw,20px);padding-bottom:8px;letter-spacing:-.04em}
+.sleds-intro{font-size:14px;line-height:1.8;max-width:590px;margin-top:28px}
+.sleds-section-links{display:flex;gap:28px;margin:28px 0 26px;font-size:11px;font-weight:600;color:var(--accent)}
+.sleds-section-links a{padding:6px 0;border-bottom:1px solid currentColor}
+.sleds-band{margin:0}.sleds-band>img{display:block;width:100%;height:auto}
+.sleds-band figcaption{font-size:10px;line-height:1.7;padding-top:14px;display:flex;flex-direction:column;gap:5px}
+.sleds-band figcaption>span:last-child{opacity:.8}
+.sleds-videos{padding:52px 0;border-bottom:1px solid var(--line);scroll-margin-top:24px}
+.sleds-section-heading{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:24px}
+.sleds-section-heading h2,.sleds-music h2{font-size:clamp(32px,4vw,48px);line-height:1.05}
+.sleds-section-heading .eyebrow{color:var(--accent)}
+.sleds-video-grid>article{min-width:0}
+.sleds-video-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.sleds-video-frame{width:100%;min-width:0;aspect-ratio:16/9;min-height:200px;background:#19364d;position:relative;overflow:hidden}
+.sleds-video-frame iframe{display:block;width:100%;height:100%;border:0;position:absolute;inset:0}
+.sleds-video-poster{width:100%;height:100%;display:block;padding:0;position:absolute;inset:0;color:#fffaf2}
+.sleds-video-poster img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 300ms var(--ease)}
+.sleds-video-poster:after{content:'';position:absolute;inset:0;background:linear-gradient(transparent 40%,#19364d99)}
+.sleds-video-poster:hover img{transform:scale(1.025)}
+.sleds-video-play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:grid;place-items:center;width:54px;height:54px;border-radius:50%;background:var(--accent);color:#19364d;z-index:1;font-size:15px;padding-left:3px;border:1px solid #fffaf255}
+.sleds-video-watch{position:absolute;bottom:18px;left:20px;z-index:1;font-size:11px;font-weight:600;letter-spacing:.025em}
+.sleds-video-caption{display:flex;justify-content:space-between;align-items:end;gap:12px;padding-top:16px}
+.sleds-video-caption .eyebrow{color:var(--accent);font-size:8px}
+.sleds-video-caption h3{font-family:var(--display);font-size:29px;letter-spacing:-.05em;margin:6px 0 0}
+.sleds-video-actions{display:flex;gap:16px;align-items:center;font-size:10px;color:var(--accent)}
+.sleds-video-actions :is(button,a){padding:6px 0;border-bottom:1px solid currentColor;white-space:nowrap}
+.sleds-music{display:grid;grid-template-columns:1fr 1fr;gap:10%;padding-top:52px;scroll-margin-top:24px}
+.sleds-music h2{margin:12px 0 22px;max-width:280px}
+.sleds-music p{font-size:13px;line-height:1.8;margin-bottom:24px}
+.sleds-music>div>a{font-size:11px;color:var(--accent);border-bottom:1px solid currentColor;padding-bottom:5px}
+.sleds-music>div{min-width:0}
+.sleds-spotify iframe{display:block;border:0;border-radius:12px;max-width:100%}
+.sleds-listen{min-height:260px;width:100%;padding:26px;background:#19364d;color:#f4e6d7;text-align:left;display:flex;flex-direction:column;align-items:start;gap:22px;justify-content:space-between}
+.sleds-listen strong{font-family:var(--display);font-size:36px;letter-spacing:-.05em;line-height:1.1}
+.sleds-listen>span:last-child{font-size:12px;display:flex;justify-content:space-between;width:100%;border-top:1px solid #f4e6d744;padding-top:17px}
+.sleds-close-player{font-size:10px;padding:12px 0;color:var(--accent);text-decoration:underline;text-underline-offset:4px}
+.sleds-feature img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 32%}
+.sleds-page:focus,.sleds-page h2:focus{outline:none}
+@media(max-width:800px){.sleds-video-grid{grid-template-columns:1fr;gap:32px}.sleds-music{grid-template-columns:1fr;gap:28px}.sleds-music h2{max-width:none}.sleds-spotify{max-width:600px}.sleds-section-heading{align-items:start;flex-direction:column;gap:12px}}
+@media(max-width:700px){.sleds-page{padding:18px 6% 45px}.sleds-page .back-link{margin-bottom:28px}.sleds-heading{display:block}.sleds-heading h1{font-size:70px}.sleds-heading>p{font-size:13px;line-height:1.5;margin-top:18px;padding:0}.sleds-heading>p br{display:none}.sleds-heading>p span{margin-left:4px}.sleds-intro{font-size:13px;margin-top:16px}.sleds-section-links{margin-top:22px}.sleds-band figcaption{font-size:9px}.sleds-videos{padding:36px 0}.sleds-music{padding-top:36px}.sleds-video-caption h3{font-size:27px}.sleds-video-actions{gap:12px;font-size:9px}.sleds-listen strong{font-size:32px}}
+@media(prefers-reduced-motion:reduce){.sleds-video-poster img{transition:none}.sleds-video-poster:hover img{transform:none}}
+
+/* The supplied band mark flips into the ampersand's measured ink footprint. */
+.sleds-amp-flip{display:block;position:relative;transform-style:preserve-3d;transform:perspective(600px) rotateY(0deg);transition:transform 650ms cubic-bezier(.45,0,.2,1)}
+.sleds-amp-front{display:block;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.sleds-amp-back{display:block;position:absolute;left:50%;top:var(--sleds-logo-top,0px);height:var(--sleds-logo-height,.8em);width:var(--sleds-logo-width,.85em);transform:translateX(-50%) rotateY(180deg);backface-visibility:hidden;-webkit-backface-visibility:hidden;pointer-events:none}
+.sleds-amp-back svg{display:block;width:100%;height:100%;fill:currentColor;overflow:visible}
+.app-shell[data-project-theme="the-sleds"] .role-system.expanded .ampersand{animation:none;transform:translate(-50%,-50%)}
+.role-system.expanded .sleds-amp-flip{transform:perspective(600px) rotateY(180deg)}
+@media(prefers-reduced-motion:reduce){.sleds-amp-flip{transition:none}}
+.sleds-heading .sleds-project-wordmark{width:min(360px,100%);height:108px;padding:16px;background:var(--accent);color:#19364d}
+
+.sleds-releases{padding-top:52px}
+.sleds-release-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:36px 24px}
+.sleds-release-grid article{min-width:0}
+.sleds-release-grid img{display:block;width:100%;height:auto;aspect-ratio:1;object-fit:contain;margin-bottom:16px}
+.sleds-release-grid h3{font-size:24px;line-height:1.15;margin:8px 0 12px}
+.sleds-release-grid p{font-size:15px;line-height:1.6}
+.sleds-track-play{color:var(--accent);font-size:15px;text-align:left;text-decoration:underline;text-underline-offset:4px;margin-top:16px;padding:6px 0}
+.sleds-album-credits{margin-top:32px;font-size:16px}
+.sleds-album-credits summary{cursor:pointer;padding:12px 0}
+.sleds-album-credits img{width:min(100%,800px);height:auto;display:block;margin-top:16px}
+@media(max-width:800px){.sleds-release-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:480px){.sleds-release-grid{grid-template-columns:1fr}.sleds-section-links{flex-wrap:wrap}}

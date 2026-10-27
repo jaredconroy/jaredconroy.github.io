@@ -1,0 +1,33 @@
+/* The identity line defines the standard text face and spacing everywhere. */
+:root{
+ --standard-font:Arial,Helvetica,sans-serif;
+ --standard-tracking:-.05em;
+ font-family:var(--standard-font);
+ letter-spacing:var(--standard-tracking);
+ font-kerning:normal;
+}
+:where(p,span,small,strong,time,a,button,input,select,textarea,figcaption,li,dt,dd,label,output){letter-spacing:var(--standard-tracking)}
+button,input,select,textarea{font-family:var(--standard-font);letter-spacing:var(--standard-tracking);font-kerning:normal}
+.eyebrow,.header-note,.roles-toggle,.media-label,.media-corner,
+.bible-cover>span,.bible-cover small,.film-caption,.tile-one span,
+.drawing-two small,.player .track-copy .eyebrow,.sleds-heading>p,
+.sleds-video-watch,.afroman-play,.identity-heading .hello,.identity-heading p,
+.role-system .role,.extra-role{letter-spacing:var(--standard-tracking)}
+/* Display lettering retains its own optical spacing. */
+.design-tile{letter-spacing:normal}
+.design-tile.tile-three{letter-spacing:-.04em}
+.track-art>span,.portrait-placeholder>span{letter-spacing:normal}
+h1 *,h2 *,.wordmark *,.band-wordmark *,.bible-cover strong *{letter-spacing:inherit}
+.ampersand,.ampersand *{letter-spacing:0}
+
+/* Inline letters retain normal word spacing and allow native text shaping.
+   Individual characters still switch weight on the shared navigation clock. */
+.project-nav-label,.project-nav-sizer{display:block;height:auto;font-family:var(--standard-font);font-size:var(--main-nav-size);letter-spacing:var(--standard-tracking);line-height:1.25;font-kerning:normal;white-space:nowrap}
+.project-nav-label{transform:translate(-50%,calc(-50% + var(--main-nav-offset)))}
+.project-letter{display:inline;font-family:inherit;font-size:inherit;line-height:inherit;letter-spacing:inherit;transform:none}
+.project-letter-space{display:inline;width:auto;font-size:inherit}
+.project-nav-sizer-regular{font-weight:400}
+.project-nav-sizer-bold{font-weight:700}
+.main-nav-reserve{font-family:var(--standard-font);letter-spacing:var(--standard-tracking);font-kerning:normal}
+.main-nav .project-nav-label,.main-nav .project-nav-sizer{height:auto}
+.main-nav .project-nav-label{transform:translate(-50%,-50%)}

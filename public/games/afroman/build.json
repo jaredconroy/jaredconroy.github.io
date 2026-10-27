@@ -1,0 +1,19 @@
+{
+  "source_project": "Afroman-web",
+  "source_build": "f1dae57ce7a0",
+  "optimized_wasm": true,
+  "files": {
+    "afroman.js": {
+      "bytes": 331347,
+      "sha256": "ce4a671fd780f51d64053bf685278d4d903c61ca71a9b08b46a9a531f0455c99"
+    },
+    "afroman.wasm": {
+      "bytes": 2667655,
+      "sha256": "667dc673e509b33aaf20113fc7a6d8c127cda6caa70ebc87c667fa151ad63c60"
+    },
+    "afroman.data": {
+      "bytes": 21634879,
+      "sha256": "f9c90cf8dc15595af6c75620ab476d6e5d216607224ecc282f960b5f7fa5083a"
+    }
+  }
+}

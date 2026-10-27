@@ -1,0 +1,83 @@
+[
+  {
+    "from": "the-sleds",
+    "to": "afroman",
+    "start": 31516.7,
+    "minCombined": 0.9999995,
+    "minStrongest": 0.51052,
+    "frames": 67,
+    "pass": true
+  },
+  {
+    "from": "afroman",
+    "to": "design",
+    "start": 39074.9,
+    "minCombined": 0.9999996,
+    "minStrongest": 0.509451,
+    "frames": 67,
+    "pass": true
+  },
+  {
+    "from": "design",
+    "to": "afroman",
+    "start": 58262.4,
+    "minCombined": 0.99999954,
+    "minStrongest": 0.511211,
+    "frames": 68,
+    "pass": true
+  },
+  {
+    "from": "afroman",
+    "to": "foul-balls",
+    "start": 78357.8,
+    "minCombined": 0.9999995,
+    "minStrongest": 0.511374,
+    "frames": 67,
+    "pass": true
+  },
+  {
+    "from": "foul-balls",
+    "to": "afroman",
+    "start": 86849.8,
+    "minCombined": 0.999999,
+    "minStrongest": 0.509791,
+    "frames": 68,
+    "pass": true
+  },
+  {
+    "from": "afroman",
+    "to": "the-sleds",
+    "start": 99357.3,
+    "minCombined": 0.9999990000000001,
+    "minStrongest": 0.520042,
+    "frames": 67,
+    "pass": true
+  },
+  {
+    "from": "the-sleds",
+    "to": "afroman",
+    "start": 109257.4,
+    "minCombined": 0.9999990000000001,
+    "minStrongest": 0.519819,
+    "frames": 67,
+    "pass": true
+  },
+  {
+    "from": "afroman",
+    "to": "illustration",
+    "start": 118674.7,
+    "minCombined": 0.9999990000000001,
+    "minStrongest": 0.51008,
+    "frames": 68,
+    "pass": true
+  },
+  {
+    "from": "illustration",
+    "to": "afroman",
+    "start": 137774.7,
+    "minCombined": 0.9999994999999999,
+    "minStrongest": 0.500508,
+    "frames": 67,
+    "pass": true
+  }
+]

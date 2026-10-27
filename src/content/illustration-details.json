@@ -1,0 +1,9 @@
+{
+  "illustration/boone.PNG": {"title":"Boone","alt":"A cartoon canine athlete in a maroon jersey running against a blue, cloudlike background.","caption":"A canine character in motion.","order":10,"background":"#c3dff3"},
+  "illustration/dog.PNG": {"title":"Dog Character","alt":"An expressive cartoon dog wearing blue jeans, boots, and a belt with a paw-print buckle.","caption":"A character study in jeans and boots.","order":20,"background":"#edf5fb"},
+  "illustration/golfer.PNG": {"title":"The Golfer","alt":"A cartoon golfer crouching with a golf club and giving a thumbs-up.","caption":"A playful golfer character study.","order":30,"background":"#edf5fb"},
+  "illustration/angry.PNG": {"title":"Angry Character Study","alt":"A close-up cartoon profile with spiky blond hair, a large nose, and facial stubble.","caption":"An expressive close-up character study.","order":40,"background":"#edf5fb"},
+  "illustration/speech.PNG": {"title":"Speech","alt":"A loose black-line character sketch with a speech bubble and a raised fist.","caption":"A loose, expressive line drawing.","order":50,"background":"#edf5fb"},
+  "illustration/newhopes.png": {"title":"The New Hopefuls","alt":"A split portrait illustration combining two performers with contrasting hairstyles, clothing, and facial expressions.","caption":"A split portrait for The New Hopefuls.","order":60,"background":"#edf5fb"},
+  "foul-balls/poster.png": {"title":"Foul Balls — Series Poster","alt":"Foul Balls series poster: Coach Cox and the Kenmore Cougars cast at their baseball stadium. Created by Jared Conroy.","caption":"Created, illustrated, and arranged by Jared Conroy in Adobe Illustrator, September 2026.","order":10,"background":"#dcc1a2"}
+}

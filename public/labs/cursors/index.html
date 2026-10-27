@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Cursor studies — Jared Conroy</title><meta name="description" content="Eight lightweight cursor interaction studies for Jared Conroy’s portfolio."><link rel="stylesheet" href="styles.css"></head>
+<body>
+<header class="lab-header"><a class="brand" href="../../#/">jared conroy</a><a class="back" href="../../#/">← Portfolio</a></header>
+<main class="lab-layout">
+ <aside class="controls" aria-label="Cursor options">
+  <span class="eyebrow">An interaction sketchbook</span><h1>Cursor studies.</h1><p class="intro">Eight different moods. Choose one, then move through the preview—or let it play.</p>
+  <div id="effects" class="effect-list" aria-label="Choose a cursor effect"></div>
+  <div class="settings">
+   <label class="intensity-label" for="intensity">Presence <output id="intensity-value">Subtle</output></label><input id="intensity" type="range" min="0.35" max="1.5" step="0.05" value="0.8">
+   <label class="check dust-option"><input id="ink-dust" type="checkbox" disabled> Add dust to ink trail</label>
+   <label class="check"><input id="motion" type="checkbox"> Enable motion previews</label>
+   <div class="actions"><button id="preview" type="button">Play preview</button><button id="pause" type="button" aria-pressed="false">Pause</button></div>
+   <p id="motion-note" class="note"></p>
+  </div>
+  <p class="recommendation">My first picks: <strong>01 Reveal</strong> for the hidden-layer idea, or <strong>03 Ink trail</strong> for a connection to your signature.</p>
+ </aside>
+ <section class="comparison" aria-labelledby="study-title">
+  <div class="preview-toolbar"><div><span class="eyebrow">Live specimen</span><h2 id="study-title">Underlayer reveal</h2></div><label for="palette">Palette <select id="palette"><option value="base">Navy / teal</option><option value="foul">Foul Balls</option><option value="sleds">The Sleds</option><option value="afroman">Afroman</option></select></label></div>
+  <div id="stage" class="stage" data-effect="reveal">
+   <canvas id="canvas" aria-hidden="true"></canvas>
+   <div class="stage-top"><span class="eyebrow readable">Jared / Featured work</span><span id="stage-hint" class="readable">Move your cursor here ↘</span></div>
+   <div class="specimen">
+    <div class="sample-identity"><span class="hello readable">Hi, I’m</span><div class="signature" role="img" aria-label="Jared signature"></div><p class="readable">a <strong>multidisciplinary</strong></p><div class="sample-amp" aria-hidden="true">&amp;</div><span class="sample-roles readable">Screenwriter<br/>&amp; Illustrator</span></div>
+    <div class="sample-project"><span class="eyebrow readable">A space for ideas</span><h3 class="readable">Made of many things.</h3><div class="art" role="img" aria-label="Abstract design sample with type, circles and a star"><span class="art-type">Aa</span><span class="art-circle"></span><span class="art-lines"></span><span class="art-star">✳</span></div><div class="project-bottom"><span class="readable">Test over artwork, type, and a link.</span><a id="sample-link" class="readable" href="#interaction">See More ↗</a></div></div>
+   </div>
+   <div class="stage-bottom"><span id="interaction" class="readable" role="status">Native cursor and links stay usable.</span><button id="sample-button" class="readable" type="button">Try a button ↗</button></div>
+  </div>
+  <div class="study-detail"><p id="description"></p><span id="budget" class="budget"></span></div>
+  <p class="footnote">A separate playground; no cursor style has been installed on your portfolio. One effect runs at a time. Motion is opt-in on touch devices and with reduced-motion settings. The reveal is a loose study of the hidden-layer idea in <a href="https://segerman.dev/" target="_blank" rel="noreferrer">segerman.dev ↗</a>, not a copy of its implementation.</p>
+ </section>
+</main>
+<script src="cursors.js" defer></script>
+</body></html>

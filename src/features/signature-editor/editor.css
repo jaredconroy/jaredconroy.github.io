@@ -1,0 +1,17 @@
+.signature-editor-launch{position:fixed;left:16px;bottom:calc(var(--player-height) + 12px);z-index:12;background:#fff;color:#173458;border:1px solid #17345855;box-shadow:0 3px 15px #0002;padding:10px 14px;border-radius:6px;font-size:14px;letter-spacing:-.025em}
+.signature-transform-overlay{position:fixed;inset:0;width:100vw;height:100vh;overflow:visible;z-index:10;pointer-events:none;color:#2378e7}
+.signature-transform-overlay line{stroke:currentColor;stroke-width:1;vector-effect:non-scaling-stroke}
+.signature-transform-box{fill:#2378e708;stroke:currentColor;stroke-width:1;stroke-dasharray:4 3;pointer-events:none}
+.signature-transform-move{position:fixed;left:0;top:0;z-index:10;padding:0;min-width:0;min-height:0;background:transparent;cursor:move;touch-action:none;transform-origin:0 0}
+.signature-transform-handle{position:fixed;width:12px;height:12px;padding:0;border:1.5px solid #2378e7;background:white;transform:translate(-50%,-50%);z-index:11;touch-action:none;border-radius:1px;min-width:0;min-height:0}
+.signature-rotate-handle{width:24px;height:24px;border-radius:50%;color:#1759ad;cursor:grab;font-size:18px;line-height:18px}
+.signature-editor-panel{position:fixed;z-index:12;right:16px;top:82px;width:292px;max-height:calc(100dvh - var(--player-height) - 110px);overflow:auto;padding:18px;background:#fff;color:#173458;border:1px solid #d2dbe6;border-radius:10px;box-shadow:0 12px 48px #0003;letter-spacing:-.025em;font-family:Arial,Helvetica,sans-serif}
+.signature-editor-heading{display:flex;justify-content:space-between;align-items:center;font-size:20px}.signature-editor-heading button{font-size:26px;line-height:1;padding:0 3px}
+.signature-editor-panel p{font-size:13px;line-height:1.45;margin:10px 0}.signature-editor-panel .signature-editor-tip{color:#53647a;font-size:12px}
+.signature-editor-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:16px 0}
+.signature-editor-fields label{display:flex;flex-direction:column;gap:5px;font-size:12px}
+.signature-editor-fields input{font-size:15px;color:#173458;padding:7px;width:100%;min-width:0;border:1px solid #b9c8da;border-radius:4px;background:white;letter-spacing:normal}
+.signature-editor-actions{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0}.signature-editor-actions button{font-size:12px;border:1px solid #c5d1df;border-radius:4px;padding:7px 9px}
+.signature-editor-save{width:100%;padding:11px;background:#173458;color:white;border-radius:5px;font-size:14px;font-weight:700}
+.signature-editor-panel .signature-editor-status{min-height:36px;font-size:12px;color:#53647a;margin-bottom:0}
+@media(max-width:679px){.signature-editor-panel{top:auto;bottom:calc(var(--player-height) + 8px);right:12px;width:min(292px,calc(100vw - 24px));max-height:40dvh}}

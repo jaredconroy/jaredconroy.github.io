@@ -1,0 +1,13 @@
+node_modules/
+dist/
+.DS_Store
+*.log
+
+.pnpm-store/
+
+/tmp/
+
+# Keep raw originals local; publish only reviewed/optimized exports.
+/assets-source/**/*
+!/assets-source/**/
+!/assets-source/**/*.md

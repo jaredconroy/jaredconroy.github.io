@@ -1,0 +1,22 @@
+/* All descriptor placement lives here. Single-line and wrapped labels use the
+   same four grid corners; content length only affects wrapping and text fit. */
+.role-system .role{
+ position:relative;inset:auto;top:0;margin:0;min-width:0;width:100%;max-width:none;
+ justify-self:stretch;font-family:Arial,Helvetica,sans-serif;font-size:var(--role-size);
+ font-weight:600;letter-spacing:-.05em;line-height:1.08;white-space:nowrap;
+}
+.role-system .role-one{grid-column:1;grid-row:1;align-self:start;text-align:left}
+.role-system .role-two{grid-column:2;grid-row:3;align-self:end;text-align:right}
+.role-system.roles-flipped .role-one{grid-row:3;align-self:end}
+.role-system.roles-flipped .role-two{grid-row:1;align-self:start}
+.role-system .role-label,.role-system .role-label>span{display:block;white-space:nowrap;text-align:inherit}
+.role-system .role-one .role-label{transform-origin:left top}
+.role-system .role-two .role-label{transform-origin:right bottom}
+.role-system.roles-flipped .role-one .role-label{transform-origin:left bottom}
+.role-system.roles-flipped .role-two .role-label{transform-origin:right top}
+.role-system .role-measure-clip{position:absolute;inset:0 auto auto 0;width:0;height:0;overflow:hidden;visibility:hidden;pointer-events:none}
+.role-system .role-measure{display:block;position:absolute;inset:0 auto auto 0;width:max-content;max-width:none;white-space:pre}
+.intro-handoff .role-pair.transition-in .role{animation:none}
+
+/* Neutral-theme supporting roles use the same teal as the ampersand. */
+.app-shell:is(:not([data-project-theme]),[data-project-theme="design"],[data-project-theme="illustration"]) .extra-role{color:var(--accent)}

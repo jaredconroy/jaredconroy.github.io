@@ -1,0 +1,340 @@
+/* Project palettes are inherited by the entire shell; the player stays dark. */
+.app-shell{background:var(--surface,#fff);color:var(--ink);--muted:color-mix(in srgb,var(--ink) 72%,var(--surface));--line:color-mix(in srgb,var(--ink) 20%,var(--surface));transition:background-color 300ms var(--ease),color 300ms var(--ease);--display:'Fraunces Variable',Georgia,serif;--player-height:86px}
+h1,h2,.wordmark,.bible-cover strong,.band-wordmark strong,.design-tile,.portrait-placeholder>span{font-variation-settings:'WONK' 0,'SOFT' 100}
+.header{transition:transform 600ms var(--ease),opacity 400ms var(--ease);transform:translateY(0)}
+.header.intro-hidden{transform:translateY(-100%);opacity:0}
+.signature span,.wordmark span{color:var(--accent)}
+.landing{grid-template-columns:minmax(290px,34fr) minmax(0,58fr) minmax(100px,8fr);gap:3%;align-items:center;padding-top:20px;padding-bottom:25px}
+.identity{align-self:center;padding:0}.identity-heading{margin-bottom:28px}
+.role-system{height:280px;max-width:380px;margin:0;position:relative}
+.ampersand{left:50%;top:50%;font-size:122px;line-height:1;transform:translate(-50%,-58%);font-variation-settings:'WONK' 1,'SOFT' 100;color:var(--accent);transition:color 300ms var(--ease)}
+.role-pair{inset:0 0 30px;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:minmax(63px,1fr) 108px minmax(63px,1fr);gap:0 12px}
+.roles-toggle{bottom:0;left:0;color:var(--muted)}
+.expanded-roles{top:280px;background:var(--surface);color:var(--ink);border-top:1px solid var(--line);padding:12px 0;font-size:11px}
+.amp-entering .ampersand{animation:amp-reveal 300ms var(--ease) both}
+.project-index{padding-top:40px}.project-index nav{margin-top:18px;gap:8px}.project-index nav button{gap:8px;font-size:10px;color:var(--muted)}.project-number{color:var(--muted);font-size:8px}.project-index nav button.active .project-number{color:var(--accent-text,var(--accent))}.index-arrow{display:none}.carousel-status{margin-top:30px}.progress-track{background:var(--line)}.progress-track>span{background:var(--accent)}
+.feature{width:100%;max-width:100%;justify-self:stretch}.project-category{color:var(--muted)}.see-more{border-color:var(--ink)}.media-open{background:var(--surface);color:var(--ink)}
+.portrait-intro.transition-out{animation:feature-out 300ms var(--ease) both}
+.portrait-placeholder{background:color-mix(in srgb,var(--ink) 7%,var(--surface));color:var(--ink)}.portrait-placeholder svg{fill:color-mix(in srgb,var(--ink) 18%,var(--surface))}
+.overlay{background:var(--surface);color:var(--ink)}.expanded-roles span{border-color:var(--line)}.close-panel,.text-button{color:var(--ink)}
+.cursor-reveal{background:var(--accent);opacity:.045;z-index:0}.header,.view-container{position:relative;z-index:1}
+.player{height:var(--player-height);padding-top:10px;padding-bottom:10px;background:#17212e;color:#fffaf2;border-top:1px solid #ffffff20;gap:30px;--muted:#b6c1cc}
+.player .track-art{width:46px;height:46px}.player .track-art:before{top:1px;left:16px}.player .track-art>span{font-size:26px}
+.player .play-button{background:#fffaf2;color:#17212e;width:32px;height:32px}.player .transport-buttons{gap:18px}.player .seek{margin-top:4px}.player .seek input::-webkit-slider-runnable-track{background:linear-gradient(to right,#fffaf2 var(--progress),#526070 var(--progress))}.player .seek input::-webkit-slider-thumb{background:#fffaf2}.player .seek input::-moz-range-track{background:#526070}.player .seek input::-moz-range-progress,.player .seek input::-moz-range-thumb{background:#fffaf2}.player a:focus-visible,.player button:focus-visible,.player input:focus-visible{outline-color:#dcc1e9}
+@keyframes amp-reveal{from{opacity:0;transform:translate(-50%,-58%) scale(.05)}to{opacity:1;transform:translate(-50%,-58%) scale(1)}}
+@media(min-width:1500px){.role-system{height:310px}.role-pair{grid-template-rows:75px 125px 75px}.ampersand{font-size:145px}.expanded-roles{top:310px}}
+@media(min-width:1001px) and (max-height:800px){.app-shell{--header-height:76px;--player-height:82px}.landing{padding-top:12px;padding-bottom:20px}.feature{max-width:min(100%,calc((100svh - 330px)*1.6));justify-self:center}.signature{font-size:clamp(72px,7vw,100px)}.identity-heading{margin-bottom:20px}.role-system{height:250px}.role-pair{grid-template-rows:62px 93px 62px}.ampersand{font-size:112px}.expanded-roles{top:250px}}
+@media(max-width:1100px) and (min-width:1001px){.landing{grid-template-columns:minmax(245px,34fr) minmax(0,57fr) minmax(94px,9fr);gap:2.4%;padding-left:3%;padding-right:3%}.ampersand{font-size:106px}.role-pair{column-gap:8px}.project-index nav button{font-size:9px;gap:6px}.project-index .eyebrow{font-size:7px}}
+@media(max-width:1000px){.app-shell{--header-height:70px;--player-height:106px}.landing{display:flex;padding:12px 6% 22px;gap:0}.identity{align-self:stretch}.identity-heading{margin-bottom:12px}.identity-heading .signature{font-size:57px}.identity-heading p{font-size:13px}.role-system{height:203px;max-width:350px;margin:0 auto}.role-pair{inset:0 0 25px;grid-template-rows:48px 76px 48px;gap:0 14px}.ampersand{top:46%;left:50%;font-size:88px}.roles-toggle{left:0;bottom:0;font-size:9px}.expanded-roles{top:200px;left:0;width:100%;padding:12px;background:var(--surface)}.project-index{padding-top:16px;grid-template-columns:1fr 90px}.carousel-status{margin-top:15px}.mobile-selector select{background:var(--surface);color:var(--ink);border-color:var(--line)}.player{grid-template-columns:minmax(0,1fr) 128px;grid-template-rows:43px 20px;padding:10px 6%;gap:6px 10px}.player .track-art{width:39px;height:39px}.player .track-art:before{width:33px;height:33px;left:13px;top:3px}.player .track-art>span{font-size:24px}.player .transport-buttons{gap:4px}.player .play-button,.player .transport-buttons .icon-button{width:40px;height:40px}.player .seek{margin:0}.player-extra{bottom:10px}.feature{max-width:100%;padding-top:18px}.feature h2{font-size:34px}}
+@media(max-width:360px){.identity-heading p{font-size:11px}.identity-heading .signature{font-size:52px}.role-system{height:195px}.role-pair{grid-template-rows:48px 68px 48px}.ampersand{font-size:82px}.expanded-roles{top:190px}}
+@media(min-width:1001px) and (max-height:600px){.landing{align-items:start}.feature{max-width:100%}}
+@media(prefers-reduced-motion:reduce){.app-shell,.header,.ampersand{transition:none!important}.amp-entering .ampersand{animation:none!important}}
+/* Anchor words toward the ampersand, reserving separate rows for every length. */
+.role-system{height:300px}.role-pair{grid-template-rows:68px 134px 68px}.ampersand{top:calc((100% - 30px)/2);transform:translate(-50%,-50%)}
+.expanded-roles{top:300px}
+@keyframes amp-reveal{from{opacity:0;transform:translate(-50%,-50%) scale(.05)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+@media(min-width:1500px){.role-system{height:320px}.role-pair{grid-template-rows:76px 138px 76px}.ampersand{font-size:130px}.expanded-roles{top:320px}}
+@media(min-width:1001px) and (max-height:800px){.role-system{height:282px}.role-pair{grid-template-rows:64px 124px 64px}.expanded-roles{top:282px}}
+@media(max-width:1000px){.role-system{height:218px}.role-pair{inset:0 0 30px;grid-template-rows:54px 80px 54px}.ampersand{top:calc((100% - 30px)/2);font-size:76px}.expanded-roles{top:218px}}
+@media(max-width:360px){.role-system{height:214px}.role-pair{grid-template-rows:52px 80px 52px}.ampersand{font-size:74px}.expanded-roles{top:214px}}
+@media(max-width:1000px){.role-system{height:226px}.role-pair{grid-template-rows:54px 88px 54px}.expanded-roles{top:226px}}
+@media(max-width:360px){.role-system{height:218px}.role-pair{grid-template-rows:52px 84px 52px}.expanded-roles{top:218px}}
+/* Compact identity, explicit viewport budget, and a gentler Afroman palette. */
+.app-shell{--role-size:clamp(25px,2.4vw,36px);--header-height:64px;--player-height:82px;transition:background-color 600ms var(--ease),color 400ms var(--ease)}
+.header{height:var(--header-height)}.wordmark{font-size:25px;letter-spacing:-.055em;white-space:nowrap}
+.identity-heading .hello,.identity-heading p{font-family:Arial,Helvetica,sans-serif;font-size:var(--role-size);letter-spacing:-.05em;line-height:1.08}
+.identity-heading .hello,.identity-heading p{font-weight:400}.identity-heading .signature{margin-top:2px;margin-bottom:12px}
+.player{background:var(--player-surface,#17212e);transition:background-color 600ms var(--ease)}
+@media(min-width:1001px) and (min-height:600px){
+ .shell-home{height:100dvh;min-height:0;padding-bottom:0;display:grid;grid-template-rows:var(--header-height) minmax(0,1fr) var(--player-height);overflow:clip}
+ .shell-home>.header{grid-row:1}.shell-home>.view-container{grid-row:2;min-height:0;height:100%}
+ .shell-home>.view-container>div:not([hidden]){height:100%}
+ .landing{height:100%;min-height:0;align-items:start;padding-top:10px;padding-bottom:20px}
+ .identity{align-self:start}.identity-heading{margin-bottom:20px}.signature{font-size:clamp(72px,7vw,100px)}
+ .feature{align-self:start;max-width:min(100%,calc((100dvh - var(--header-height) - var(--player-height) - 165px)*1.6));padding:0;justify-self:center}
+ .feature-heading{margin-bottom:18px}.feature-description{margin-top:18px}
+ .project-index{align-self:start;padding-top:90px}
+ .expanded-roles{top:auto;bottom:0;transform:translateY(100%);z-index:4;padding:12px;background:var(--surface);box-shadow:0 8px 24px #17345814}
+}
+@media(min-width:1001px) and (max-height:750px){
+ .app-shell{--role-size:26px;--header-height:60px;--player-height:78px}
+ .identity-heading .signature{font-size:78px;margin-bottom:10px}.identity-heading{margin-bottom:16px}
+ .role-system{height:246px}.role-pair{grid-template-rows:60px 96px 60px}.ampersand{font-size:88px}
+ .project-index{padding-top:75px}.feature h2{font-size:36px}
+}
+@media(max-width:1100px) and (min-width:1001px){.app-shell{--role-size:26px}.wordmark{font-size:24px}}
+@media(max-width:1000px){
+ .app-shell{--role-size:25px;--header-height:64px;--player-height:106px}
+ .wordmark{font-size:22px}.header nav{gap:18px}.identity-heading{display:block;margin-bottom:16px}
+ .identity-heading .hello{display:block}.identity-heading .signature{font-size:57px;margin:0 0 8px}.identity-heading p{font-size:var(--role-size)}
+ .identity-heading .hello{font-size:var(--role-size)}.landing{padding-top:6px}.feature{padding-top:16px}
+}
+@media(max-width:360px){.app-shell{--role-size:23px}.wordmark{font-size:19px}.header nav{gap:13px;font-size:10px}}
+/* Signature and greeting share a top edge; supporting text follows the name. */
+.identity-heading{display:grid;grid-template-columns:max-content minmax(0,1fr);align-items:start;column-gap:12px;row-gap:10px}
+.identity-heading .hello{grid-column:1;grid-row:1;width:auto;white-space:nowrap;margin:0;align-self:start}
+.signature-slot{grid-column:2;grid-row:1;min-width:0;container-type:inline-size;display:flex;justify-content:flex-end;align-items:flex-start}
+.identity-heading .signature{font-size:43cqw;line-height:.94;margin:0;width:max-content;white-space:nowrap;font-optical-sizing:none;font-variation-settings:'opsz' 100,'WONK' 0,'SOFT' 100}
+.identity-heading p{grid-column:1/-1;grid-row:2;justify-self:end;text-align:right;white-space:nowrap}
+@media(max-width:1000px){.identity-heading{display:grid;column-gap:12px;row-gap:12px;margin-bottom:20px}.identity-heading .signature{font-size:43cqw;margin:0}.identity-heading .hello{padding:0}.identity-heading p{font-size:var(--role-size)}}
+@media(max-width:360px){.identity-heading{column-gap:10px;row-gap:10px}}
+/* Optical alignment and room for staggered labels to tuck around the glyph. */
+.identity-heading .signature{line-height:.76}
+.role-system{height:330px}.role-pair{bottom:60px}.ampersand{top:calc((100% - 60px)/2)}
+.roles-toggle{bottom:5px}.expanded-roles{top:100%;bottom:auto}
+@media(min-width:1500px){.role-system{height:350px}}
+@media(min-width:1001px) and (max-height:800px){.role-system{height:312px}}
+@media(min-width:1001px) and (max-height:750px){.role-system{height:276px}}
+@media(max-width:1000px){.role-system{height:256px}.role-pair{bottom:60px}.ampersand{top:calc((100% - 60px)/2)}}
+@media(max-width:360px){.role-system{height:248px}}
+
+.roles-toggle{bottom:30px}
+/* Each descriptor spans exactly from its outer edge to the ampersand center. */
+.role-pair{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:0}
+/* The inward line hugs the glyph; the other sits in the open corner. */
+
+@media(min-width:1001px) and (max-width:1100px){.ampersand{font-size:76px}}
+@media(max-width:360px){.ampersand{font-size:68px}}
+/* Mirror the stagger when roles occupy the upper-left / lower-right corners. */
+/* A little breathing room between the descriptors' inner edges and the center. */
+.role-pair{column-gap:calc(var(--role-size)*1.3)}
+/* Tighten the vertical space around the ampersand without changing its size. */
+.role-system{height:324px}.role-pair{grid-template-rows:68px 128px 68px}
+@media(min-width:1500px){.role-system{height:344px}.role-pair{grid-template-rows:76px 132px 76px}}
+@media(min-width:1001px) and (max-height:800px){.role-system{height:306px}.role-pair{grid-template-rows:64px 118px 64px}}
+@media(min-width:1001px) and (max-height:750px){.role-system{height:270px}.role-pair{grid-template-rows:60px 90px 60px}}
+@media(max-width:1000px){.role-system{height:250px}.role-pair{grid-template-rows:54px 82px 54px}}
+@media(max-width:360px){.role-system{height:242px}.role-pair{grid-template-rows:52px 78px 52px}}
+/* The intro has its own slower clock; project-to-project changes remain crisp. */
+.intro-handoff .portrait-intro.transition-out,.intro-handoff .project-content.transition-in,.intro-handoff .amp-entering .ampersand{animation-duration:var(--intro-half)}
+.header{transition:transform 900ms var(--ease),opacity 600ms var(--ease)}
+/* Close the visible type-to-glyph gap while keeping the ampersand anchored. */
+.role-system{--descriptor-tighten:calc(var(--role-size)*.3)}
+/* Jared's original vector handwriting, extracted from his Illustrator artwork. */
+.identity-heading .signature-real{font-size:inherit;line-height:0;width:100%;margin:0}
+.signature-real .signature-art{display:block;color:var(--ink);width:100%;line-height:0}
+.signature-art svg{display:block;width:100%;height:auto;overflow:visible}
+.signature-art path{vector-effect:non-scaling-stroke;stroke-dashoffset:0}
+.is-intro .signature-real{animation:none}
+@media(min-width:1001px) and (min-height:600px){.signature-art svg{max-height:calc(100dvh - 475px);object-fit:contain;object-position:right top}}
+@media(max-width:1000px){.signature-art svg{max-height:200px;object-fit:contain;object-position:right top}}
+/* Enlarge the handwriting into the open space beside the greeting. */
+.identity-heading{position:relative;row-gap:0;--signature-overhang:calc(var(--role-size)*2.1)}
+.identity-heading .signature-real{width:calc(100% + var(--signature-overhang));flex-shrink:0}
+.identity-heading p{position:absolute;right:0;top:64%;margin:0;grid-area:auto;justify-self:auto;align-self:auto}
+.signature-art .signature-ink{stroke:none}
+@media(min-width:1001px) and (min-height:600px){.signature-art svg{max-height:calc(100dvh - 435px)}}
+@media(max-width:1000px){.signature-art svg{max-height:240px}}
+/* Requested optical placement: lift the handwriting and tighten the identity. */
+.identity-heading .signature-real{transform:translate(10px,-20px)}
+.identity-heading p{transform:translateY(-20px)}
+.role-system{margin-top:-65px}
+@media(max-width:1000px){.identity-heading .signature-real{transform:translate(min(10px,5vw),-20px)}}
+/* Keep the shifted swash clear of the compact wordmark and project title. */
+@media(min-width:1001px){
+ .header .wordmark{font-size:25px}
+ .feature{width:100%;justify-self:center}
+}
+@media(max-width:1000px){
+ .identity-heading .signature-real{transform:translate(min(10px,5vw),-20px)}
+ .identity-heading p{transform:translateY(-20px)}
+ .role-system{margin-top:-55px}
+}
+
+/* Let the labels use the identity column, reserving a real corridor for the glyph.
+   The previous 380px cap left long individual words wider than their grid cell. */
+.role-system{width:100%;max-width:none}
+.role-pair{column-gap:clamp(76px,8vw,110px)}
+@media(max-width:1000px){.role-system{max-width:350px}.role-pair{column-gap:76px}}
+
+/* Keep the stagger's inner edge near the glyph center, as originally intended. */
+.role-pair{column-gap:calc(var(--role-size)*1.3)}
+
+/* Treat each discipline as one readable block. The entire composition now
+   shares an ampersand size, so its clearance scales with the glyph. */
+.role-system{--amp-size:122px;--role-clearance:calc(var(--amp-size)*.08);--label-row:calc(var(--role-size)*2.16);--glyph-row:calc(var(--amp-size)*.86);--role-zone:calc(var(--label-row)*2 + var(--glyph-row) + var(--role-clearance)*2);height:calc(var(--role-zone) + 64px)}
+.role-pair{inset:0 0 auto;height:var(--role-zone);grid-template-rows:var(--label-row) var(--glyph-row) var(--label-row);row-gap:var(--role-clearance);column-gap:calc(var(--role-size)*1.3)}
+.role-system .ampersand{font-size:var(--amp-size);top:calc(var(--role-zone)/2);transform:translate(-50%,-50%)}
+.role-system .roles-toggle{bottom:12px}
+@media(min-width:1500px){.role-system{--amp-size:130px}}
+@media(min-width:1001px) and (max-height:800px){.role-system{--amp-size:112px}}
+@media(min-width:1001px) and (max-height:750px){.role-system{--amp-size:88px}}
+@media(min-width:1001px) and (max-width:1100px){.role-system{--amp-size:76px}}
+@media(max-width:1000px){.role-system{--amp-size:76px}}
+@media(max-width:360px){.role-system{--amp-size:68px}}
+/* Two-line blocks need their full height below the signature's descender. */
+.role-system{margin-top:-20px}
+@media(max-width:1000px){.role-system{margin-top:-10px}}
+/* Complete the handwriting once, then bring in the tagline before the handoff. */
+.identity-heading .identity-tagline{transform:translateY(-20px) scale(1);transform-origin:right center}
+.identity-heading .tagline-waiting{opacity:0;transform:translateY(-20px) scale(.55)}
+.is-intro .identity-heading .tagline-visible{animation:tagline-reveal var(--tagline-duration) var(--ease) both}
+@keyframes tagline-reveal{from{opacity:0;transform:translateY(-20px) scale(.55)}to{opacity:1;transform:translateY(-20px) scale(1)}}
+/* The primary pair shrinks in place; supporting disciplines fill fixed slots. */
+.role-system .role-label{transition:transform 350ms var(--ease);transform-origin:left center}
+.role-system.expanded .role-label{transform:scale(var(--role-shrink,.65))}
+.more-roles{position:absolute;inset:0 0 auto;height:var(--role-zone);pointer-events:none;visibility:hidden;transition:visibility 0s 400ms}
+.expanded .more-roles{visibility:visible;transition-delay:0s}
+.extra-role{position:absolute;width:calc((100% - var(--role-size)*1.3)/2);font-family:Arial,Helvetica,sans-serif;font-size:var(--extra-role-size,calc(var(--role-size)*.65));font-weight:600;letter-spacing:-.05em;line-height:1.08;color:var(--accent-text,var(--accent));opacity:0;transform:scale(.25);transition:transform 400ms var(--ease),opacity 250ms;white-space:normal}
+.extra-role span{display:block}
+.expanded .extra-role{opacity:1;transform:scale(1);transition-delay:calc(350ms + var(--reveal-order)*80ms)}
+.extra-corner-one{left:0;top:calc(var(--label-row) + var(--glyph-row) + var(--role-clearance)*2);text-align:left;transform-origin:left top}
+.extra-corner-two{right:0;bottom:calc(var(--label-row) + var(--glyph-row) + var(--role-clearance)*2);text-align:right;transform-origin:right bottom}
+.roles-flipped .extra-corner-one{top:auto;bottom:calc(var(--label-row) + var(--glyph-row) + var(--role-clearance)*2);transform-origin:left bottom}
+.roles-flipped .extra-corner-two{bottom:auto;top:calc(var(--label-row) + var(--glyph-row) + var(--role-clearance)*2);transform-origin:right top}
+.extra-top,.extra-bottom{left:50%;width:40%;text-align:center;translate:-50% 0;transform-origin:center}
+.extra-top{bottom:calc(var(--role-zone)/2 + var(--amp-size)*.5 + 8px)}
+.extra-bottom{top:calc(var(--role-zone)/2 + var(--amp-size)*.5 + 8px)}
+@media(prefers-reduced-motion:reduce){
+ .is-intro .identity-heading .tagline-visible{animation:none}
+ .role-system .role-label,.extra-role,.more-roles{transition:none}
+}
+/* Expanded roles share clear top and bottom baselines; shortest additions go
+   above/below, with optional middle slots for a larger discipline list. */
+.role-system .extra-corner-one{top:auto;bottom:0}
+.role-system .extra-corner-two{top:0;bottom:auto}
+.role-system.roles-flipped .extra-corner-one{top:0;bottom:auto}
+.role-system.roles-flipped .extra-corner-two{top:auto;bottom:0}
+.extra-top{top:0;bottom:auto;white-space:normal}
+.extra-bottom{bottom:0;top:auto;white-space:normal}
+.extra-top span,.extra-bottom span{display:inline}
+.extra-top span+span:before,.extra-bottom span+span:before{content:' '}
+.extra-left,.extra-right{top:50%;translate:0 -50%;width:30%}
+.extra-left{left:0;text-align:left;transform-origin:left center}
+.extra-right{right:0;text-align:right;transform-origin:right center}
+.role-system .ampersand{transition:font-size 400ms var(--ease),color 400ms}
+.role-system.expanded .ampersand{font-size:calc(var(--amp-size)*1.12);background:linear-gradient(110deg,var(--accent) 30%,color-mix(in srgb,var(--accent) 45%,white) 48%,var(--accent) 65%);background-size:250% 100%;background-clip:text;-webkit-background-clip:text;color:transparent;animation:amp-shimmer 4s ease-in-out infinite}
+@keyframes amp-shimmer{0%,20%{background-position:100% 0}80%,100%{background-position:0 0}}
+@media(prefers-reduced-motion:reduce){.role-system.expanded .ampersand{animation:none;background:none;color:var(--accent)}.role-system .ampersand{transition:none}}
+
+/* Preserve each primary label's original anchor while it scales. */
+.role-system .extra-corner-one{top:auto;bottom:calc(var(--role-zone) - var(--expanded-bottom-edge,var(--role-zone)))}
+.role-system .extra-corner-two{top:var(--expanded-top-edge,0px);bottom:auto}
+.role-system.roles-flipped .extra-corner-one{top:var(--expanded-top-edge,0px);bottom:auto}
+.role-system.roles-flipped .extra-corner-two{top:auto;bottom:calc(var(--role-zone) - var(--expanded-bottom-edge,var(--role-zone)))}
+.extra-top{top:var(--expanded-top-edge,0px)}
+.extra-bottom{bottom:calc(var(--role-zone) - var(--expanded-bottom-edge,var(--role-zone)))}
+.header .wordmark{color:var(--accent);transition:color 600ms var(--ease)}
+/* Glyph overhang needs room inside the text-clipped shimmer surface. */
+.role-system .ampersand{padding-inline:.15em;letter-spacing:0;overflow:visible}
+.role-system.expanded .ampersand{animation:amp-shimmer-continuous 3s ease-in-out infinite alternate}
+@keyframes amp-shimmer-continuous{from{background-position:100% 0}to{background-position:0 0}}
+@media(prefers-reduced-motion:reduce){.role-system.expanded .ampersand{animation:none}.header .wordmark{transition:none}}
+/* Baked-in introduction: no portrait, controls, hover pauses, or click targets. */
+.intro-running>.player{opacity:0;visibility:hidden;pointer-events:none}
+.is-intro>.identity>.identity-heading{opacity:0}
+.is-intro>.feature,.is-intro>.project-index,.is-intro>.identity>.role-system{visibility:hidden;pointer-events:none}
+.intro-sequence{position:fixed;inset:0;z-index:15;background:#fff;cursor:default;overflow:hidden;color:#173458}
+.intro-sequence .intro-identity{position:absolute;transform-origin:left top;margin:0;pointer-events:none}
+.intro-greeting{opacity:0;animation:intro-greeting-zoom 600ms var(--ease) 200ms both;transform-origin:left top}
+@keyframes intro-greeting-zoom{from{opacity:0;transform:scale(.55)}to{opacity:1;transform:scale(1)}}
+.intro-identity .intro-tagline-hidden{opacity:0;transform:translateY(-20px) scale(.55)}
+.intro-identity .intro-tagline-ready{animation:intro-tagline-zoom 600ms var(--ease) both}
+@keyframes intro-tagline-zoom{from{opacity:0;transform:translateY(-20px) scale(.55)}to{opacity:1;transform:translateY(-20px) scale(1)}}
+.player{transition:background-color 600ms var(--ease),opacity 600ms var(--ease)}
+/* Equal clearance above and below the enlarged glyph, even for single-line roles. */
+.role-system{--expanded-gap:16px;--glyph-row:calc(var(--amp-size)*1.12 + var(--expanded-gap)*2)}
+/* Keep base ink present; a separate tonal highlight fades both in and out. */
+.role-system .ampersand{font-size:var(--amp-size);transition:transform 450ms var(--ease),color 400ms}
+.role-system.expanded .ampersand{font-size:var(--amp-size);background:none;color:var(--accent);animation:none;transform:translate(-50%,-50%) scale(1.12)}
+@media(prefers-reduced-motion:reduce){
+ .intro-greeting{animation:none;opacity:1}
+ .intro-identity .intro-tagline-ready{animation:none}
+ .role-system .ampersand,.player{transition:none}
+}
+.intro-running>.skip-link{visibility:hidden}
+.intro-running{height:100dvh;overflow:hidden}
+.intro-sequence{touch-action:none;user-select:none}
+
+/* Playback has one paint loop, not hundreds of independent CSS animations. */
+.signature-art{position:relative}
+.signature-art .signature-vector{display:block;color:inherit}
+.signature-art .signature-canvas{position:absolute;inset:0;width:100%;height:100%;display:none;pointer-events:none}
+.signature-art[data-drawing="true"] .signature-vector{visibility:hidden}
+.signature-art[data-drawing="true"] .signature-canvas{display:block}
+/* Keep the same painted signature throughout writing, title montage and shrink. */
+.intro-composition{position:absolute;transform-origin:left top;pointer-events:none}
+.intro-sequence .intro-composition>.intro-identity{position:relative;inset:auto;width:100%;margin:0}
+.intro-sequence .intro-role-system{position:absolute;left:0;margin:0!important;width:100%;max-width:none;visibility:hidden;--accent:#88281d}
+.intro-sequence .intro-roles-visible{visibility:visible}
+.intro-roles-visible .ampersand{animation:intro-amp-grow 550ms var(--ease) both}
+@keyframes intro-amp-grow{from{opacity:0;transform:translate(-50%,-50%) scale(.25)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+.intro-pair-flipping .role-label{animation:intro-title-flip 90ms ease-out both}
+@keyframes intro-title-flip{from{opacity:.2;transform:translateY(5px) scale(.92)}to{opacity:1;transform:translateY(0) scale(1)}}
+.intro-pair-settled .role-label{animation:intro-title-lock 300ms var(--ease) both}
+@keyframes intro-title-lock{from{opacity:.5;transform:scale(.94)}to{opacity:1;transform:scale(1)}}
+@media(prefers-reduced-motion:reduce){.intro-roles-visible .ampersand,.intro-pair-settled .role-label,.intro-pair-flipping .role-label{animation:none}}
+.intro-sequence .intro-role-system{opacity:1}
+/* One predictable corner layout, independent of word length. */
+/* Reduce both the pairing box and its footer space by exactly one quarter. */
+.role-system{--role-zone-full:calc(var(--label-row)*2 + var(--amp-size)*1.12 + var(--expanded-gap)*2 + var(--role-clearance)*2);--role-zone:calc(var(--role-zone-full)*.75);--glyph-row:calc(var(--role-zone) - var(--label-row)*2 - var(--role-clearance)*2);height:calc(var(--role-zone) + 48px)}
+.role-system .roles-toggle{bottom:9px}
+/* A highlight travels across a separate ink layer, which can fade away gently. */
+@media(prefers-reduced-motion:reduce){}
+/* A quieter final identity; the intro still enlarges the whole composition. */
+.identity-heading .signature-real{width:100%;transform:translate(0,-8px)}
+.signature-real .signature-art{color:var(--accent)}
+.identity-heading .signature-art svg{max-height:160px}
+.identity-heading p{top:68%;transform:translateY(-8px)}
+@media(max-width:1000px){.identity-heading .signature-art svg{max-height:145px}}
+/* A restrained halo that fades in and out, without a moving highlight layer. */
+@media(prefers-reduced-motion:reduce){}
+/* Match the intro tagline's final transform to the compact identity. */
+.intro-identity .intro-tagline-hidden{transform:translateY(-8px) scale(.55)}
+@keyframes intro-tagline-zoom{from{opacity:0;transform:translateY(-8px) scale(.55)}to{opacity:1;transform:translateY(-8px) scale(1)}}
+/* Align the J's top stem to the greeting, allowing its tail to hang left. */
+.identity-heading .signature-slot{justify-content:flex-start}
+.identity-heading .signature-real{transform:translate(calc(-1*min(20cqw,45.333px)),-8px)}
+.identity-heading .signature-art svg{object-position:left top}
+@media(max-width:1000px){.identity-heading .signature-real{transform:translate(calc(-1*min(20cqw,41.083px)),-8px)}}
+/* The signature shares the full column's center axis with the ampersand. */
+.identity-heading .signature-slot{grid-column:1/-1;grid-row:1;width:100%;justify-content:center}
+.identity-heading .signature-real{width:min(100%,226.667px);transform:translateY(-8px)}
+.identity-heading .hello{position:relative;z-index:1}
+@media(max-width:1000px){.identity-heading .signature-real{width:min(100%,205.417px);transform:translateY(-8px)}}
+/* Halfway between optical greeting alignment and the column's center axis. */
+.identity-heading .signature-real{transform:translate(var(--signature-offset,-20px),-8px)}
+@media(max-width:1000px){.identity-heading .signature-real{transform:translate(var(--signature-offset,-12px),-8px)}}
+.identity-heading .multidisciplinary{font-weight:600}
+.identity-word{display:inline-block}
+/* Stagger individual words without animating or shifting the tagline box. */
+.intro-identity .intro-greeting{animation:none;opacity:1;transform:none}
+.intro-greeting .identity-word{opacity:0;animation:intro-word-in var(--intro-word-duration) var(--ease) both}
+.intro-greeting .greeting-hi{animation-delay:var(--intro-greeting-start)}
+.intro-greeting .greeting-im{animation-delay:calc(var(--intro-greeting-start) + var(--intro-word-step))}
+.intro-identity .identity-tagline{animation:none;opacity:1;transform:none}
+.intro-identity .intro-tagline-hidden .identity-word{opacity:0}
+.intro-identity .intro-tagline-ready .identity-word{animation:intro-word-in var(--intro-word-duration) var(--ease) both}
+.intro-identity .intro-tagline-ready .tagline-a{animation-delay:0ms}
+.intro-identity .intro-tagline-ready .multidisciplinary{animation-delay:var(--intro-word-step)}
+@keyframes intro-word-in{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
+/* Ink Press: one tactile compression, then a small, steady enlargement. */
+.role-system.expanded .ampersand{transform:translate(-50%,-50%) scale(1.04);animation:amp-ink-press 450ms cubic-bezier(.2,.8,.2,1)}
+@keyframes amp-ink-press{0%{transform:translate(-50%,-50%) scale(1)}35%{transform:translate(-50%,-50%) scale(1.08,.9)}70%{transform:translate(-50%,-50%) scale(1.01,1.06)}100%{transform:translate(-50%,-50%) scale(1.04)}}
+@media(prefers-reduced-motion:reduce){.intro-greeting .identity-word,.intro-identity .intro-tagline-ready .identity-word{animation:none;opacity:1}.role-system.expanded .ampersand{animation:none}}
+/* Keep the tagline's visible descenders level with the J, in both views. */
+.identity-heading .identity-tagline{transform:none}
+/* Vertical reels keep equal-height rows, then hand off at identical corners. */
+.intro-reel-slot{min-width:0}
+.intro-reel-one{grid-column:1;grid-row:1;align-self:start;text-align:left}
+.intro-reel-two{grid-column:2;grid-row:3;align-self:end;text-align:right}
+.intro-reel-viewport{height:var(--label-row);overflow:hidden}
+.intro-reel-track{will-change:transform}
+.intro-reel-row{height:var(--label-row);display:flex;flex-direction:column;overflow:hidden}
+.intro-reel-one .intro-reel-row{justify-content:flex-start}
+.intro-reel-two .intro-reel-row{justify-content:flex-end}
+.intro-reel-row .role-label,.intro-reel-settled .role-label{animation:none}
+
+.app-shell :is(a,button,input,select):focus-visible{outline-color:var(--accent-text,var(--accent))}
+.app-shell .player :is(a,button,input):focus-visible{outline-color:#fffaf2}
+
+/* Preserve the supplied portrait poster inside the consistent landscape feature. */
+.foul-balls-feature{background:#dcc1a2;display:grid;place-items:center;padding:3%;isolation:isolate}
+.foul-balls-feature:before{content:'';position:absolute;width:46%;aspect-ratio:1;border:1px solid #dcc1a270;transform:rotate(45deg);z-index:-1}
+.foul-balls-feature img{display:block;width:100%;height:100%;min-height:0;object-fit:contain;filter:drop-shadow(0 5px 9px #30243d33)}
+.track-art.has-artwork{aspect-ratio:1;border-radius:0;flex-shrink:0}
+.track-art.has-artwork:before{display:none}
+.track-art.has-artwork img{display:block;width:100%;height:100%;border-radius:0;object-fit:cover}
+.foul-balls-music{padding-top:24px;border-top:1px solid var(--line)}
+.foul-balls-music h2{font-size:28px;margin-bottom:12px}
+.foul-balls-music .see-more{margin-top:12px}

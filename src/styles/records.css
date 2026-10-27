@@ -1,0 +1,119 @@
+/* One solid cabinet with two recessed openings for the record sleeves. */
+.design-page .design-backdrop:after,.design-page .design-masthead:before{
+ content:'';position:absolute;inset:0;pointer-events:none;
+ background:url('/media/design/cabinet-grain.svg') repeat;
+ background-size:960px 520px;opacity:0;transition:opacity 500ms var(--ease);
+}
+.design-page[data-current-section="covers"] .design-backdrop:after,
+.design-page[data-current-section="covers"] .design-masthead:before{opacity:.9}
+.design-page .design-masthead>*{position:relative;z-index:1}
+.design-page .record-gallery{
+ --album-size:clamp(112px,calc((var(--design-panel-height) - 112px)/2),356px);
+ --album-gap:12px;
+ --record-spine:clamp(6px,calc(var(--album-size)*.03),9px);
+ --record-spine-ink:#180c0c;
+ --gatefold-drop:calc(var(--album-size)*.07);
+ gap:12px;padding:12px;
+ background:#896248;
+ border-radius:2px;
+ box-shadow:0 8px 22px #1e110c40;
+}
+.design-page .record-crate{
+ position:relative;display:flex;align-items:center;align-self:stretch;isolation:isolate;
+ padding:12px 0;height:auto;
+ background:linear-gradient(180deg,#2a1b12d9,#483222b8 40%,#382619d9),url('/media/design/cabinet-grain.svg') repeat,#513824;
+ border:0;border-radius:0;
+ box-shadow:inset 0 5px 12px #08040166;
+}
+.design-page .record-crate:has(.record-gatefold){z-index:3;overflow:visible}
+.record-crate:before,.record-crate:after{content:'';position:absolute;z-index:8;top:0;bottom:0;width:clamp(12px,1.5vw,21px);pointer-events:none}
+.record-track-window{position:relative;flex:0 0 100%;width:100%;height:100%;min-width:0;overflow-x:clip;overflow-y:visible}
+.record-crate:before{left:0;background:linear-gradient(90deg,#090603a0 0%,#09060378 18%,#09060338 42%,#09060314 72%,transparent 100%)}
+.record-crate:after{right:0;background:linear-gradient(270deg,#090603a0 0%,#09060378 18%,#09060338 42%,#09060314 72%,transparent 100%)}
+.design-page .record-gallery .record-track-window>.album-track{height:100%}
+.design-page .record-gallery .album-track{height:auto;flex:none;gap:var(--album-gap);animation-name:record-loop;animation-play-state:var(--record-play-state,running)}
+.record-gallery .album-row-1 .album-track{animation-delay:var(--row-1-delay,0s)}
+.record-gallery .album-row-2 .album-track{animation-delay:var(--row-2-delay,0s)}
+.design-page #design-covers:not(.is-current) .album-track{animation-play-state:paused}
+@keyframes record-loop{to{transform:translateX(calc(-50% - var(--album-gap) / 2))}}
+.design-page .record-gallery .album-set{
+ min-width:0;gap:var(--album-gap);padding:0;justify-content:flex-start;
+}
+.record-sleeve{
+ position:relative;isolation:isolate;height:var(--album-size);
+ width:var(--album-size);flex:0 0 var(--album-size);
+ transform:rotate(0deg);transform-origin:50% 95%;
+ /* Keep a stable left-over-right stack throughout both directions of the slide. */
+ z-index:var(--record-layer,1);transition:transform 240ms var(--ease);
+}
+.design-page .record-gallery .album-tile{
+ width:var(--album-size);height:var(--album-size);flex:0 0 var(--album-size);
+ overflow:hidden;position:relative;z-index:1;background:#121820;border:0;
+ box-shadow:0 0 10px 2px #000c;
+}
+.record-sleeve .album-tile:before{
+ content:none;
+}
+.vinyl-disc{
+ position:absolute;top:4%;right:0;width:calc(var(--album-size)*.92);height:92%;border-radius:50%;
+ background:radial-gradient(circle,transparent 96%,#a6b6c35c 98%,#111820 100%),
+ radial-gradient(circle,#d6ccb9 0 2%,#171b22 2% 5%,#a45e54 5% 17%,#e2bd94 17% 18%,transparent 18%),
+ conic-gradient(from 30deg,#c4d5df44,transparent 12%,#c4d5df18 35%,transparent 48%,#c4d5df55 65%,transparent 82%),
+ repeating-radial-gradient(circle,#19212b 0 1px,#343e4a 1px 2px,#19212b 2px 4px);
+ transform:translateX(0) rotate(0deg);
+ box-shadow:0 0 5px #0005;transition:transform 260ms ease-in-out;
+}
+.record-gallery[data-browsing="true"] .record-sleeve:is(:hover,:has(:focus-visible)){transform:translateY(-4px) rotate(1deg)}
+.record-gallery[data-browsing="true"] .record-sleeve:is(:hover,:has(:focus-visible)) .vinyl-disc{transform:translateX(16%) rotate(12deg)}
+.design-page .record-gallery .album-tile:is(:hover,:focus-visible)>img{transform:none}
+.design-page .record-gallery .album-pair{
+ position:relative;display:flex;align-items:stretch;overflow:visible;z-index:var(--record-layer,1);
+ width:calc(var(--album-size)*2 + var(--album-gap));flex:0 0 calc(var(--album-size)*2 + var(--album-gap));
+ height:var(--album-size);aspect-ratio:auto;gap:0;
+ perspective:calc(var(--album-size)*4);perspective-origin:50% 0;
+ box-shadow:none;transform:none;
+}
+.design-page .record-gallery .album-pair .album-tile{width:var(--album-size);flex:0 0 var(--album-size);height:100%;box-shadow:0 0 10px 2px #000c;filter:brightness(.96);transition:transform 299ms var(--ease),filter 299ms var(--ease)}
+/* Keep the top corners level; a restrained perspective fold drops the lower
+   edge just across the uniform shelf without curving or bowing the artwork. */
+.design-page .record-gatefold .album-tile:first-child{transform-origin:right top;transform:rotateY(0deg) scaleY(1)}
+.design-page .record-gatefold .album-tile:last-child{transform-origin:left top;transform:rotateY(0deg) scaleY(1)}
+.design-page .record-gatefold[data-folded="true"] .album-tile:first-child{transform:rotateY(-16deg) scaleY(1.07)}
+.design-page .record-gatefold[data-folded="true"] .album-tile:last-child{transform:rotateY(16deg) scaleY(1.07)}
+.design-page .record-gallery[data-browsing="true"] .record-gatefold:is([data-pointer-hovered="true"],:focus-within) .album-tile{transform:rotateY(0deg) scaleY(1);filter:brightness(1)}
+.record-gatefold .record-spine{transform-origin:center top;transform:scaleY(1);transition:transform 299ms var(--ease)}
+.record-gatefold[data-folded="true"] .record-spine{transform:scaleY(1.07)}
+.record-gallery[data-browsing="true"] .record-gatefold:is([data-pointer-hovered="true"],:focus-within) .record-spine{transform:scaleY(1)}
+.record-spine{
+ position:relative;flex:0 0 var(--album-gap);width:var(--album-gap);height:100%;
+ display:grid;place-items:center;overflow:hidden;z-index:2;
+ background:var(--record-spine-ink);
+ color:var(--record-spine-ink);
+ cursor:default;pointer-events:none;
+}
+.record-spine:before{content:'';position:absolute;top:0;bottom:0;left:50%;width:var(--record-spine);transform:translateX(-50%);background:#f06868;pointer-events:none}
+.record-spine,.record-spine *{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.record-spine-label{
+ position:absolute;z-index:1;left:50%;top:50%;display:block;
+ width:min(calc(var(--album-size) - 12px),calc(var(--record-spine)*.8*var(--spine-label-ratio)));
+ height:calc(var(--record-spine)*.8);
+ transform:translate(-50%,-50%) rotate(90deg);
+ font-family:'Arial Narrow','Helvetica Neue Condensed','Helvetica Condensed',Arial,sans-serif;
+ font-synthesis:weight;letter-spacing:0;pointer-events:none;
+ object-fit:fill;-webkit-user-drag:none;
+}
+.record-gatefold .album-tile:first-child:after,.record-gatefold .album-tile:last-child:after{
+ content:'';position:absolute;top:0;bottom:0;width:9px;pointer-events:none;z-index:2;
+}
+.record-gatefold .album-tile:first-child:after{right:0;background:linear-gradient(90deg,transparent,#0002)}
+.record-gatefold .album-tile:last-child:after{left:0;background:linear-gradient(90deg,#0002,transparent)}
+.record-gallery .album-caption{z-index:3}
+.record-gallery .album-tile:focus-visible{outline:3px solid #f0cd95;outline-offset:4px}
+@media(max-width:540px){
+ .design-page .record-gallery{--album-size:clamp(112px,calc((var(--design-panel-height) - 120px)/2),240px);--album-gap:12px}
+ .design-page .record-gallery .album-set{min-width:max-content;justify-content:flex-start;padding-right:0}
+ .design-page .record-gallery .record-track-window{overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;touch-action:pan-x}
+}
+@media(max-height:600px){.design-page .record-gallery{--album-size:112px;min-height:310px}}
+@media(hover:none){.record-sleeve:is(:hover,:focus-within),.design-page .record-gatefold:is(:hover,:focus-within){transform:rotate(0deg)}}
+@media(prefers-reduced-motion:reduce){.record-sleeve,.vinyl-disc,.design-page .record-gatefold,.design-page .record-gatefold .album-tile,.record-gatefold .record-spine{transition:none;transform:none!important;filter:none!important}.design-page .design-backdrop:after,.design-page .design-masthead:before{transition:none}}

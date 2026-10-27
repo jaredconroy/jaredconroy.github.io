@@ -1,0 +1,55 @@
+[
+  {
+    "name": "Hover freezes partial progress",
+    "pass": true,
+    "details": {
+      "held": 6,
+      "current": 6,
+      "copy": "On pause"
+    }
+  },
+  {
+    "name": "Hover exit resumes with button focus retained and no click",
+    "pass": true,
+    "details": {
+      "held": 6,
+      "current": 19,
+      "focus": "Foul Balls",
+      "copy": "Next in 7s"
+    }
+  },
+  {
+    "name": "Pause button stays paused after hover ends",
+    "pass": true,
+    "details": {
+      "locked": 19,
+      "current": 19,
+      "copy": "Paused"
+    }
+  },
+  {
+    "name": "Explicit pause survives window return",
+    "pass": true,
+    "details": {
+      "copy": "Paused",
+      "progress": 19
+    }
+  },
+  {
+    "name": "Play resumes the preserved countdown without cooldown",
+    "pass": true,
+    "details": {
+      "locked": 19,
+      "current": 31,
+      "copy": "Next in 6s"
+    }
+  },
+  {
+    "name": "Remaining eight-second cycle advances automatically",
+    "pass": true,
+    "details": {
+      "previous": "Foul Balls",
+      "current": "The Sleds"
+    }
+  }
+]

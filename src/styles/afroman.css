@@ -1,0 +1,91 @@
+.afroman-page,.afroman-game-page{max-width:1240px;margin:auto;padding:24px 4.2% 72px}
+.afroman-page .back-link,.afroman-game-page .back-link{width:fit-content;margin-bottom:36px;color:var(--accent-text)}
+.afroman-heading{display:flex;align-items:end;justify-content:space-between;gap:32px;margin-bottom:32px}
+.afroman-heading h1,.afroman-game-heading h1{font-size:clamp(56px,7.5vw,104px);line-height:1;margin:12px 0 18px}
+.afroman-byline{font-size:14px}
+.afroman-play{display:inline-flex;align-items:center;justify-content:space-between;gap:42px;padding:19px 24px;background:var(--ink);color:var(--surface);font-size:12px;font-weight:700;letter-spacing:.05em;white-space:nowrap}
+.afroman-play span{color:var(--accent);font-size:24px;line-height:1}
+.afroman-play:hover{background:var(--accent-text)}
+.afroman-hero{display:block;position:relative;background:#10100e;overflow:hidden}
+.afroman-hero img{display:block;width:100%;height:auto;aspect-ratio:1050/640;object-fit:contain}
+.afroman-hero-caption{display:flex;justify-content:space-between;gap:20px;padding:17px 24px;background:var(--ink);color:var(--surface);font-size:11px}
+.afroman-hero-caption>span:last-child{color:var(--accent);white-space:nowrap}
+.afroman-story,.afroman-restoration{display:grid;grid-template-columns:1fr 1.15fr;gap:9%;padding:64px 0}
+.afroman-story h2,.afroman-restoration h2,.afroman-section-heading h2{font-size:clamp(28px,3.6vw,46px);line-height:1.1}
+.afroman-story p,.afroman-restoration p{font-size:15px;line-height:1.85;margin-bottom:18px}
+.afroman-page .afroman-small,.afroman-game-page .afroman-small{font-size:12px;line-height:1.7;opacity:.72}
+.afroman-section-heading{display:flex;align-items:end;justify-content:space-between;gap:24px;margin-bottom:30px}
+.afroman-levels{border-top:1px solid color-mix(in srgb,var(--ink) 20%,transparent);border-bottom:1px solid color-mix(in srgb,var(--ink) 20%,transparent);padding:42px 0 48px}
+.afroman-level-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:30px}
+.afroman-level-grid article{min-width:0}
+.afroman-level-grid img{display:block;width:100%;height:auto;aspect-ratio:4;object-fit:contain;background:#242424}
+.afroman-level-grid article>div{padding-top:22px}
+.afroman-level-grid h3{font-family:var(--display);font-weight:800;font-size:25px;letter-spacing:-.04em;margin:8px 0 12px}
+.afroman-level-grid p{font-size:13px;line-height:1.8}
+.afroman-restoration .afroman-play{margin:8px 0 16px}
+.afroman-feature img{display:block;width:100%;height:100%;object-fit:contain;background:#10100e}
+.afroman-game-page{max-width:1400px}
+.afroman-game-heading{display:flex;align-items:center;justify-content:space-between;gap:24px}
+.afroman-game-heading h1{font-size:clamp(38px,4vw,58px);margin:8px 0 12px}
+.afroman-text-button{border-bottom:1px solid var(--accent);padding:8px 0;font-size:12px;color:var(--accent-text)}
+.afroman-game-actions{display:flex;gap:24px;flex-wrap:wrap;justify-content:end}
+.afroman-game-intro{font-size:13px;line-height:1.6;margin:8px 0 24px}
+.afroman-game-stage{width:100%;max-width:1050px;aspect-ratio:1050/640;margin:auto;background:#10100e}
+.afroman-game-stage iframe{display:block;width:100%;height:100%;border:0}
+.afroman-game-stage:fullscreen{max-width:none;aspect-ratio:auto;display:grid;place-items:center;background:#10100e}
+.afroman-game-stage:fullscreen iframe{width:min(100vw,164.0625vh);height:min(100vh,60.9524vw)}
+.afroman-exit-fullscreen{display:none}
+.afroman-game-stage:fullscreen .afroman-exit-fullscreen{display:block;position:absolute;bottom:12px;right:12px;background:var(--ink);color:var(--surface);border:1px solid #faf6ef77;padding:10px 14px;font-size:12px}
+.afroman-game-help{display:flex;flex-wrap:wrap;gap:22px 58px;margin:26px 0 18px;font-size:12px}
+.afroman-game-help p{margin-top:8px;opacity:.75;line-height:1.5}
+.afroman-calibration{max-width:650px;margin-top:30px;font-size:13px;line-height:1.8;border-top:1px solid color-mix(in srgb,var(--ink) 20%,transparent);padding-top:18px}
+.afroman-calibration summary{cursor:pointer;width:fit-content}
+.afroman-calibration p{margin:18px 0}
+.afroman-calibration label{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.afroman-calibration input{flex:1;min-width:120px;accent-color:var(--accent-text)}
+.afroman-calibration output{font-variant-numeric:tabular-nums;min-width:65px}
+.afroman-page a:focus-visible,.afroman-game-page :focus-visible{outline-color:var(--accent-text)}
+@media(min-width:1001px) and (min-height:600px){.afroman-game-stage{max-width:min(1050px,calc((100svh - var(--header-height) - var(--player-height) - 200px)*1.640625))}.afroman-game-page{padding-top:12px}.afroman-game-page .back-link{margin-bottom:18px}}
+@media(max-width:700px){.afroman-page,.afroman-game-page{padding:18px 6% 45px}.afroman-heading{align-items:start;flex-direction:column;gap:22px}.afroman-heading h1{font-size:64px}.afroman-heading .afroman-play{width:100%}.afroman-story,.afroman-restoration{grid-template-columns:1fr;gap:24px;padding:40px 0}.afroman-section-heading{display:block}.afroman-section-heading .eyebrow{display:block;margin-top:16px}.afroman-level-grid{grid-template-columns:1fr;gap:32px}.afroman-level-grid article{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:20px;align-items:start}.afroman-level-grid article>div{padding:0}.afroman-level-grid img{margin-top:6px}.afroman-level-grid h3{font-size:22px}.afroman-level-grid p{font-size:12px}.afroman-hero-caption{padding:14px;font-size:9px}.afroman-game-help{gap:18px 25px}.afroman-game-heading h1{font-size:46px}}
+
+.afroman-page:focus,.afroman-game-page:focus{outline:none}
+
+.afroman-play:hover span{color:var(--surface)}
+/* Every theme uses the same filled text glyph and its single color transition.
+   The SVG is only the neon outline revealed during Afroman interaction. */
+.app-shell{--neon-halo:drop-shadow(0 0 4px #ef8216) drop-shadow(0 0 12px #ef8216) drop-shadow(0 0 28px #ef8216);--neon-tube-width:2.4px}
+.afroman-neon{
+ display:block;position:absolute;left:.15em;top:0;
+ width:calc(100% - .3em);height:1em;pointer-events:none;
+ opacity:0;visibility:hidden;
+ transition:opacity 250ms var(--ease),visibility 0s 250ms;
+}
+.afroman-neon svg{display:block;width:100%;height:100%;overflow:visible}
+.afroman-neon .neon-foreground{position:absolute;inset:0;display:block;width:100%;height:100%;filter:var(--neon-glow,none);opacity:var(--neon-flash,1)}
+.afroman-neon path{vector-effect:non-scaling-stroke;stroke-linecap:round;stroke-linejoin:round}
+.afroman-neon .neon-core{fill:none;stroke:var(--neon-color,#8c3e0b);vector-effect:none;stroke-width:var(--neon-stroke,44)}
+.app-shell[data-project-theme="afroman"] .afroman-neon{opacity:1;visibility:visible;transition:opacity 250ms var(--ease)}
+@media(prefers-reduced-motion:reduce){.afroman-neon{transition:none}}
+/* Keep the tube at one apparent weight while the hover layers fade in/out. */
+.app-shell[data-project-theme="afroman"] .role-system.expanded .ampersand{animation:none;transform:translate(-50%,-50%)}
+.app-shell[data-project-theme="afroman"] .extra-role{color:var(--accent)}
+
+/* A uniform neon pen replaces the calligraphic nib only in this theme. */
+.signature-ink{opacity:1;transition:opacity 400ms var(--ease)}
+.signature-vector{position:relative}
+.signature-neon{display:block;position:absolute;inset:0;opacity:0;transition:opacity 400ms var(--ease);pointer-events:none}
+.signature-neon-tube,.signature-neon-boost{display:block;position:absolute;inset:0;filter:var(--neon-halo)}
+.signature-neon-boost{opacity:.5}
+.signature-neon-line{fill:none;stroke:#f5d504;stroke-width:var(--neon-tube-width);stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.app-shell[data-project-theme="afroman"] .signature-ink{opacity:0}
+.app-shell[data-project-theme="afroman"] .signature-neon{opacity:1}
+.app-shell[data-project-theme="afroman"] .role-system .ampersand{color:#000}
+@media(prefers-reduced-motion:reduce){.signature-ink,.signature-neon{transition:none}}
+
+/* Compact chains keep their normal filled ampersands; the signature owns neon. */
+@media(min-width:680px) and (max-width:1000px),(min-width:1001px) and (max-height:700px){
+ .app-shell[data-project-theme="afroman"] .landing .role-system .ampersand{color:var(--accent)}
+ .app-shell[data-project-theme="afroman"] .landing .afroman-neon{display:none}
+ .app-shell[data-project-theme="afroman"] .identity[data-neon-active="true"] .signature-neon-line{stroke:var(--neon-color)}
+ .app-shell[data-project-theme="afroman"] .identity[data-neon-active="true"] :is(.signature-neon-tube,.signature-neon-boost){filter:var(--neon-glow,none)}
+}

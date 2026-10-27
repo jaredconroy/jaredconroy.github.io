@@ -1,0 +1,152 @@
+{
+  "CTT/favicon.png": {
+    "file": "ctt-favicon",
+    "width": 533,
+    "height": 533
+  },
+  "CTT/logo.png": {
+    "file": "ctt-logo",
+    "width": 2083,
+    "height": 2083
+  },
+  "CTT/ui_mockup.png": {
+    "file": "ctt-ui-mockup",
+    "width": 3600,
+    "height": 2009
+  },
+  "LNI/LNI-stack.png": {
+    "file": "lni-lni-stack",
+    "width": 2400,
+    "height": 2400
+  },
+  "LNI/LNI-wide.png": {
+    "file": "lni-lni-wide",
+    "width": 2400,
+    "height": 2400
+  },
+  "Phatboy/brookline-poster.png": {
+    "file": "phatboy-brookline-poster",
+    "width": 1560,
+    "height": 2400
+  },
+  "Phatboy/brookline-thumbnail.png": {
+    "file": "phatboy-brookline-thumbnail",
+    "width": 1280,
+    "height": 720
+  },
+  "Phatboy/vendetta-poster.png": {
+    "file": "phatboy-vendetta-poster",
+    "width": 1080,
+    "height": 1080
+  },
+  "Phatboy/vendetta-thumbnail.png": {
+    "file": "phatboy-vendetta-thumbnail",
+    "width": 1280,
+    "height": 720
+  },
+  "Phatboy/vendetta2-poster.png": {
+    "file": "phatboy-vendetta2-poster",
+    "width": 1080,
+    "height": 1080
+  },
+  "Phatboy/vendetta2-thumbnail.png": {
+    "file": "phatboy-vendetta2-thumbnail",
+    "width": 1280,
+    "height": 720
+  },
+  "boots&cats/icon.png": {
+    "file": "boots-cats-icon",
+    "width": 512,
+    "height": 512
+  },
+  "boots&cats/logo.png": {
+    "file": "boots-cats-logo",
+    "width": 2400,
+    "height": 2400
+  },
+  "boots&cats/process.png": {
+    "file": "boots-cats-process",
+    "width": 2632,
+    "height": 324
+  },
+  "covers/EP.png": {
+    "file": "covers-ep",
+    "width": 2400,
+    "height": 2400
+  },
+  "covers/awol.JPEG": {
+    "file": "covers-awol",
+    "width": 2400,
+    "height": 2400
+  },
+  "covers/monkey.JPEG": {
+    "file": "covers-monkey",
+    "width": 1256,
+    "height": 1256
+  },
+  "covers/slacker.JPEG": {
+    "file": "covers-slacker",
+    "width": 2400,
+    "height": 2400
+  },
+  "posters/AWOL-release.JPEG": {
+    "file": "posters-awol-release",
+    "width": 1920,
+    "height": 2400
+  },
+  "posters/DHRM-release.JPEG": {
+    "file": "posters-dhrm-release",
+    "width": 1919,
+    "height": 2400
+  },
+  "posters/bridge.png": {
+    "file": "posters-bridge",
+    "width": 1080,
+    "height": 1350
+  },
+  "posters/jungle2.JPEG": {
+    "file": "posters-jungle2",
+    "width": 1921,
+    "height": 2400
+  },
+  "posters/magicroom.png": {
+    "file": "posters-magicroom",
+    "width": 1920,
+    "height": 2400
+  },
+  "posters/news1.png": {
+    "file": "posters-news1",
+    "width": 1080,
+    "height": 1350
+  },
+  "posters/news2.png": {
+    "file": "posters-news2",
+    "width": 1080,
+    "height": 1350
+  },
+  "posters/tavern.JPG": {
+    "file": "posters-tavern",
+    "width": 1080,
+    "height": 1350
+  },
+  "six-pack-w-jack.png": {
+    "file": "six-pack-w-jack",
+    "width": 2400,
+    "height": 2400
+  },
+  "slimthick/big-logo.png": {
+    "file": "slimthick-big-logo",
+    "width": 1489,
+    "height": 2400
+  },
+  "slimthick/favicon.png": {
+    "file": "slimthick-favicon",
+    "width": 992,
+    "height": 992
+  },
+  "slimthick/logo+wordmark.png": {
+    "file": "slimthick-logo-wordmark",
+    "width": 2400,
+    "height": 555
+  }
+}
