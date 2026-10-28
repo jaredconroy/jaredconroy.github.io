@@ -82,7 +82,7 @@
 .flyer-unfurl{position:absolute;inset:0;pointer-events:none;transform-style:preserve-3d;animation:flyer-unfurl-visible 720ms linear 0ms both}
 .flyer-band{--start-bend:5deg;position:absolute;top:100%;left:0;width:100%;height:100%;transform-origin:50% 0;transform-style:preserve-3d;animation:flyer-band-unroll 420ms cubic-bezier(.25,.65,.3,1) calc(var(--strip-index)*34ms) both}
 .flyer-unfurl>.flyer-band{top:0;height:12.5%;--start-bend:42deg}
-.flyer-band-ink{position:absolute;inset:0;overflow:hidden;backface-visibility:hidden;background:#eee7d9;box-shadow:0 3px 8px #24182c22;animation:flyer-paper-light 420ms ease-out calc(var(--strip-index)*34ms) both}
+.flyer-band-ink{position:absolute;inset:0;overflow:hidden;backface-visibility:hidden;background:transparent;box-shadow:0 3px 8px #24182c22;animation:flyer-paper-light 420ms ease-out calc(var(--strip-index)*34ms) both}
 .design-page .flyer-band-ink img{position:absolute;left:0;top:calc(var(--strip-index)*-100%);display:block;width:100%;height:800%;max-height:none;max-width:none;object-fit:fill;transform:none}
 .flier-batch.is-new .flier-paper>.design-art{animation:flyer-flat-visible 720ms linear 0ms both}
 /* Waiting flyers mount only on their turn; keep this 3D parent fully opaque. */
@@ -94,10 +94,11 @@
 @keyframes flyer-tape-press{from{opacity:0;clip-path:inset(0 100% 0 0)}to{opacity:1;clip-path:inset(0)}}
 .flier-arrow{position:absolute;top:50%;transform:translateY(-50%);display:grid;place-items:center;width:clamp(28px,3vw,40px);aspect-ratio:1;padding:6px;color:#fff;border:0;border-radius:50%;background:var(--design-accent);transition:transform 180ms var(--ease)}
 .flier-arrow svg{display:block;width:100%;height:100%}
+.flier-arrow:disabled{background:#7d817f;color:#e5e6e4;opacity:.65;cursor:default;transform:translateY(-50%)}
 .flier-arrow:first-child{right:calc(100% + clamp(4px,.5vw,10px))}
 .flier-arrow:last-child{left:calc(100% + clamp(4px,.5vw,10px))}
-.flier-arrow:first-child:hover{transform:translate(-2px,-50%)}
-.flier-arrow:last-child:hover{transform:translate(2px,-50%)}
+.flier-arrow:first-child:hover:not(:disabled){transform:translate(-2px,-50%)}
+.flier-arrow:last-child:hover:not(:disabled){transform:translate(2px,-50%)}
 @media(max-width:1000px){.flier-wall{--flier-count:2}}
 @media(max-width:540px){.flier-wall{--flier-count:1}.flier-gallery{padding-inline:14px}.flier-arrow:first-child{right:calc(100% - 10px)}.flier-arrow:last-child{left:calc(100% - 10px)}}
 @media(prefers-reduced-motion:reduce){.flier-batch.is-new .flier-paper,.flier-batch.is-new .flyer-tape,.flier-batch.is-new .flier-paper>.design-art{animation:none}.flyer-unfurl{display:none}.flier-arrow,.flier-batch .flyer-tape,.design-page .design-backdrop:before,.design-page .design-masthead:after{transition:none}}
@@ -150,13 +151,19 @@
 .chapter-title-visible{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .chapter-title-measure{position:absolute;top:0;left:0;visibility:hidden;pointer-events:none;white-space:nowrap}
 .chapter-title-measure>span{display:block;width:max-content;white-space:nowrap}
+.chapter-title-control{position:relative;display:block;min-width:0}
+.chapter-select,.chapter-select-chevron{display:none}
 @media(min-width:740px){
  .design-page .design-masthead{display:grid;grid-template-columns:minmax(0,1fr) 280px;align-items:center;gap:10px}
  .design-page .design-sections{order:0;height:44px;overflow-x:hidden}
 }
 @media(max-width:739px){
- .design-page .design-masthead{display:flex;flex-direction:column;align-items:stretch;gap:3px}
- .design-page .design-sections{order:-1;height:36px}
+ .design-page .design-masthead{display:block}
+ .design-page .design-sections{display:none}
+ .chapter-title-control{padding-right:24px}
+ .chapter-select{display:block;position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;font:400 16px var(--standard-font)}
+ .chapter-select-chevron{display:block;position:absolute;right:0;top:50%;transform:translateY(-50%);width:18px;height:18px;pointer-events:none}
+ .chapter-title-control:has(.chapter-select:focus-visible){outline:2px solid var(--design-accent);outline-offset:-2px}
 }
 @media(prefers-reduced-motion:reduce){.design-page .identity-caption h3{transition:none}}
 @media(max-width:640px){

@@ -21,7 +21,7 @@ test('newly pasted layers alternate between the same two angles',()=>{
  }
 });
 
-test('each poster finishes being taped before the next starts, and the queue waits for the last',()=>{
+test('each poster finishes being taped before the next starts, and the batch remains locked through the last',()=>{
  assert.ok(FLYER_STEP_MS>FLYER_UNFURL_MS);
  assert.ok(FLYER_STEP_MS>FLYER_TAPE_START_MS+FLYER_TAPE_MS);
  for(const count of [1,2,3])assert.ok(flyerBatchDuration(count)>(count-1)*FLYER_STEP_MS+FLYER_COMPLETE_MS);

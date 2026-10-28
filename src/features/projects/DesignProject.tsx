@@ -76,7 +76,7 @@ export function DesignProject({onSurfaceChange}:{onSurfaceChange?:(surface:strin
   <div class="design-backdrop" aria-hidden="true"/>
   <header class="project-masthead design-masthead">
    <div class="design-masthead-title">
-    <div class="design-heading-trail"><h1>Graphic Design</h1><span class="design-chapter-separator" aria-hidden="true">›</span><h2 id="design-current-chapter" tabIndex={-1} aria-label={chapter.title} title={chapter.title}><FittedChapterTitle chapter={chapter.id} title={chapter.title}/></h2></div>
+    <div class="design-heading-trail"><h1>Graphic Design</h1><span class="design-chapter-separator" aria-hidden="true">›</span><h2 id="design-current-chapter" tabIndex={-1} aria-label={chapter.title} title={chapter.title}><span class="chapter-title-control"><FittedChapterTitle chapter={chapter.id} title={chapter.title}/><svg class="chapter-select-chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 9 7 7 7-7" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg><select class="chapter-select" aria-label="Choose Graphic Design chapter" value={currentSection} onChange={event=>jump(designChapters.findIndex(item=>item.id===event.currentTarget.value))}>{designChapters.map(item=><option key={item.id} value={item.id}>{item.title}</option>)}</select></span></h2></div>
    </div>
    <ChapterNavigation labels={chapterLabels} active={chapterIndex} reduced={reduced} onSelect={jump}/>
   </header>
