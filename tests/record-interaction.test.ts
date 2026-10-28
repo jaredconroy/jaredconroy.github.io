@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {insideRecordBounds,recordFolded} from '../src/features/projects/record-interaction';
+import {insideRecordBounds,recordFolded,recordFoldDuration} from '../src/features/projects/record-interaction';
 
 const sleeve={left:50,right:450,top:100,bottom:300};
 const opening={left:100,right:900,top:90,bottom:310};
@@ -32,3 +32,10 @@ test('preparing a hidden duplicate does not change the front-cover entry trigger
  assert.equal(recordFolded({left:687,right:1099,...offsets},opening),true);
 });
 
+
+test('fold speed follows half a cover of shelf travel, independent of responsive scale',()=>{
+ assert.equal(recordFoldDuration(240,2520,72000),72000*120/2520);
+ assert.equal(recordFoldDuration(120,1260,72000),recordFoldDuration(240,2520,72000));
+ assert.equal(recordFoldDuration(240,2520,36000),recordFoldDuration(240,2520,72000)/2);
+ assert.equal(recordFoldDuration(240,2520,0),3000);
+});

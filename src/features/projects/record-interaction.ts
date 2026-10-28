@@ -12,3 +12,8 @@ export function recordFolded(sleeve:SleevePosition,opening:Pick<Bounds,'left'|'r
  const left=sleeve.right<=opening.left&&nextCopyLeft!==undefined?nextCopyLeft:sleeve.left;
  return left+sleeve.backMidpointOffset>opening.left&&left+sleeve.frontMidpointOffset<opening.right;
 }
+/** Let a fold take the same time as half a cover passing the cabinet edge. */
+export function recordFoldDuration(coverWidth:number,loopDistance:number,loopDurationMs:number):number{
+ if(coverWidth<=0||loopDistance<=0||loopDurationMs<=0)return 3000;
+ return loopDurationMs*coverWidth*.5/loopDistance;
+}

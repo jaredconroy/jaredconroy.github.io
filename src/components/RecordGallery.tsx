@@ -1,7 +1,7 @@
 import {useEffect,useRef,useState} from 'preact/hooks';
 import type {DesignArtwork} from '../content/design';
 import {recordRows} from '../features/projects/record-sleeves';
-import {insideRecordBounds,recordFolded} from '../features/projects/record-interaction';
+import {insideRecordBounds,recordFolded,recordFoldDuration} from '../features/projects/record-interaction';
 import {ExpressiveText} from './ExpressiveText';
 import {RecordSpine} from './RecordSpine';
 
@@ -37,6 +37,20 @@ export function RecordGallery({items,onSelect,zoomOpen=false}:{items:DesignArtwo
     pair,nextCopy:copy===0?copies[1]?.[index]:undefined,covers:pair.querySelectorAll<HTMLElement>(':scope > .album-tile')
    })))};
   });
+  const measureFoldSpeed=()=>{
+   for(const {root,pairs} of rows){
+    const track=root.querySelector<HTMLElement>('.album-track'),set=root.querySelector<HTMLElement>('.album-set');
+    const cover=pairs[0]?.covers[0];
+    if(!track||!set||!cover)continue;
+    const motion=getComputedStyle(track);
+    const loopMs=motion.animationName==='none'?0:parseFloat(motion.animationDuration)*1000;
+    const duration=recordFoldDuration(cover.offsetWidth,set.offsetWidth+(parseFloat(motion.columnGap)||0),loopMs);
+    root.style.setProperty('--record-fold-duration',`${duration}ms`);
+   }
+  };
+  const sizes=new ResizeObserver(measureFoldSpeed);
+  rows.forEach(({root})=>sizes.observe(root));
+  measureFoldSpeed();
   let frame=0,inView=true;
   const update=()=>{
    frame=0;
@@ -74,6 +88,7 @@ export function RecordGallery({items,onSelect,zoomOpen=false}:{items:DesignArtwo
   return()=>{
    cancelAnimationFrame(frame);
    observer?.disconnect();
+   sizes.disconnect();
    document.removeEventListener('visibilitychange',sync);
   };
  },[items]);
