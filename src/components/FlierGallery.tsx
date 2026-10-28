@@ -1,7 +1,7 @@
 import {useEffect,useLayoutEffect,useRef,useState} from 'preact/hooks';
 import type {JSX} from 'preact';
 import type {DesignArtwork} from '../content/design';
-import {flyerBatch,flyerTilt,nextFlyerBatch,FLYER_STEP_MS,flyerBatchDuration} from '../features/projects/flyer-batches';
+import {flyerBatch,flyerTilt,nextFlyerBatch,FLYER_STEP_MS,FLYER_TAPE_START_MS,FLYER_TAPE_MS,flyerBatchDuration} from '../features/projects/flyer-batches';
 type Batch={start:number;id:number;direction:number};
 /** Joined paper bands let the lower edge curl without flipping a rigid card. */
 function UnfurlArtwork({item}:{item:DesignArtwork}){
@@ -40,7 +40,7 @@ export function FlierGallery({items,onSelect}:{items:DesignArtwork[];onSelect:(a
  const active=layers[layers.length-1];
  return <div class="flier-gallery" role="region" aria-label="Promotional flyers">
   <button class="flier-arrow" type="button" aria-label="Previous flyers" onClick={()=>move(-1)}><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5m7-7-7 7 7 7"/></svg></button>
-  <div class="flier-wall" ref={wall} style={{'--flyer-step':`${FLYER_STEP_MS}ms`}} tabIndex={0} aria-label="Browse taped flyers with the left and right arrow keys" onKeyDown={event=>{
+  <div class="flier-wall" ref={wall} style={{'--flyer-step':`${FLYER_STEP_MS}ms`,'--flyer-tape-start':`${FLYER_TAPE_START_MS}ms`,'--flyer-tape-duration':`${FLYER_TAPE_MS}ms`}} tabIndex={0} aria-label="Browse taped flyers with the left and right arrow keys" onKeyDown={event=>{
    if(event.key==='ArrowLeft'||event.key==='ArrowRight'){event.preventDefault();move(event.key==='ArrowRight'?1:-1);}
   }}>
    {layers.map(batch=><div key={batch.id} class={`flier-batch${placing&&batch.id===active.id?' is-new':''}`} aria-hidden={batch.id!==active.id?'true':undefined} inert={batch.id!==active.id} style={{'--batch-direction':batch.direction}}>

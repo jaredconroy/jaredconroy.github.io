@@ -76,7 +76,7 @@
 .tape-corners .tape-left{left:-11px;--tape-rotation:-29deg;transform:rotate(var(--tape-rotation))}
 .tape-corners .tape-right{right:-11px;--tape-rotation:27deg;transform:rotate(var(--tape-rotation))}
 .flier-batch.is-new .flier-paper{animation:flyer-place 720ms cubic-bezier(.16,.8,.3,1) calc(var(--flyer-order)*var(--flyer-step)) both}
-.flier-batch.is-new .flyer-tape{animation:flyer-tape-press 260ms ease-out calc(100ms + var(--flyer-order)*var(--flyer-step)) both}
+.flier-batch.is-new .flyer-tape{animation:flyer-tape-press var(--flyer-tape-duration) ease-out calc(var(--flyer-tape-start) + var(--flyer-order)*var(--flyer-step)) both}
 .flier-batch:not(:last-child) .flyer-tape{opacity:.5;transition:opacity 180ms ease calc(var(--flyer-order)*var(--flyer-step))}
 /* The top stays pinned while connected bands unroll toward the wall. */
 .flyer-unfurl{position:absolute;inset:0;pointer-events:none;transform-style:preserve-3d;animation:flyer-unfurl-visible 720ms linear calc(var(--flyer-order)*var(--flyer-step)) both}
