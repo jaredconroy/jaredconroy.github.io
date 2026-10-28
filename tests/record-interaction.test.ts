@@ -39,3 +39,16 @@ test('fold speed follows half a cover of shelf travel, independent of responsive
  assert.equal(recordFoldDuration(240,2520,36000),recordFoldDuration(240,2520,72000)/2);
  assert.equal(recordFoldDuration(240,2520,0),3000);
 });
+
+test('a tenth-cover lead starts both entry and exit before the old midpoint triggers',()=>{
+ const opening={left:0,right:1000},offsets={backMidpointOffset:100,frontMidpointOffset:312};
+ const entering={left:700,right:1112,...offsets};
+ assert.equal(recordFolded(entering,opening),false);
+ assert.equal(recordFolded({...entering,triggerLead:20},opening),true);
+ const exiting={left:-90,right:322,...offsets};
+ assert.equal(recordFolded(exiting,opening),true);
+ assert.equal(recordFolded({...exiting,triggerLead:20},opening),false);
+ // The slow fold now finishes with a tenth of a cover of clearance to spare.
+ const finishLeft=opening.right-(offsets.frontMidpointOffset-20)-100;
+ assert.equal(finishLeft+412-opening.right,20);
+});

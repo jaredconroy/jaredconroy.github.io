@@ -65,7 +65,8 @@ export function RecordGallery({items,onSelect,zoomOpen=false}:{items:DesignArtwo
      // Use the flat layout positions so the fold itself cannot move its triggers.
      const state=recordFolded({left:sleeve.left,right:sleeve.right,
       backMidpointOffset:back.offsetLeft+back.offsetWidth/2,
-      frontMidpointOffset:front.offsetLeft+front.offsetWidth/2
+      frontMidpointOffset:front.offsetLeft+front.offsetWidth/2,
+      triggerLead:back.offsetWidth*.1
      },bounds,nextCopy?.offsetWidth?nextCopy.getBoundingClientRect().left:undefined)?'true':'false';
      if(pair.getAttribute('data-folded')!==state)changes.push({pair,state});
     }
