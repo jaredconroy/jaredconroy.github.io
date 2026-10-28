@@ -11,7 +11,7 @@ const chapterPalettes:Record<string,{surface:string;ink:string;accent:string}>={
  identities:{surface:'#ffffff',ink:'#173458',accent:'#008477'},
  digital:{surface:'#006b64',ink:'#fff7e9',accent:'#ffd19a'},
  covers:{surface:'#573b2b',ink:'#fff2df',accent:'#f0cd95'},
- posters:{surface:'#e7e1f0',ink:'#173458',accent:'#62528d'},
+ posters:{surface:'#cba58e',ink:'#173458',accent:'#006b64'},
  film:{surface:'#173458',ink:'#fff7e9',accent:'#72cfbc'},
 };
 export function DesignProject({onSurfaceChange}:{onSurfaceChange?:(surface:string)=>void}){
