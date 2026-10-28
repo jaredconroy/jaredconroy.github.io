@@ -85,7 +85,9 @@
 .flyer-band-ink{position:absolute;inset:0;overflow:hidden;backface-visibility:hidden;background:#eee7d9;box-shadow:0 3px 8px #24182c22;animation:flyer-paper-light 420ms ease-out calc(var(--flyer-order)*var(--flyer-step) + var(--strip-index)*34ms) both}
 .design-page .flyer-band-ink img{position:absolute;left:0;top:calc(var(--strip-index)*-100%);display:block;width:100%;height:800%;max-height:none;max-width:none;object-fit:fill;transform:none}
 .flier-batch.is-new .flier-paper>.design-art{animation:flyer-flat-visible 720ms linear calc(var(--flyer-order)*var(--flyer-step)) both}
-@keyframes flyer-place{0%{visibility:hidden;transform:translateY(-6px) translateZ(22px) rotate(var(--flyer-tilt))}1%{visibility:visible}24%,100%{visibility:visible;transform:translateY(0) translateZ(0) rotate(var(--flyer-tilt))}}
+/* Opacity gates the entire 3D subtree: child visibility animations cannot reveal
+   a waiting flyer before its own placement starts. */
+@keyframes flyer-place{0%{opacity:0;visibility:hidden;transform:translateY(-6px) translateZ(22px) rotate(var(--flyer-tilt))}1%{opacity:1;visibility:visible}24%,100%{opacity:1;visibility:visible;transform:translateY(0) translateZ(0) rotate(var(--flyer-tilt))}}
 @keyframes flyer-band-unroll{from{transform:rotateX(var(--start-bend,5deg))}82%{transform:rotateX(-.6deg)}to{transform:rotateX(0)}}
 @keyframes flyer-paper-light{from{filter:brightness(.84)}to{filter:brightness(1)}}
 @keyframes flyer-flat-visible{0%,99.9%{visibility:hidden}100%{visibility:visible}}
