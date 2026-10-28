@@ -67,7 +67,9 @@
 .flier-batch:last-child{pointer-events:auto}
 .flier-slot{container-type:size;perspective:1100px;perspective-origin:50% 15%;display:grid;place-items:center;min-width:0;min-height:0;margin:0}
 .flier-paper{position:relative;width:min(calc(100cqw - 24px),calc((100cqh - 48px)*var(--flyer-ratio)));aspect-ratio:var(--flyer-ratio);transform:rotate(var(--flyer-tilt));transform-origin:50% 0;transform-style:preserve-3d}
-.design-page .flier-paper .design-art{filter:drop-shadow(0 2px 2px #24182c4d) drop-shadow(0 6px 7px #24182c33);display:block;width:100%;height:100%;padding:0;background:none;aspect-ratio:auto}
+.flier-paper:before{content:'';position:absolute;inset:0;z-index:-1;transform:translateZ(-.2px);pointer-events:none;box-shadow:0 2px 2px #24182c4d,0 6px 7px #24182c33}
+.flier-batch.is-new .flier-paper:before{animation:flyer-shadow-settle 720ms ease-out both}
+.design-page .flier-paper .design-art{display:block;width:100%;height:100%;padding:0;background:none;aspect-ratio:auto}
 .design-page .flier-paper .design-art img{display:block;width:100%;height:100%;max-width:100%;max-height:100%;object-fit:contain;box-shadow:none}
 .design-page .flier-paper .design-art:hover img{transform:none}
 .flyer-tape{position:absolute;z-index:2;top:-11px;width:clamp(34px,22%,68px);height:25px;pointer-events:none;background:linear-gradient(174deg,#fff8 0%,#f3eddb38 30%,#fff5 49%,#fff9 51%,#eee9d844 77%,#fff6);border-inline:1px solid #fff5;border-block:1px solid #fff8;box-shadow:0 1px 2px #34291c22,inset 0 1px #fffa;clip-path:polygon(1% 0,98% 2%,100% 17%,98% 34%,100% 52%,98% 75%,100% 97%,2% 100%,0 81%,2% 62%,0 38%,2% 16%);transform-origin:center}
@@ -80,16 +82,18 @@
 .flier-batch:not(:last-child) .flyer-tape{opacity:.5;transition:opacity 180ms ease calc(var(--flyer-order)*var(--flyer-step))}
 /* The top stays pinned while connected bands unroll toward the wall. */
 .flyer-unfurl{position:absolute;inset:0;pointer-events:none;transform-style:preserve-3d;animation:flyer-unfurl-visible 720ms linear 0ms both}
-.flyer-band{--start-bend:var(--flyer-band-bend);position:absolute;top:100%;left:0;width:100%;height:100%;transform-origin:50% 0;transform-style:preserve-3d;animation:flyer-band-unroll 420ms cubic-bezier(.25,.65,.3,1) calc(var(--strip-index)*var(--flyer-band-delay)) both}
-.flyer-unfurl>.flyer-band{top:0;height:calc(100%/var(--flyer-band-count));--start-bend:42deg}
+.flyer-band{--start-bend:var(--flyer-band-bend);position:absolute;top:100%;left:0;width:100%;height:var(--band-size);transform-origin:50% 0;transform-style:preserve-3d;animation:flyer-band-unroll 420ms cubic-bezier(.25,.65,.3,1) calc(var(--strip-index)*var(--flyer-band-delay)) both}
+.flyer-unfurl>.flyer-band{top:0;--start-bend:42deg}
 /* Overlap the image slices slightly to cover antialiasing seams. Each slice
    samples the original strip height, so the artwork remains continuous. */
 .flyer-band-ink{--strip-overlap:.7px;position:absolute;top:0;left:0;right:0;height:calc(100% + var(--strip-overlap));overflow:hidden;backface-visibility:hidden;background:transparent}
-.design-page .flyer-band-ink img{position:absolute;left:0;top:calc(var(--strip-index)*(-100% + var(--strip-overlap)));display:block;width:100%;height:calc(var(--flyer-band-count)*(100% - var(--strip-overlap)));max-height:none;max-width:none;object-fit:fill;transform:none}
+.flyer-band[data-last]>.flyer-band-ink{height:100%}
+.design-page .flyer-band-ink img{position:absolute;left:0;top:calc(0px - var(--band-offset));display:block;width:100%;height:var(--flyer-paper-height);max-height:none;max-width:none;object-fit:fill;transform:none}
 .flier-batch.is-new .flier-paper>.design-art{animation:flyer-flat-visible 720ms linear 0ms both}
 /* Waiting flyers mount only on their turn; keep this 3D parent fully opaque. */
 @keyframes flyer-place{0%{visibility:hidden;transform:translateY(-6px) translateZ(22px) rotate(var(--flyer-tilt))}1%{visibility:visible}24%,100%{visibility:visible;transform:translateY(0) translateZ(0) rotate(var(--flyer-tilt))}}
 @keyframes flyer-band-unroll{from{transform:rotateX(var(--start-bend))}82%{transform:rotateX(-.2deg)}to{transform:rotateX(0)}}
+@keyframes flyer-shadow-settle{from{box-shadow:0 4px 6px #24182c24,0 18px 22px #24182c33}to{box-shadow:0 2px 2px #24182c4d,0 6px 7px #24182c33}}
 @keyframes flyer-flat-visible{0%,99.9%{visibility:hidden}100%{visibility:visible}}
 @keyframes flyer-unfurl-visible{0%,99.9%{visibility:visible}100%{visibility:hidden}}
 @keyframes flyer-tape-press{from{opacity:0;clip-path:inset(0 100% 0 0)}to{opacity:1;clip-path:inset(0)}}

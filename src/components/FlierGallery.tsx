@@ -6,11 +6,31 @@ type Batch={start:number;id:number;direction:number};
 /** Joined paper bands let the lower edge curl without flipping a rigid card. */
 function UnfurlArtwork({src}:{src:string}){
  const bands=24;
- const band=(index:number):JSX.Element=><div class="flyer-band" style={{'--strip-index':index}}>
+ const surface=useRef<HTMLDivElement>(null);
+ useLayoutEffect(()=>{
+  const element=surface.current!,paper=element.parentElement!;
+  const strips=[...element.querySelectorAll<HTMLElement>('.flyer-band')];
+  const fit=(height:number)=>{
+   element.style.setProperty('--flyer-paper-height',`${height}px`);
+   strips.forEach((strip,index)=>{
+    // Distribute subpixels across the strips instead of accumulating a rounded
+    // percentage height 24 times. Both renderings end on the exact same edge.
+    const top=Math.round(index*height/bands*64)/64;
+    const bottom=index===bands-1?height:Math.round((index+1)*height/bands*64)/64;
+    strip.style.setProperty('--band-size',`${bottom-top}px`);
+    strip.style.setProperty('--band-offset',`${top}px`);
+   });
+  };
+  fit(parseFloat(getComputedStyle(paper).height));
+  const observer=new ResizeObserver(entries=>fit(entries[0].contentRect.height));
+  observer.observe(paper);
+  return()=>observer.disconnect();
+ },[]);
+ const band=(index:number):JSX.Element=><div class="flyer-band" data-last={index===bands-1?'true':undefined} style={{'--strip-index':index}}>
   <div class="flyer-band-ink"><img src={src} alt="" decoding="sync"/></div>
   {index<bands-1&&band(index+1)}
  </div>;
- return <div class="flyer-unfurl" aria-hidden="true" style={{'--flyer-band-count':bands,'--flyer-band-delay':`${238/(bands-1)}ms`,'--flyer-band-bend':`${35/(bands-1)}deg`}}>{band(0)}</div>;
+ return <div ref={surface} class="flyer-unfurl" aria-hidden="true" style={{'--flyer-band-count':bands,'--flyer-band-delay':`${238/(bands-1)}ms`,'--flyer-band-bend':`${35/(bands-1)}deg`}}>{band(0)}</div>;
 }
 export function FlierGallery({items,onSelect}:{items:DesignArtwork[];onSelect:(artwork:DesignArtwork)=>void}){
  const wall=useRef<HTMLDivElement>(null);
