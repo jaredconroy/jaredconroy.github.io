@@ -75,9 +75,10 @@
 .tape-top .tape-right{display:none}
 .tape-corners .tape-left{left:-11px;--tape-rotation:-29deg;transform:rotate(var(--tape-rotation))}
 .tape-corners .tape-right{right:-11px;--tape-rotation:27deg;transform:rotate(var(--tape-rotation))}
-.flier-batch.is-new .flier-paper{animation:flyer-place 400ms cubic-bezier(.16,.8,.3,1) calc(var(--flyer-order)*70ms) both}
-.flier-batch.is-new .flyer-tape{animation:flyer-tape-press 180ms ease-out calc(220ms + var(--flyer-order)*70ms) both}
-@keyframes flyer-place{from{transform:translate(calc(var(--batch-direction)*12px),-28px) rotate(calc(var(--flyer-tilt) + var(--batch-direction)*3deg)) scale(1.055)}to{transform:translate(0,0) rotate(var(--flyer-tilt)) scale(1)}}
+.flier-batch.is-new .flier-paper{animation:flyer-place 400ms cubic-bezier(.16,.8,.3,1) calc(var(--flyer-order)*var(--flyer-step)) both}
+.flier-batch.is-new .flyer-tape{animation:flyer-tape-press 180ms ease-out calc(220ms + var(--flyer-order)*var(--flyer-step)) both}
+.flier-batch:not(:last-child) .flyer-tape{opacity:.5;transition:opacity 180ms ease calc(var(--flyer-order)*var(--flyer-step))}
+@keyframes flyer-place{from{opacity:0;visibility:hidden;transform:translate(calc(var(--batch-direction)*12px),-28px) rotate(calc(var(--flyer-tilt) + var(--batch-direction)*3deg)) scale(1.055)}1%{opacity:1;visibility:visible}to{opacity:1;visibility:visible;transform:translate(0,0) rotate(var(--flyer-tilt)) scale(1)}}
 @keyframes flyer-tape-press{from{opacity:0;clip-path:inset(0 100% 0 0)}to{opacity:1;clip-path:inset(0)}}
 .flier-arrow{position:absolute;top:50%;transform:translateY(-50%);display:grid;place-items:center;width:clamp(28px,3vw,40px);aspect-ratio:1;padding:6px;color:#fff;border:0;border-radius:50%;background:var(--design-accent);transition:transform 180ms var(--ease)}
 .flier-arrow svg{display:block;width:100%;height:100%}
@@ -87,7 +88,7 @@
 .flier-arrow:last-child:hover{transform:translate(2px,-50%)}
 @media(max-width:1000px){.flier-wall{--flier-count:2}}
 @media(max-width:540px){.flier-wall{--flier-count:1}.flier-gallery{padding-inline:14px}.flier-arrow:first-child{right:calc(100% - 10px)}.flier-arrow:last-child{left:calc(100% - 10px)}}
-@media(prefers-reduced-motion:reduce){.flier-batch.is-new .flier-paper,.flier-batch.is-new .flyer-tape{animation:none}.flier-arrow,.design-page .design-backdrop:before,.design-page .design-masthead:after{transition:none}}
+@media(prefers-reduced-motion:reduce){.flier-batch.is-new .flier-paper,.flier-batch.is-new .flyer-tape{animation:none}.flier-arrow,.flier-batch .flyer-tape,.design-page .design-backdrop:before,.design-page .design-masthead:after{transition:none}}
 
 /* Three vertical film pairings, with titles collected along the lower edge. */
 .design-page .film-series{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:minmax(0,1fr);gap:clamp(12px,2vw,28px);overflow:visible;padding:0}

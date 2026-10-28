@@ -5,6 +5,9 @@ export function nextFlyerBatch(start:number,direction:number,count:number,total:
  return total>0?((start+direction*Math.min(count,total))%total+total)%total:0;
 }
 export function flyerTilt(batch:number,slot:number):number{
- const angles=[-2.4,1.8,-1.2,2.6,-1.8,1.1,-2.1,2.2];
- return angles[((batch*3+slot)%angles.length+angles.length)%angles.length];
+ return (batch+slot)%2===0?-2.1:2.1;
+}
+export const FLYER_STEP_MS=460;
+export function flyerBatchDuration(count:number):number{
+ return Math.max(0,count-1)*FLYER_STEP_MS+440;
 }
