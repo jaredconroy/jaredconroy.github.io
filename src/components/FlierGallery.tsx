@@ -103,12 +103,14 @@ export function FlierGallery({items,onSelect}:{items:DesignArtwork[];onSelect:(a
   },reduced?0:flyerBatchDuration(batchCount));
  };
  const active=layers[layers.length-1];
+ // Keep completed placement animations attached to their batch. Removing their
+ // fill state on idle changes compositing even when the transforms look equal.
  return <div class="flier-gallery" role="region" aria-label="Promotional flyers">
   <button class="flier-arrow" type="button" aria-label="Previous flyers" disabled={locked} onClick={()=>move(-1)}><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5m7-7-7 7 7 7"/></svg></button>
   <div class="flier-wall" ref={wall} style={{'--flyer-step':`${FLYER_STEP_MS}ms`,'--flyer-tape-start':`${FLYER_TAPE_START_MS}ms`,'--flyer-tape-duration':`${FLYER_TAPE_MS}ms`}} tabIndex={0} aria-label="Browse taped flyers with the left and right arrow keys" onKeyDown={event=>{
    if(event.key==='ArrowLeft'||event.key==='ArrowRight'){event.preventDefault();move(event.key==='ArrowRight'?1:-1);}
   }}>
-   {layers.map(batch=><div key={batch.id} class={`flier-batch${placing&&batch.id===active.id?' is-new':''}`} aria-hidden={batch.id!==active.id?'true':undefined} inert={batch.id!==active.id} style={{'--batch-direction':batch.direction}}>
+   {layers.map(batch=><div key={batch.id} class={`flier-batch${batch.id>0?' is-new':''}`} aria-hidden={batch.id!==active.id?'true':undefined} inert={batch.id!==active.id} style={{'--batch-direction':batch.direction}}>
     {flyerBatch(batch.start,count,items.length).map((index,slot)=>{if(placing&&batch.id===active.id&&slot>=revealed)return null;const item=items[index],readySrc=readySources[item.src];return <figure class="flier-slot" key={slot}>
      <div class={`flier-paper${batch.id>0?' has-unfurl':''} tape-${(batch.id+slot)%2?'corners':'top'}`} style={{'--flyer-ratio':item.width/item.height,'--flyer-tilt':`${flyerTilt(batch.id,slot)}deg`,'--flyer-order':slot}}>
       <button class="design-art" tabIndex={batch.id!==active.id?-1:undefined} aria-label={`Enlarge ${item.title}`} onClick={()=>onSelect(item)}>
