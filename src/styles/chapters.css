@@ -57,12 +57,15 @@
 
 /* Whole-poster windows share the chapter width; arrows live in its margins. */
 .design-page #design-posters{padding-inline:var(--site-inset,6vw)}
+/* Static, tiled paint texture stays separate from the shell's color fade. */
+.design-page .design-backdrop:before,.design-page .design-masthead:after{content:'';position:absolute;inset:0;pointer-events:none;background:url('/media/design/venue-wall.svg') repeat;background-size:1600px 1000px;opacity:0;transition:opacity 500ms var(--ease)}
+.design-page[data-current-section="posters"] .design-backdrop:before,.design-page[data-current-section="posters"] .design-masthead:after{opacity:1}
 .flier-gallery{position:relative;height:100%;min-height:0}
 .flier-track{--flier-count:3;--flier-gap:clamp(12px,2vw,28px);display:flex;align-items:stretch;gap:var(--flier-gap);width:100%;height:100%;min-width:0;min-height:0;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior-x:contain;touch-action:pan-x pan-y;outline-offset:-3px}
 .flier-track::-webkit-scrollbar{display:none}
 .flier-slide{flex:0 0 calc((100% - (var(--flier-count) - 1)*var(--flier-gap))/var(--flier-count));min-width:0;height:100%;margin:0;scroll-snap-align:start;display:flex;align-items:center}
 .design-page .flier-slide .design-art{width:100%;height:100%;padding:0;background:none;aspect-ratio:auto}
-.design-page .flier-slide .design-art img{display:block;width:100%;height:100%;max-width:100%;max-height:100%;object-fit:contain;box-shadow:none}
+.design-page .flier-slide .design-art img{display:block;width:100%;height:100%;max-width:100%;max-height:100%;object-fit:contain;box-shadow:none;filter:drop-shadow(0 2px 2px #24182c4d) drop-shadow(0 7px 9px #24182c26)}
 .design-page .flier-slide .design-art:hover img{transform:none}
 .flier-arrow{position:absolute;top:50%;transform:translateY(-50%);display:grid;place-items:center;width:clamp(28px,3vw,40px);aspect-ratio:1;padding:6px;color:#fff;border:0;border-radius:50%;background:var(--design-accent);transition:transform 180ms var(--ease)}
 .flier-arrow svg{display:block;width:100%;height:100%}
@@ -72,7 +75,7 @@
 .flier-arrow:last-child:hover{transform:translate(2px,-50%)}
 @media(max-width:1000px){.flier-track{--flier-count:2}}
 @media(max-width:540px){.flier-track{--flier-count:1}.flier-gallery{padding-inline:14px}.flier-arrow:first-child{right:calc(100% - 10px)}.flier-arrow:last-child{left:calc(100% - 10px)}}
-@media(prefers-reduced-motion:reduce){.flier-arrow{transition:none}}
+@media(prefers-reduced-motion:reduce){.flier-arrow,.design-page .design-backdrop:before,.design-page .design-masthead:after{transition:none}}
 
 /* Three vertical film pairings, with titles collected along the lower edge. */
 .design-page .film-series{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:minmax(0,1fr);gap:clamp(12px,2vw,28px);overflow:visible;padding:0}
