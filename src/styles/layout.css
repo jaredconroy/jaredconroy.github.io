@@ -1,4 +1,6 @@
 /* Shared header and landing column geometry. */
+:root{background-color:var(--browser-surface,#fff)}
+body{background-color:var(--page-surface,#fff)}
 .app-shell{--brand-size:25px;--landing-top:10px;--navigation-rule-size:4px}
 .header{gap:clamp(18px,1.7vw,28px);--main-nav-size:16px;--main-nav-offset:3px}
 .shell-project-route>.header{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:9;background:transparent;color:var(--header-ink,var(--ink));box-shadow:none;transform:translateY(calc(0px - var(--header-collapse,0px)));will-change:transform;transition:background-color 300ms var(--ease)}

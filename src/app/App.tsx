@@ -1,4 +1,4 @@
-import {useEffect,useRef,useState} from 'preact/hooks';
+import {useEffect,useLayoutEffect,useRef,useState} from 'preact/hooks';
 import {lazy,Suspense} from 'preact/compat';
 import {AudioProvider} from '../features/audio/AudioProvider';
 import {Player} from '../components/Player';
@@ -11,7 +11,7 @@ import {baseTheme,projects} from '../content/projects';
 import {TAB_STROKE_MS} from '../features/landing/timing';
 const SignatureEditor=import.meta.env.DEV&&new URLSearchParams(location.search).get('signature-editor')==='1'?lazy(()=>import('../features/signature-editor/SignatureEditor')):null;
 const projectHeaderPalettes:Record<string,{surface:string;ink:string;highlight:string}>={
- 'foul-balls':{surface:'#0d2038',ink:'#ffffff',highlight:'#846393'},
+ 'foul-balls':{surface:'#24221f',ink:'#ffffff',highlight:'#846393'},
  'the-sleds':{surface:'#19364d',ink:'#ffffff',highlight:'#b6d3e9'},
  'design':{surface:'#173458',ink:'#ffffff',highlight:'#008477'},
  'illustration':{surface:'#edf5fb',ink:'#173458',highlight:'#88281d'},
@@ -75,6 +75,15 @@ function Shell(){
  },[smartHeader,path,headerPalette?.surface,headerPalette?.ink,headerPalette?.highlight]);
  const returnHeaderVisible=path==='home'&&(returnHeaderPalette!==null||wasDedicated.current);
  const activeHeaderPalette=returnHeaderVisible?(returnHeaderPalette||lastDedicatedPalette.current):headerPalette;
+ const pageSurface=visibleRoute.kind==='project'&&visibleRoute.id==='design'?chapterSurface:theme.background;
+ const browserSurface=smartHeader||returnHeaderVisible?activeHeaderPalette?.surface||pageSurface:pageSurface;
+ useLayoutEffect(()=>{
+  // Safari/Chrome can show the document canvas and theme tint outside the app,
+  // including the top safe area and overscroll. Keep those surfaces in theme.
+  document.documentElement.style.setProperty('--browser-surface',browserSurface);
+  document.documentElement.style.setProperty('--page-surface',pageSurface);
+  document.querySelector<HTMLMetaElement>('meta[name="theme-color"]')?.setAttribute('content',browserSurface);
+ },[browserSurface,pageSurface]);
  const pageIndex=visibleRoute.kind==='project'?projects.findIndex(p=>p.id===visibleRoute.id):-1;
  const previousProject=projects[(pageIndex+projects.length-1)%projects.length],nextProject=projects[(pageIndex+1)%projects.length];
  const revealHeader=()=>{headerCollapse.current=0;headerElement.current?.style.setProperty('--header-collapse','0px');};
