@@ -57,8 +57,8 @@
 
 /* Whole-poster windows share the chapter width; arrows live in its margins. */
 .design-page #design-posters{padding-inline:var(--site-inset,6vw)}
-/* Static, tiled paint texture stays separate from the shell's color fade. */
-.design-page .design-backdrop:before,.design-page .design-masthead:after{content:'';position:absolute;inset:0;pointer-events:none;background:url('/media/design/venue-wall.svg') repeat;background-size:1600px 1000px;opacity:0;transition:opacity 500ms var(--ease)}
+/* Painted masonry stays separate from the shell's color fade. */
+.design-page .design-backdrop:before,.design-page .design-masthead:after{content:'';position:absolute;inset:0;pointer-events:none;background:url('/media/design/venue-brick-wall.svg') repeat;background-size:800px 320px;opacity:0;transition:opacity 500ms var(--ease)}
 .design-page[data-current-section="posters"] .design-backdrop:before,.design-page[data-current-section="posters"] .design-masthead:after{opacity:1}
 .flier-gallery{position:relative;height:100%;min-height:0}
 .flier-track{--flier-count:3;--flier-gap:clamp(12px,2vw,28px);display:flex;align-items:stretch;gap:var(--flier-gap);width:100%;height:100%;min-width:0;min-height:0;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior-x:contain;touch-action:pan-x pan-y;outline-offset:-3px}
