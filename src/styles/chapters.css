@@ -81,7 +81,7 @@
 .flier-batch.is-new .flyer-tape{animation:flyer-tape-press var(--flyer-tape-duration) ease-out var(--flyer-tape-start) both}
 .flier-batch:not(:last-child) .flyer-tape{opacity:.5;transition:opacity 180ms ease calc(var(--flyer-order)*var(--flyer-step))}
 /* The top stays pinned while connected bands unroll toward the wall. */
-.flyer-unfurl{position:absolute;inset:0;pointer-events:none;transform-style:preserve-3d;animation:flyer-unfurl-visible 720ms linear 0ms both}
+.flyer-unfurl{position:absolute;inset:0;pointer-events:none;transform-style:preserve-3d}
 .flyer-band{--start-bend:var(--flyer-band-bend);position:absolute;top:100%;left:0;width:100%;height:var(--band-size);transform-origin:50% 0;transform-style:preserve-3d;animation:flyer-band-unroll 420ms cubic-bezier(.25,.65,.3,1) calc(var(--strip-index)*var(--flyer-band-delay)) both}
 .flyer-unfurl>.flyer-band{top:0;--start-bend:42deg}
 /* Overlap the image slices slightly to cover antialiasing seams. Each slice
@@ -89,13 +89,13 @@
 .flyer-band-ink{--strip-overlap:.7px;position:absolute;top:0;left:0;right:0;height:calc(100% + var(--strip-overlap));overflow:hidden;backface-visibility:hidden;background:transparent}
 .flyer-band[data-last]>.flyer-band-ink{height:100%}
 .design-page .flyer-band-ink img{position:absolute;left:0;top:calc(0px - var(--band-offset));display:block;width:100%;height:var(--flyer-paper-height);max-height:none;max-width:none;object-fit:fill;transform:none}
-.flier-batch.is-new .flier-paper>.design-art{animation:flyer-flat-visible 720ms linear 0ms both}
+/* Keep the settled paper bands as the final artwork. Swapping to a second
+   image at 720ms exposed differences in raster fitting/compositing. */
+.flier-paper.has-unfurl>.design-art img{visibility:hidden}
 /* Waiting flyers mount only on their turn; keep this 3D parent fully opaque. */
 @keyframes flyer-place{0%{visibility:hidden;transform:translateY(-6px) translateZ(22px) rotate(var(--flyer-tilt))}1%{visibility:visible}24%,100%{visibility:visible;transform:translateY(0) translateZ(0) rotate(var(--flyer-tilt))}}
 @keyframes flyer-band-unroll{from{transform:rotateX(var(--start-bend))}82%{transform:rotateX(-.2deg)}to{transform:rotateX(0)}}
 @keyframes flyer-shadow-settle{from{box-shadow:0 4px 6px #24182c24,0 18px 22px #24182c33}to{box-shadow:0 2px 2px #24182c4d,0 6px 7px #24182c33}}
-@keyframes flyer-flat-visible{0%,99.9%{visibility:hidden}100%{visibility:visible}}
-@keyframes flyer-unfurl-visible{0%,99.9%{visibility:visible}100%{visibility:hidden}}
 @keyframes flyer-tape-press{from{opacity:0;clip-path:inset(0 100% 0 0)}to{opacity:1;clip-path:inset(0)}}
 .flier-arrow{position:absolute;top:50%;transform:translateY(-50%);display:grid;place-items:center;width:clamp(28px,3vw,40px);aspect-ratio:1;padding:6px;color:#fff;border:0;border-radius:50%;background:var(--design-accent);transition:transform 180ms var(--ease)}
 .flier-arrow svg{display:block;width:100%;height:100%}
@@ -106,7 +106,7 @@
 .flier-arrow:last-child:hover:not(:disabled){transform:translate(2px,-50%)}
 @media(max-width:1000px){.flier-wall{--flier-count:2}}
 @media(max-width:540px){.flier-wall{--flier-count:1}.flier-gallery{padding-inline:14px}.flier-arrow:first-child{right:calc(100% - 10px)}.flier-arrow:last-child{left:calc(100% - 10px)}}
-@media(prefers-reduced-motion:reduce){.flier-batch.is-new .flier-paper,.flier-batch.is-new .flyer-tape,.flier-batch.is-new .flier-paper>.design-art{animation:none}.flyer-unfurl{display:none}.flier-arrow,.flier-batch .flyer-tape,.design-page .design-backdrop:before,.design-page .design-masthead:after{transition:none}}
+@media(prefers-reduced-motion:reduce){.flier-batch.is-new .flier-paper,.flier-batch.is-new .flyer-tape,.flier-batch.is-new .flier-paper>.design-art{animation:none}.flyer-unfurl{display:none}.flier-paper.has-unfurl>.design-art img{visibility:visible}.flier-arrow,.flier-batch .flyer-tape,.design-page .design-backdrop:before,.design-page .design-masthead:after{transition:none}}
 
 /* Three vertical film pairings, with titles collected along the lower edge. */
 .design-page .film-series{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:minmax(0,1fr);gap:clamp(12px,2vw,28px);overflow:visible;padding:0}

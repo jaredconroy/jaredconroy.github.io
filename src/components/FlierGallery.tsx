@@ -110,11 +110,11 @@ export function FlierGallery({items,onSelect}:{items:DesignArtwork[];onSelect:(a
   }}>
    {layers.map(batch=><div key={batch.id} class={`flier-batch${placing&&batch.id===active.id?' is-new':''}`} aria-hidden={batch.id!==active.id?'true':undefined} inert={batch.id!==active.id} style={{'--batch-direction':batch.direction}}>
     {flyerBatch(batch.start,count,items.length).map((index,slot)=>{if(placing&&batch.id===active.id&&slot>=revealed)return null;const item=items[index],readySrc=readySources[item.src];return <figure class="flier-slot" key={slot}>
-     <div class={`flier-paper tape-${(batch.id+slot)%2?'corners':'top'}`} style={{'--flyer-ratio':item.width/item.height,'--flyer-tilt':`${flyerTilt(batch.id,slot)}deg`,'--flyer-order':slot}}>
+     <div class={`flier-paper${batch.id>0?' has-unfurl':''} tape-${(batch.id+slot)%2?'corners':'top'}`} style={{'--flyer-ratio':item.width/item.height,'--flyer-tilt':`${flyerTilt(batch.id,slot)}deg`,'--flyer-order':slot}}>
       <button class="design-art" tabIndex={batch.id!==active.id?-1:undefined} aria-label={`Enlarge ${item.title}`} onClick={()=>onSelect(item)}>
        <img src={readySrc||item.src} srcSet={!readySrc&&item.small?`${item.small} ${Math.min(760,item.width)}w, ${item.src} ${item.width}w`:undefined} sizes="(max-width:540px) 80vw, (max-width:1000px) 40vw, 28vw" width={item.width} height={item.height} loading={readySrc?'eager':'lazy'} decoding={readySrc?'sync':'async'} alt={`${item.title}. ${item.caption}`}/>
       </button>
-      {placing&&batch.id===active.id&&<UnfurlArtwork src={readySrc||item.src}/>}
+      {batch.id>0&&<UnfurlArtwork src={readySrc||item.src}/>}
       <span class="flyer-tape tape-left" aria-hidden="true"/><span class="flyer-tape tape-right" aria-hidden="true"/>
      </div>
     </figure>;})}
