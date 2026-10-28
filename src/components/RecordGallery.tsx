@@ -10,8 +10,17 @@ export function RecordGallery({items,onSelect,zoomOpen=false}:{items:DesignArtwo
  const wasZoomed=useRef(zoomOpen);
  const galleryRef=useRef<HTMLDivElement>(null);
  const hoveredPair=useRef<HTMLElement|null>(null);
+ const quickFoldTimers=useRef(new Map<HTMLElement,ReturnType<typeof setTimeout>>());
+ const quickFold=(pair:HTMLElement|null)=>{
+  if(!pair)return;
+  clearTimeout(quickFoldTimers.current.get(pair));
+  pair.setAttribute('data-quick-fold','true');
+  quickFoldTimers.current.set(pair,setTimeout(()=>{pair.removeAttribute('data-quick-fold');quickFoldTimers.current.delete(pair);},320));
+ };
+ useEffect(()=>()=>{quickFoldTimers.current.forEach(clearTimeout);},[]);
  const markHoveredPair=(pair:HTMLElement|null)=>{
   if(hoveredPair.current===pair)return;
+  quickFold(hoveredPair.current);quickFold(pair);
   hoveredPair.current?.removeAttribute('data-pointer-hovered');
   hoveredPair.current=pair;
   pair?.setAttribute('data-pointer-hovered','true');
@@ -71,7 +80,11 @@ export function RecordGallery({items,onSelect,zoomOpen=false}:{items:DesignArtwo
      if(pair.getAttribute('data-folded')!==state)changes.push({pair,state});
     }
    }
-   changes.forEach(({pair,state})=>pair.setAttribute('data-folded',state));
+   changes.forEach(({pair,state})=>{
+    // A cabinet-edge trigger always uses the slow travel-matched motion.
+    if(pair!==hoveredPair.current&&!pair.matches(':focus-within'))pair.removeAttribute('data-quick-fold');
+    pair.setAttribute('data-folded',state);
+   });
    frame=requestAnimationFrame(update);
   };
   const sync=()=>{
@@ -111,8 +124,8 @@ export function RecordGallery({items,onSelect,zoomOpen=false}:{items:DesignArtwo
  return <>
   <div ref={galleryRef} class="album-gallery record-gallery" aria-label="Browse record sleeves" data-browsing={browsing?'true':'false'} style={{'--record-play-state':held?'paused':'running','--row-1-delay':`${-topRowOffset}s`,'--row-2-delay':`${-rowOffset}s`}}
    onPointerEnter={event=>{if(event.pointerType==='mouse'&&!zoomOpen)updatePointer(event.clientX,event.clientY);}} onPointerMove={event=>{if(event.pointerType==='mouse'&&!zoomOpen)updatePointer(event.clientX,event.clientY);}} onPointerLeave={()=>{setHovered(false);markHoveredPair(null);}}
-   onFocusCapture={event=>{if((event.target as HTMLElement).matches(':focus-visible'))setKeyboardFocused(true);}}
-   onBlurCapture={event=>{if(!event.currentTarget.contains(event.relatedTarget as Node|null))setKeyboardFocused(false);}}>
+   onFocusCapture={event=>{if((event.target as HTMLElement).matches(':focus-visible')){setKeyboardFocused(true);quickFold((event.target as HTMLElement).closest('.record-gatefold'));}}}
+   onBlurCapture={event=>{quickFold((event.target as HTMLElement).closest('.record-gatefold'));if(!event.currentTarget.contains(event.relatedTarget as Node|null))setKeyboardFocused(false);}}>
    {rows.map((row,rowIndex)=><div key={rowIndex} class={`album-marquee record-crate album-row-${rowIndex+1}${held?' is-paused':''}`}>
     <div class="record-track-window">
     <div class="album-track">

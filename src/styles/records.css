@@ -73,7 +73,8 @@
  perspective:calc(var(--album-size)*4);perspective-origin:50% 0;
  box-shadow:none;transform:none;
 }
-.design-page .record-gallery .album-pair .album-tile{width:var(--album-size);flex:0 0 var(--album-size);height:100%;box-shadow:0 0 10px 2px #000c;filter:brightness(.96);transition:transform var(--record-fold-duration,3000ms) linear,filter var(--record-fold-duration,3000ms) linear}
+.design-page .record-gallery .album-pair .album-tile{width:var(--album-size);flex:0 0 var(--album-size);height:100%;box-shadow:0 0 10px 2px #000c;filter:brightness(.96);transition:transform var(--record-motion-duration,var(--record-fold-duration,3000ms)) var(--record-motion-ease,linear),filter var(--record-motion-duration,var(--record-fold-duration,3000ms)) var(--record-motion-ease,linear)}
+.record-gatefold[data-quick-fold="true"],.record-gallery[data-browsing="true"] .record-gatefold:is([data-pointer-hovered="true"],:focus-within){--record-motion-duration:299ms;--record-motion-ease:var(--ease)}
 /* Keep the top corners level; a restrained perspective fold drops the lower
    edge just across the uniform shelf without curving or bowing the artwork. */
 .design-page .record-gatefold .album-tile:first-child{transform-origin:right top;transform:rotateY(0deg) scaleY(1)}
@@ -81,7 +82,7 @@
 .design-page .record-gatefold[data-folded="true"] .album-tile:first-child{transform:rotateY(-16deg) scaleY(1.07)}
 .design-page .record-gatefold[data-folded="true"] .album-tile:last-child{transform:rotateY(16deg) scaleY(1.07)}
 .design-page .record-gallery[data-browsing="true"] .record-gatefold:is([data-pointer-hovered="true"],:focus-within) .album-tile{transform:rotateY(0deg) scaleY(1);filter:brightness(1)}
-.record-gatefold .record-spine{transform-origin:center top;transform:scaleY(1);transition:transform var(--record-fold-duration,3000ms) linear}
+.record-gatefold .record-spine{transform-origin:center top;transform:scaleY(1);transition:transform var(--record-motion-duration,var(--record-fold-duration,3000ms)) var(--record-motion-ease,linear)}
 .record-gatefold[data-folded="true"] .record-spine{transform:scaleY(1.07)}
 .record-gallery[data-browsing="true"] .record-gatefold:is([data-pointer-hovered="true"],:focus-within) .record-spine{transform:scaleY(1)}
 .record-spine{

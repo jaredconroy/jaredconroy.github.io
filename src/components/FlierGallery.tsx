@@ -1,7 +1,16 @@
 import {useEffect,useLayoutEffect,useRef,useState} from 'preact/hooks';
+import type {JSX} from 'preact';
 import type {DesignArtwork} from '../content/design';
 import {flyerBatch,flyerTilt,nextFlyerBatch,FLYER_STEP_MS,flyerBatchDuration} from '../features/projects/flyer-batches';
 type Batch={start:number;id:number;direction:number};
+/** Joined paper bands let the lower edge curl without flipping a rigid card. */
+function UnfurlArtwork({item}:{item:DesignArtwork}){
+ const band=(index:number):JSX.Element=><div class="flyer-band" style={{'--strip-index':index}}>
+  <div class="flyer-band-ink"><img src={item.src} srcSet={item.small?`${item.small} ${Math.min(760,item.width)}w, ${item.src} ${item.width}w`:undefined} sizes="(max-width:540px) 80vw, (max-width:1000px) 40vw, 28vw" alt="" decoding="async"/></div>
+  {index<7&&band(index+1)}
+ </div>;
+ return <div class="flyer-unfurl" aria-hidden="true">{band(0)}</div>;
+}
 export function FlierGallery({items,onSelect}:{items:DesignArtwork[];onSelect:(artwork:DesignArtwork)=>void}){
  const wall=useRef<HTMLDivElement>(null);
  const [count,setCount]=useState(3),[layers,setLayers]=useState<Batch[]>([{start:0,id:0,direction:1}]);
@@ -40,6 +49,7 @@ export function FlierGallery({items,onSelect}:{items:DesignArtwork[];onSelect:(a
       <button class="design-art" tabIndex={batch.id!==active.id?-1:undefined} aria-label={`Enlarge ${item.title}`} onClick={()=>onSelect(item)}>
        <img src={item.src} srcSet={item.small?`${item.small} ${Math.min(760,item.width)}w, ${item.src} ${item.width}w`:undefined} sizes="(max-width:540px) 80vw, (max-width:1000px) 40vw, 28vw" width={item.width} height={item.height} loading="lazy" decoding="async" alt={`${item.title}. ${item.caption}`}/>
       </button>
+      {placing&&batch.id===active.id&&<UnfurlArtwork item={item}/>}
       <span class="flyer-tape tape-left" aria-hidden="true"/><span class="flyer-tape tape-right" aria-hidden="true"/>
      </div>
     </figure>;})}

@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {flyerBatch,flyerTilt,nextFlyerBatch,FLYER_STEP_MS,flyerBatchDuration} from '../src/features/projects/flyer-batches';
+import {flyerBatch,flyerTilt,nextFlyerBatch,FLYER_STEP_MS,FLYER_UNFURL_MS,flyerBatchDuration} from '../src/features/projects/flyer-batches';
 test('arrows replace a full responsive batch and loop in either direction',()=>{
  for(const count of [1,2,3]){
   const next=nextFlyerBatch(0,1,count,6);
@@ -22,7 +22,7 @@ test('newly pasted layers alternate between the same two angles',()=>{
 });
 
 test('each poster finishes being taped before the next starts, and the queue waits for the last',()=>{
- assert.ok(FLYER_STEP_MS>400);
- for(const count of [1,2,3])assert.ok(flyerBatchDuration(count)>(count-1)*FLYER_STEP_MS+400);
+ assert.ok(FLYER_STEP_MS>FLYER_UNFURL_MS);
+ for(const count of [1,2,3])assert.ok(flyerBatchDuration(count)>(count-1)*FLYER_STEP_MS+FLYER_UNFURL_MS);
  assert.equal(new Set(Array.from({length:20},(_,i)=>flyerTilt(i,0))).size,2);
 });

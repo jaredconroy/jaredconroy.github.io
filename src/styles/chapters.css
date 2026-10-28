@@ -65,9 +65,9 @@
 .flier-wall{--flier-count:3;position:relative;width:100%;height:100%;min-height:0;isolation:isolate;outline-offset:-3px;touch-action:pan-y}
 .flier-batch{position:absolute;inset:0;display:grid;grid-template-columns:repeat(var(--flier-count),minmax(0,1fr));gap:clamp(12px,2vw,28px);pointer-events:none}
 .flier-batch:last-child{pointer-events:auto}
-.flier-slot{container-type:size;display:grid;place-items:center;min-width:0;min-height:0;margin:0}
-.flier-paper{position:relative;width:min(calc(100cqw - 24px),calc((100cqh - 48px)*var(--flyer-ratio)));aspect-ratio:var(--flyer-ratio);transform:rotate(var(--flyer-tilt));transform-origin:50% 8%;filter:drop-shadow(0 2px 2px #24182c4d) drop-shadow(0 6px 7px #24182c33)}
-.design-page .flier-paper .design-art{display:block;width:100%;height:100%;padding:0;background:none;aspect-ratio:auto}
+.flier-slot{container-type:size;perspective:1100px;perspective-origin:50% 15%;display:grid;place-items:center;min-width:0;min-height:0;margin:0}
+.flier-paper{position:relative;width:min(calc(100cqw - 24px),calc((100cqh - 48px)*var(--flyer-ratio)));aspect-ratio:var(--flyer-ratio);transform:rotate(var(--flyer-tilt));transform-origin:50% 0;transform-style:preserve-3d}
+.design-page .flier-paper .design-art{filter:drop-shadow(0 2px 2px #24182c4d) drop-shadow(0 6px 7px #24182c33);display:block;width:100%;height:100%;padding:0;background:none;aspect-ratio:auto}
 .design-page .flier-paper .design-art img{display:block;width:100%;height:100%;max-width:100%;max-height:100%;object-fit:contain;box-shadow:none}
 .design-page .flier-paper .design-art:hover img{transform:none}
 .flyer-tape{position:absolute;z-index:2;top:-11px;width:clamp(34px,22%,68px);height:25px;pointer-events:none;background:linear-gradient(174deg,#fff8 0%,#f3eddb38 30%,#fff5 49%,#fff9 51%,#eee9d844 77%,#fff6);border-inline:1px solid #fff5;border-block:1px solid #fff8;box-shadow:0 1px 2px #34291c22,inset 0 1px #fffa;clip-path:polygon(1% 0,98% 2%,100% 17%,98% 34%,100% 52%,98% 75%,100% 97%,2% 100%,0 81%,2% 62%,0 38%,2% 16%);transform-origin:center}
@@ -75,10 +75,21 @@
 .tape-top .tape-right{display:none}
 .tape-corners .tape-left{left:-11px;--tape-rotation:-29deg;transform:rotate(var(--tape-rotation))}
 .tape-corners .tape-right{right:-11px;--tape-rotation:27deg;transform:rotate(var(--tape-rotation))}
-.flier-batch.is-new .flier-paper{animation:flyer-place 400ms cubic-bezier(.16,.8,.3,1) calc(var(--flyer-order)*var(--flyer-step)) both}
-.flier-batch.is-new .flyer-tape{animation:flyer-tape-press 180ms ease-out calc(220ms + var(--flyer-order)*var(--flyer-step)) both}
+.flier-batch.is-new .flier-paper{animation:flyer-place 720ms cubic-bezier(.16,.8,.3,1) calc(var(--flyer-order)*var(--flyer-step)) both}
+.flier-batch.is-new .flyer-tape{animation:flyer-tape-press 260ms ease-out calc(100ms + var(--flyer-order)*var(--flyer-step)) both}
 .flier-batch:not(:last-child) .flyer-tape{opacity:.5;transition:opacity 180ms ease calc(var(--flyer-order)*var(--flyer-step))}
-@keyframes flyer-place{from{opacity:0;visibility:hidden;transform:translate(calc(var(--batch-direction)*12px),-28px) rotate(calc(var(--flyer-tilt) + var(--batch-direction)*3deg)) scale(1.055)}1%{opacity:1;visibility:visible}to{opacity:1;visibility:visible;transform:translate(0,0) rotate(var(--flyer-tilt)) scale(1)}}
+/* The top stays pinned while connected bands unroll toward the wall. */
+.flyer-unfurl{position:absolute;inset:0;pointer-events:none;transform-style:preserve-3d;animation:flyer-unfurl-visible 720ms linear calc(var(--flyer-order)*var(--flyer-step)) both}
+.flyer-band{--start-bend:5deg;position:absolute;top:100%;left:0;width:100%;height:100%;transform-origin:50% 0;transform-style:preserve-3d;animation:flyer-band-unroll 420ms cubic-bezier(.25,.65,.3,1) calc(var(--flyer-order)*var(--flyer-step) + var(--strip-index)*34ms) both}
+.flyer-unfurl>.flyer-band{top:0;height:12.5%;--start-bend:42deg}
+.flyer-band-ink{position:absolute;inset:0;overflow:hidden;backface-visibility:hidden;background:#eee7d9;box-shadow:0 3px 8px #24182c22;animation:flyer-paper-light 420ms ease-out calc(var(--flyer-order)*var(--flyer-step) + var(--strip-index)*34ms) both}
+.design-page .flyer-band-ink img{position:absolute;left:0;top:calc(var(--strip-index)*-100%);display:block;width:100%;height:800%;max-height:none;max-width:none;object-fit:fill;transform:none}
+.flier-batch.is-new .flier-paper>.design-art{animation:flyer-flat-visible 720ms linear calc(var(--flyer-order)*var(--flyer-step)) both}
+@keyframes flyer-place{0%{visibility:hidden;transform:translateY(-6px) translateZ(22px) rotate(var(--flyer-tilt))}1%{visibility:visible}24%,100%{visibility:visible;transform:translateY(0) translateZ(0) rotate(var(--flyer-tilt))}}
+@keyframes flyer-band-unroll{from{transform:rotateX(var(--start-bend,5deg))}82%{transform:rotateX(-.6deg)}to{transform:rotateX(0)}}
+@keyframes flyer-paper-light{from{filter:brightness(.84)}to{filter:brightness(1)}}
+@keyframes flyer-flat-visible{0%,99.9%{visibility:hidden}100%{visibility:visible}}
+@keyframes flyer-unfurl-visible{0%,99.9%{visibility:visible}100%{visibility:hidden}}
 @keyframes flyer-tape-press{from{opacity:0;clip-path:inset(0 100% 0 0)}to{opacity:1;clip-path:inset(0)}}
 .flier-arrow{position:absolute;top:50%;transform:translateY(-50%);display:grid;place-items:center;width:clamp(28px,3vw,40px);aspect-ratio:1;padding:6px;color:#fff;border:0;border-radius:50%;background:var(--design-accent);transition:transform 180ms var(--ease)}
 .flier-arrow svg{display:block;width:100%;height:100%}
@@ -88,7 +99,7 @@
 .flier-arrow:last-child:hover{transform:translate(2px,-50%)}
 @media(max-width:1000px){.flier-wall{--flier-count:2}}
 @media(max-width:540px){.flier-wall{--flier-count:1}.flier-gallery{padding-inline:14px}.flier-arrow:first-child{right:calc(100% - 10px)}.flier-arrow:last-child{left:calc(100% - 10px)}}
-@media(prefers-reduced-motion:reduce){.flier-batch.is-new .flier-paper,.flier-batch.is-new .flyer-tape{animation:none}.flier-arrow,.flier-batch .flyer-tape,.design-page .design-backdrop:before,.design-page .design-masthead:after{transition:none}}
+@media(prefers-reduced-motion:reduce){.flier-batch.is-new .flier-paper,.flier-batch.is-new .flyer-tape,.flier-batch.is-new .flier-paper>.design-art{animation:none}.flyer-unfurl{display:none}.flier-arrow,.flier-batch .flyer-tape,.design-page .design-backdrop:before,.design-page .design-masthead:after{transition:none}}
 
 /* Three vertical film pairings, with titles collected along the lower edge. */
 .design-page .film-series{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:minmax(0,1fr);gap:clamp(12px,2vw,28px);overflow:visible;padding:0}
