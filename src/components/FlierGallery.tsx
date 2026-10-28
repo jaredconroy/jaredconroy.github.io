@@ -5,11 +5,12 @@ import {flyerBatch,flyerTilt,nextFlyerBatch,FLYER_STEP_MS,FLYER_TAPE_START_MS,FL
 type Batch={start:number;id:number;direction:number};
 /** Joined paper bands let the lower edge curl without flipping a rigid card. */
 function UnfurlArtwork({src}:{src:string}){
+ const bands=24;
  const band=(index:number):JSX.Element=><div class="flyer-band" style={{'--strip-index':index}}>
   <div class="flyer-band-ink"><img src={src} alt="" decoding="sync"/></div>
-  {index<7&&band(index+1)}
+  {index<bands-1&&band(index+1)}
  </div>;
- return <div class="flyer-unfurl" aria-hidden="true">{band(0)}</div>;
+ return <div class="flyer-unfurl" aria-hidden="true" style={{'--flyer-band-count':bands,'--flyer-band-delay':`${238/(bands-1)}ms`,'--flyer-band-bend':`${35/(bands-1)}deg`}}>{band(0)}</div>;
 }
 export function FlierGallery({items,onSelect}:{items:DesignArtwork[];onSelect:(artwork:DesignArtwork)=>void}){
  const wall=useRef<HTMLDivElement>(null);
