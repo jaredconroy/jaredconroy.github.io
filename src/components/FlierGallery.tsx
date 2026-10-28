@@ -15,8 +15,10 @@ export function FlierGallery({items,onSelect}:{items:DesignArtwork[];onSelect:(a
  const wall=useRef<HTMLDivElement>(null);
  const [count,setCount]=useState(3),[layers,setLayers]=useState<Batch[]>([{start:0,id:0,direction:1}]);
  const [placing,setPlacing]=useState(false);
+ const [revealed,setRevealed]=useState(3);
  const cursor=useRef(0),serial=useRef(0),busy=useRef(false),queue=useRef<number[]>([]);
  const timer=useRef<ReturnType<typeof setTimeout>>();
+ const revealTimers=useRef(new Set<ReturnType<typeof setTimeout>>());
  const countRef=useRef(count);countRef.current=count;
  useLayoutEffect(()=>{
   const element=wall.current!;
@@ -24,18 +26,25 @@ export function FlierGallery({items,onSelect}:{items:DesignArtwork[];onSelect:(a
   const observer=new ResizeObserver(measure);observer.observe(element);measure();
   return()=>observer.disconnect();
  },[]);
- useEffect(()=>()=>{clearTimeout(timer.current);queue.current=[];},[]);
+ useEffect(()=>()=>{clearTimeout(timer.current);revealTimers.current.forEach(clearTimeout);queue.current=[];},[]);
  const move=(direction:number)=>{
   if(!items.length)return;
   if(busy.current){queue.current.push(direction);return;}
   busy.current=true;
   cursor.current=nextFlyerBatch(cursor.current,direction,countRef.current,items.length);
   const batch={start:cursor.current,id:++serial.current,direction};
+  const batchCount=Math.min(countRef.current,items.length);
+  const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  setRevealed(reduced?batchCount:1);
   setLayers(previous=>[...previous.slice(-2),batch]);setPlacing(true);
+  if(!reduced)for(let slot=1;slot<batchCount;slot++){
+   const revealTimer=setTimeout(()=>{setRevealed(slot+1);revealTimers.current.delete(revealTimer);},slot*FLYER_STEP_MS);
+   revealTimers.current.add(revealTimer);
+  }
   timer.current=setTimeout(()=>{
    busy.current=false;setPlacing(false);
    const next=queue.current.shift();if(next!==undefined)move(next);
-  },matchMedia('(prefers-reduced-motion: reduce)').matches?0:flyerBatchDuration(Math.min(countRef.current,items.length)));
+  },reduced?0:flyerBatchDuration(batchCount));
  };
  const active=layers[layers.length-1];
  return <div class="flier-gallery" role="region" aria-label="Promotional flyers">
@@ -44,7 +53,7 @@ export function FlierGallery({items,onSelect}:{items:DesignArtwork[];onSelect:(a
    if(event.key==='ArrowLeft'||event.key==='ArrowRight'){event.preventDefault();move(event.key==='ArrowRight'?1:-1);}
   }}>
    {layers.map(batch=><div key={batch.id} class={`flier-batch${placing&&batch.id===active.id?' is-new':''}`} aria-hidden={batch.id!==active.id?'true':undefined} inert={batch.id!==active.id} style={{'--batch-direction':batch.direction}}>
-    {flyerBatch(batch.start,count,items.length).map((index,slot)=>{const item=items[index];return <figure class="flier-slot" key={slot}>
+    {flyerBatch(batch.start,count,items.length).map((index,slot)=>{if(placing&&batch.id===active.id&&slot>=revealed)return null;const item=items[index];return <figure class="flier-slot" key={slot}>
      <div class={`flier-paper tape-${(batch.id+slot)%2?'corners':'top'}`} style={{'--flyer-ratio':item.width/item.height,'--flyer-tilt':`${flyerTilt(batch.id,slot)}deg`,'--flyer-order':slot}}>
       <button class="design-art" tabIndex={batch.id!==active.id?-1:undefined} aria-label={`Enlarge ${item.title}`} onClick={()=>onSelect(item)}>
        <img src={item.src} srcSet={item.small?`${item.small} ${Math.min(760,item.width)}w, ${item.src} ${item.width}w`:undefined} sizes="(max-width:540px) 80vw, (max-width:1000px) 40vw, 28vw" width={item.width} height={item.height} loading="lazy" decoding="async" alt={`${item.title}. ${item.caption}`}/>
