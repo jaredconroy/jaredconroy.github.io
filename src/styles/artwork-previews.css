@@ -1,30 +1,21 @@
-/* Full-frame artwork, with no matting or card padding. */
-.artwork-motion-preview{display:grid;position:relative;isolation:isolate;contain:layout paint;min-width:0;gap:2px;padding:0;overflow:hidden;background:#173458}
-.artwork-motion-preview img{display:block;width:100%;height:100%;object-fit:contain}
-.preview-design-wall{grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:minmax(0,1fr)}
-.preview-wall-column{min-width:0;min-height:0;height:100%;overflow:hidden}
-.preview-wall-track,.preview-wall-set{display:flex;flex-direction:column;gap:2px}
-.preview-wall-track{width:100%;animation:preview-wall-drift 24s linear infinite;will-change:transform}
-.preview-wall-set{flex:none}
-.preview-wall-art{width:100%;flex:none;overflow:hidden}
-.column-2 .preview-wall-track{animation-duration:30s;animation-direction:reverse}
-.column-3 .preview-wall-track{animation-duration:27s}
-@keyframes preview-wall-drift{to{transform:translateY(calc(-50% - 1px))}}
-.preview-illustration-panels{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr));background:#88281d}
-.preview-illustration-panel{min-width:0;min-height:0;height:100%;overflow:hidden}
-.preview-illustration-panel.panel-1{grid-column:1;grid-row:1/span 2}
-.preview-illustration-panel.panel-2{grid-column:2;grid-row:1}
-.preview-illustration-panel.panel-3{grid-column:2;grid-row:2}
-.preview-panel-track{height:100%;animation:preview-panel-shuffle 9.6s cubic-bezier(.22,.8,.2,1) infinite;will-change:transform}
-.preview-panel-frame{width:100%;height:100%;overflow:hidden}
-.preview-illustration-panel:not(.panel-1) img[data-preview-portrait="true"]{object-fit:cover;object-position:center 25%}
-@keyframes preview-panel-shuffle{
- 0%,28%{transform:translateY(0)}
- 33.333%,61.333%{transform:translateY(-100%)}
- 66.667%,94.667%{transform:translateY(-200%)}
- 100%{transform:translateY(-300%)}
-}
-.artwork-motion-preview[data-preview-paused="true"] .preview-wall-track,
-.artwork-motion-preview[data-preview-paused="true"] .preview-panel-track{animation-play-state:paused}
-@media(hover:hover){.artwork-motion-preview:hover .preview-wall-track,.artwork-motion-preview:hover .preview-panel-track{animation-play-state:paused}}
-@media(prefers-reduced-motion:reduce){.preview-wall-track,.preview-panel-track{animation:none!important;transform:none!important;will-change:auto}}
+/* Still compositions keep the project transition as the only major motion. */
+.artwork-preview{display:grid;position:relative;isolation:isolate;contain:layout paint;min-width:0;padding:0;overflow:hidden;background:#173458}
+.artwork-preview img{display:block;width:100%;height:100%;object-fit:contain}
+.preview-plate,.preview-sketch{min-width:0;min-height:0;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.preview-printshop{grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:repeat(3,minmax(0,1fr));gap:4px;padding:4px;background:#008477}
+.preview-printshop .plate-1{grid-column:1/3;grid-row:1/3}
+.preview-printshop .plate-2{grid-column:3/5;grid-row:1}
+.preview-printshop .plate-3{grid-column:3;grid-row:2/4}
+.preview-printshop .plate-4{grid-column:4;grid-row:2}
+.preview-printshop .plate-5{grid-column:1/3;grid-row:3}
+.preview-printshop .plate-5 img{object-fit:cover;object-position:center 26%}
+.preview-printshop .plate-6{grid-column:4;grid-row:3}
+.preview-printshop .plate-2 img{padding:8px}
+.preview-sketchbook{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr));gap:10px;padding:14px;background:#f4eee1}
+.preview-sketchbook:after{content:'';position:absolute;inset-block:0;left:50%;width:7px;transform:translateX(-50%);background:linear-gradient(90deg,#1734580a,transparent,#1734580a);pointer-events:none}
+.preview-sketch{background:#fff;transform:rotate(-2deg)}
+.preview-sketch:nth-child(even){transform:rotate(2deg)}
+.preview-sketch.sketch-1{grid-column:1;grid-row:1/span 2}
+.preview-sketch.sketch-2{grid-column:2;grid-row:1}
+.preview-sketch.sketch-3{grid-column:2;grid-row:2}
+@media(max-width:540px){.preview-sketchbook{gap:7px;padding:10px}.preview-printshop{gap:3px;padding:3px}.preview-printshop .plate-2 img{padding:5px}}

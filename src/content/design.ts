@@ -61,11 +61,6 @@ const chapterOrder=[
  {id:'posters',indexTitle:'Flyers'},
 ] as const;
 export const designChapters=chapterOrder.map(chapter=>({...chapter,title:designSections.find(section=>section.id===chapter.id)!.title}));
-export const designPreview=[
- designSections[0].items[0],designSections[2].items[0],designSections[1].items[2],
- designSections[0].items[2],designSections[3].items[1],designSections[2].items[2],
- designSections[1].items[0],designSections[2].items[1],designSections[4].items[0],
-];
 const logos=designSections[0].items,digital=designSections[1].items,film=designSections[4].items;
 export const designIdentities=[
  {kind:'lni',name:'Late Night Idle',detail:'I transformed the band’s chosen font into custom lettering and a distinctive wordmark. The comparison shows the original type alongside the finished lettering.',background:'#222326',items:[logos[0],{title:'Late Night Idle · before & after',caption:'The band’s original font, reworked into custom typography and a wordmark.',src:`${base}media/design/lni-before-after.svg?layout=compact-v2`,width:3512.264,height:408.149,background:'#222326'} as DesignArtwork]},
@@ -73,6 +68,12 @@ export const designIdentities=[
  {kind:'six-pack',name:'Six Pack with Jack',detail:'Commissioned podcast identity.',background:'#efe4d5',items:[logos[3]]},
  {kind:'slim',name:'Slim Thick Sports',detail:'A custom logo and wordmark for a comedic sports blog.',background:'#0f75bc',items:[logos[2]]},
  {kind:'boots',name:'Boots & Cats',detail:'A boot, a cat, a music note. Logo explorations lead to an identity for a songwriting app.',background:'#4555a5',items:[digital[0]]},
+];
+// Homepage printshop composition: six fixed plates, varied in scale.
+export const designPreview=[
+ designIdentities[0].items[0],designIdentities[0].items[1],
+ designIdentities[3].items[0],designSections.find(section=>section.id==='covers')!.items[0],
+ designSections.find(section=>section.id==='posters')!.items[1],designIdentities[4].items[0],
 ];
 export const designProcess=digital[1];
 export const designInterface=digital[3];
