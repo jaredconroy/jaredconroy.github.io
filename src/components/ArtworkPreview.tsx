@@ -1,20 +1,10 @@
 import {designPreview} from '../content/design';
 import {illustrationPreview} from '../content/illustrations';
-import crops from '../content/preview-assets.json';
-
-type PreviewArt={src:string;title:string;width:number;height:number;background?:string;dark?:boolean;alt?:string};
-type Crop={src:string;width:number;height:number;background?:string};
-const cropMap:Record<string,Crop>=crops;
-const base=import.meta.env.BASE_URL;
-function preview(art:PreviewArt){
- const crop=cropMap[art.src.slice(art.src.indexOf('media/')+6)];
- return {src:crop?`${base}${crop.src}`:art.src,width:crop?.width||art.width,height:crop?.height||art.height,background:art.background||(art.dark?'#222326':crop?.background||'#fff'),title:art.alt||art.title};
-}
 function DesignWall(){
- return <>{designPreview.map((art,index)=>{
-  const image=preview(art);
-  return <div class={`preview-plate plate-${index+1}`} key={art.src} style={{background:image.background}}><img src={image.src} width={image.width} height={image.height} alt={image.title} loading="lazy" decoding="async"/></div>;
- })}</>;
+ const posterRatio=designPreview[4].width/designPreview[4].height;
+ return <div class="preview-printshop-layout" style={{'--poster-ratio':posterRatio,'--collage-units':2+3*posterRatio,'--collage-gap-units':2+2*posterRatio}}>{designPreview.map((art,index)=><div class={`preview-plate plate-${index+1}`} key={art.src}>
+  <img src={art.src} srcSet={art.small?`${art.small} ${Math.min(760,art.width)}w, ${art.src} ${art.width}w`:undefined} sizes="(max-width:1000px) 30vw, 20vw" width={art.width} height={art.height} alt={art.title} loading="lazy" decoding="async"/>
+ </div>)}</div>;
 }
 function SketchbookSpread(){
  const picks=['illustration-dog','illustration-golfer','illustration-speech'];
