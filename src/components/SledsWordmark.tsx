@@ -6,6 +6,7 @@ export function SledsWordmark(){
  useLayoutEffect(()=>{
   const svg=root.current?.querySelector('svg');if(!svg)return;
   const box=svg.getBBox();
+  if(box.height>0)root.current!.style.aspectRatio=String(box.width/box.height);
   svg.setAttribute('viewBox',`${box.x} ${box.y} ${box.width} ${box.height}`);
  },[]);
  return <span ref={root} class="sleds-wordmark" aria-hidden="true" dangerouslySetInnerHTML={{__html:artwork}}/>;

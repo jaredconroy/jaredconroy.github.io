@@ -168,10 +168,11 @@
 .player .seek input{min-width:0;flex:1}
 
 /* SVG lettering needs a physical underline, independent of text decoration. */
-.feature .feature-details .sleds-feature-wordmark{position:relative}
-.sleds-feature-wordmark:after{content:'';position:absolute;left:0;right:0;bottom:0;height:2px;background:currentColor;opacity:0;transform:scaleX(.9);transition:opacity 180ms ease,transform 180ms ease}
+.feature .feature-details .sleds-feature-wordmark{position:relative;height:auto}
+.sleds-feature-wordmark .sleds-wordmark{height:auto}
+.sleds-feature-wordmark:after{content:'';position:absolute;left:0;right:0;bottom:-.12em;height:2px;background:currentColor;opacity:0;transition:opacity 180ms ease}
 .feature-details:is(:hover,:focus-visible) .sleds-feature-wordmark:after,
-.feature:has(.folder-cover>.feature-visual .media-link:is(:hover,:focus-visible)) .sleds-feature-wordmark:after{opacity:1;transform:scaleX(1)}
+.feature:has(.folder-cover>.feature-visual .media-link:is(:hover,:focus-visible)) .sleds-feature-wordmark:after{opacity:1}
 @media(prefers-reduced-motion:reduce){.sleds-feature-wordmark:after{transition:none}}
 
 /* Complementary player accents stay legible on the purple and teal surfaces. */
