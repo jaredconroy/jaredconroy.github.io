@@ -26,7 +26,7 @@ function SketchbookSpread(){
  })}</>;
 }
 export function ArtworkPreview({kind}:{kind:'design'|'illustration';paused?:boolean}){
- return <div class={`placeholder-media artwork-preview ${kind==='design'?'preview-printshop':'preview-sketchbook'}`} role="img" aria-label={kind==='design'?'A printshop wall of six logo, lettering, album cover, and poster designs.':'An open sketchbook with a large character drawing on the left and two expressive sketches on the right.'}>
+ return <div class={`placeholder-media artwork-preview ${kind==='design'?'preview-printshop':'preview-sketchbook'}`} role="img" aria-label={kind==='design'?'A still collage of Consumer Think Tank, Late Night Idle, and Six Pack logos, Brookline Vendetta Act One and Jungle posters, and two Sleds album covers.':'An open sketchbook with a large character drawing on the left and two expressive sketches on the right.'}>
   {kind==='design'?<DesignWall/>:<SketchbookSpread/>}
  </div>;
 }

@@ -69,11 +69,13 @@ export const designIdentities=[
  {kind:'slim',name:'Slim Thick Sports',detail:'A custom logo and wordmark for a comedic sports blog.',background:'#0f75bc',items:[logos[2]]},
  {kind:'boots',name:'Boots & Cats',detail:'A boot, a cat, a music note. Logo explorations lead to an identity for a songwriting app.',background:'#4555a5',items:[digital[0]]},
 ];
-// Homepage printshop composition: six fixed plates, varied in scale.
+// Fixed homepage composition: three identities, two posters, two record covers.
 export const designPreview=[
- designIdentities[0].items[0],designIdentities[0].items[1],
- designIdentities[3].items[0],designSections.find(section=>section.id==='covers')!.items[0],
- designSections.find(section=>section.id==='posters')!.items[1],designIdentities[4].items[0],
+ {...designIdentities[1].items[0],background:designIdentities[1].background},
+ {...designIdentities[0].items[0],background:designIdentities[0].background},
+ {...designIdentities[2].items[0],background:designIdentities[2].background},
+ film[2],designSections.find(section=>section.id==='posters')!.items[0],
+ sledAlbum('Dirty Hearts & Restless Minds'),sledAlbum('Sixth Sense'),
 ];
 export const designProcess=digital[1];
 export const designInterface=digital[3];
