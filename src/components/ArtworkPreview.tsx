@@ -1,7 +1,7 @@
 import {designPreview} from '../content/design';
 import {illustrationPreview} from '../content/illustrations';
 function DesignWall(){
- const columns=[[0,4,6],[2,3],[7,5,1]];
+ const columns=[[0,4,7],[2,3],[6,5,1]];
  const heightUnits=columns[1].reduce((sum,index)=>sum+designPreview[index].height/designPreview[index].width,0);
  return <div class="preview-printshop-layout" style={{'--collage-middle-units':heightUnits}}>{columns.map((column,index)=><div class="preview-printshop-column" key={index}>{column.map(index=>{
   const art=designPreview[index];

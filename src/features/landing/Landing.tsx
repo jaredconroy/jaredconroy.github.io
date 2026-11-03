@@ -269,7 +269,7 @@ export function Landing({overlayOpen,reduced,onIntroDone,visible,onThemeChange,n
   {p.subtitle&&<p class={`project-subtitle project-content transition-${stage}`}>{p.subtitle}</p>}
  </a>
  <div class="feature-visual">
-  <a class={`media-link ${introTransition?'':`project-content transition-${stage}`}`} href={projectRoute(p.id)} aria-label={`See more of ${p.title}`}><PlaceholderMedia project={p} motionPaused={paused||intro||introTransition||!!tabTransition||stage!=='idle'||reduced}/><span class="media-open" aria-hidden="true">↗</span></a>
+  <a class={`media-link ${introTransition?'':`project-content transition-${stage}`}`} href={projectRoute(p.id)} aria-label={`See more of ${p.title}`}><PlaceholderMedia project={p} motionPaused={paused||intro||introTransition||!!tabTransition||stage!=='idle'||reduced}/>{p.id!=='design'&&<span class="media-open" aria-hidden="true">↗</span>}</a>
  </div>
  <div class="progress-track" role="progressbar" aria-label="Time until next project" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(elapsed/CYCLE_MS*100)}><span style={{transform:`scaleX(${elapsed/CYCLE_MS})`}}/></div>
  </div></div>
