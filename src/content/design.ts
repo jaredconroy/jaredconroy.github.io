@@ -69,12 +69,12 @@ export const designIdentities=[
  {kind:'slim',name:'Slim Thick Sports',detail:'A custom logo and wordmark for a comedic sports blog.',background:'#0f75bc',items:[logos[2]]},
  {kind:'boots',name:'Boots & Cats',detail:'A boot, a cat, a music note. Logo explorations lead to an identity for a songwriting app.',background:'#4555a5',items:[digital[0]]},
 ];
-// Fixed homepage composition: three identities, two posters, two record covers.
+// Fixed homepage composition: square identities and records, wide lettering, a thumbnail, and a portrait.
 export const designPreview=[
  {...designIdentities[1].items[0],background:designIdentities[1].background},
- {...designIdentities[0].items[0],background:designIdentities[0].background},
+ {...logos[1],src:`${base}media/design/preview-lni-wide.svg`,small:undefined,width:1915,height:429},
  {...designIdentities[2].items[0],background:designIdentities[2].background},
- film[2],designSections.find(section=>section.id==='posters')!.items[0],
+ film[3],designSections.find(section=>section.id==='posters')!.items[0],
  sledAlbum('Dirty Hearts & Restless Minds'),sledAlbum('Sixth Sense'),
 ];
 export const designProcess=digital[1];
