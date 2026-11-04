@@ -20,9 +20,9 @@ export function AfromanTitleArrival({ready,reduced,onBusyChange}:{ready:boolean;
   started.current=true;
   const element=root.current!,ink=element.querySelector<HTMLElement>('.afroman-title-ink')!,lane=element.querySelector<HTMLElement>('.afroman-walk-lane')!,actor=element.querySelector<HTMLElement>('.afroman-title-walker')!;
   const animations:Animation[]=[];
-  let cancelled=false,parkFrame=0;
+  let cancelled=false,parkFrame=0,restTimeout=0;
   const hide=()=>{actor.style.visibility='hidden';onBusyChange(false);};
-  const settle=()=>{cancelAnimationFrame(parkFrame);ink.style.clipPath='inset(0)';animations.forEach(animation=>animation.cancel());hide();};
+  const settle=()=>{cancelAnimationFrame(parkFrame);window.clearTimeout(restTimeout);ink.style.clipPath='inset(0)';animations.forEach(animation=>animation.cancel());hide();};
   onBusyChange(true);
   void Promise.all([document.fonts.ready,new Promise<void>(resolve=>{
    const image=new Image();image.onload=()=>resolve();image.onerror=()=>resolve();image.src=`${import.meta.env.BASE_URL}media/afroman/walk-sprites.png`;
@@ -36,11 +36,11 @@ export function AfromanTitleArrival({ready,reduced,onBusyChange}:{ready:boolean;
    while(node&&node!==panel){top+=node.offsetTop;node=node.offsetParent as HTMLElement|null;}
    const padding=12,height=Math.min(60,panelHeight-12),scale=height/walk.frames[0].height;
    const spriteWidth=walk.frames[0].width*scale;
-   const parkingGap=spriteWidth*.42;
+   const parkingGap=spriteWidth*.2;
    lane.style.left=`-${padding}px`;
    lane.style.top=`${-top}px`;lane.style.height=`${panelHeight}px`;
    actor.style.width=`${spriteWidth}px`;actor.style.height=`${height}px`;
-   actor.style.top=`${panelHeight-height-6}px`;
+   actor.style.top=`${(panelHeight-height)/2}px`;
    actor.style.backgroundSize=`${walk.sheetWidth*scale}px ${walk.sheetHeight*scale}px`;
    actor.style.visibility='visible';
    const cycleMs=walk.frames.reduce((sum,frame)=>sum+frame.ms,0)/PREVIEW_SPEED;
@@ -59,26 +59,19 @@ export function AfromanTitleArrival({ready,reduced,onBusyChange}:{ready:boolean;
     return {clipPath:`inset(0 ${Math.max(0,Math.min(width,width-x))}px 0 0)`,offset:progress};
    }),{duration:revealDuration,easing:'linear',fill:'forwards'});
    animations.push(cycle,movement,reveal);
-   // Stop beside the title on the extended-arm stride, then turn the color sprite
-   // into a black silhouette without moving it away from its final mark.
+   // Stop beside the title in the game's true idle pose, pause briefly, then
+   // turn the color sprite into a silhouette without moving it from its mark.
    movement.onfinish=()=>{
     actor.style.transform=`translate3d(${to}px,0,0)`;
     movement.cancel();
-    const frameDuration=walk.frames[0].ms/PREVIEW_SPEED,openFrames=[0,3];
-    const parkAtOpenPose=()=>{
-     if(cancelled)return;
-     const current=Number(cycle.currentTime)||0,index=Math.floor((current%cycleMs)/frameDuration)%walk.frames.length;
-     if(openFrames.includes(index)){
-      const frame=walk.frames[index];cycle.cancel();
-      actor.style.backgroundPosition=`${-frame.x*scale}px ${-frame.y*scale}px`;
+    cycle.cancel();
+    actor.style.backgroundPosition=`${-walk.restingFrame.x*scale}px ${-walk.restingFrame.y*scale}px`;
+    restTimeout=window.setTimeout(()=>{
+      if(cancelled)return;
       const silhouette=actor.animate([{filter:'brightness(1)'},{filter:'brightness(0)'}],{duration:360,easing:'ease-out',fill:'forwards'});
       animations.push(silhouette);
       silhouette.onfinish=()=>{actor.style.filter='brightness(0)';silhouette.cancel();onBusyChange(false);};
-      return;
-     }
-     parkFrame=requestAnimationFrame(parkAtOpenPose);
-    };
-    parkFrame=requestAnimationFrame(parkAtOpenPose);
+    },240);
    };
   });
   window.addEventListener('resize',settle,{passive:true});

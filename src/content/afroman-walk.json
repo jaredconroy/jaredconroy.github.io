@@ -2,6 +2,13 @@
   "sheetWidth": 1794,
   "sheetHeight": 974,
   "gamePixelsPerSecond": 480,
+  "restingFrame": {
+    "name": "idle.png",
+    "x": 1570,
+    "y": 326,
+    "width": 222,
+    "height": 322
+  },
   "frames": [
     {
       "name": "walk1.png",
