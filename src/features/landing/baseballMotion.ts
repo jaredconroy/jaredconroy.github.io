@@ -3,7 +3,7 @@ export const BASEBALL_LANDING_MS=600;
 export function baseballLetterFit(metrics:{ascent:number;descent:number;baseline:number;width?:number}){
  // Circle radius is 48 inside a 100-unit SVG: size the visible ink, not its box.
  const size=Math.max(metrics.ascent+metrics.descent,metrics.width||0)/.96;
- return {size,top:metrics.baseline+metrics.descent-size*.98,shift:-2};
+ return {size,top:metrics.baseline+metrics.descent-size*.98+1,shift:-2};
 }
 export function baseballSpinFrames(rotation:number,rollFraction:number){
  return [{transform:`rotate(${-rotation}deg)`,offset:0},{transform:'rotate(0deg)',offset:rollFraction},{transform:'rotate(0deg)',offset:1}];
