@@ -1,6 +1,7 @@
 import {useEffect,useLayoutEffect,useRef,useState} from 'preact/hooks';
 import {createPortal} from 'preact/compat';
 import {NeonAmpersand} from '../../components/NeonAmpersand';
+import {AfromanTitleArrival} from '../../components/AfromanTitleArrival';
 import {SledsWordmarkArrival} from '../../components/SledsWordmarkArrival';
 import {SledsAmpersand} from '../../components/SledsAmpersand';
 import {projects,projectRoute} from '../../content/projects';
@@ -31,6 +32,7 @@ export function Landing({overlayOpen,reduced,onIntroDone,visible,onThemeChange,n
  const [tabTransition,setTabTransition]=useState<TabTransition|null>(null);
  const [baseballBusy,setBaseballBusy]=useState(false);
  const [sledsBusy,setSledsBusy]=useState(false);
+ const [afromanBusy,setAfromanBusy]=useState(false);
  const [baseballRun,setBaseballRun]=useState<BaseballRun|null>(null),[baseballSettled,setBaseballSettled]=useState(reduced);
  const [previewIndex,setPreviewIndex]=useState<number|null>(null);
  const [pressedTab,setPressedTab]=useState<number|null>(null);
@@ -213,7 +215,7 @@ export function Landing({overlayOpen,reduced,onIntroDone,visible,onThemeChange,n
   }
  },[visible,returnProjectId]);
  const paused=!visible||hidden||overlayOpen||interacting||userPaused;
- const state=useRef({intro,paused,reduced,transitioning:!!tabTransition||stage!=='idle'||baseballBusy||sledsBusy});state.current={intro,paused,reduced,transitioning:!!tabTransition||stage!=='idle'||baseballBusy||sledsBusy};
+ const state=useRef({intro,paused,reduced,transitioning:!!tabTransition||stage!=='idle'||baseballBusy||sledsBusy||afromanBusy});state.current={intro,paused,reduced,transitioning:!!tabTransition||stage!=='idle'||baseballBusy||sledsBusy||afromanBusy};
  useEffect(()=>{let last=performance.now();const timer=setInterval(()=>{const now=performance.now(),delta=Math.min(now-last,250);last=now;const s=state.current;
   if(s.intro)return;
   if(!s.reduced)setElapsed(value=>stepClock(value,delta,s.paused,s.transitioning));
@@ -254,7 +256,7 @@ export function Landing({overlayOpen,reduced,onIntroDone,visible,onThemeChange,n
  const lead=!intro&&!introTransition&&!tabTransition&&!reduced&&elapsed>=CYCLE_MS-1000?(active+1)%projects.length:null;
  const levels=tabLevels(projects.length,active,tabTransition,lead,baseballBusy?active:previewIndex,pressedTab);
  const phase=tabTransition?.phase||'idle';
- const indexAwake=baseballBusy||sledsBusy||previewIndex!==null||lead!==null||(!!tabTransition&&phase!=='cleanup')||pressedTab!==null;
+ const indexAwake=baseballBusy||sledsBusy||afromanBusy||previewIndex!==null||lead!==null||(!!tabTransition&&phase!=='cleanup')||pressedTab!==null;
  useLayoutEffect(()=>{onIndexAwakeChange(indexAwake);},[indexAwake]);
  // Update navigation labels before the tab faces in the same render; neither animation waits for the other.
  const projectNavigation=<ProjectNavigation active={active} reduced={reduced} labelsAwake={indexAwake} selectionTarget={tabTransition?.to??active} handoffMs={tabTransition?.handoffMs} onPreview={setPreviewIndex} onPress={setPressedTab} onSelect={i=>activate(i,true)}/>;
@@ -278,7 +280,7 @@ export function Landing({overlayOpen,reduced,onIntroDone,visible,onThemeChange,n
  <div class={`folder-cover ${introTransition?'project-content transition-in':''}`} style={{'--folder-color':p.theme.accent,'--tab-count':projects.length}}>
  <div class="folder-tabs" aria-hidden="true">{projects.map((project,index)=><FolderTab key={project.id} id={project.id} index={index} color={project.theme.accent} level={levels[index]} pass={tabTransition?.phase!=='cleanup'?tabTransition?.passes.find(pass=>pass.index===index):undefined} reduced={reduced} pressed={pressedTab===index} wave={!!tabTransition}/>)}</div>
  <a class="feature-caption feature-details" href={projectRoute(p.id)} aria-labelledby="featured-title">
-  <div class={`feature-title project-content transition-${stage}`}><h2 id="featured-title" class={p.id==='the-sleds'?'sleds-feature-wordmark':p.id==='foul-balls'?'foul-balls-feature-title':undefined}>{p.id==='the-sleds'?<><span class="sr-only">The Sleds</span><SledsWordmarkArrival ready={visible&&stage!=='out'} reduced={reduced} onBusyChange={setSledsBusy}/></>:p.id==='foul-balls'?<FoulBallsTitle settled={baseballSettled||reduced}/>:p.title}</h2></div>
+  <div class={`feature-title project-content transition-${stage}`}><h2 id="featured-title" class={p.id==='the-sleds'?'sleds-feature-wordmark':p.id==='foul-balls'?'foul-balls-feature-title':undefined}>{p.id==='the-sleds'?<><span class="sr-only">The Sleds</span><SledsWordmarkArrival ready={visible&&stage!=='out'} reduced={reduced} onBusyChange={setSledsBusy}/></>:p.id==='foul-balls'?<FoulBallsTitle settled={baseballSettled||reduced}/>:p.id==='afroman'?<AfromanTitleArrival ready={visible&&stage!=='out'} reduced={reduced} onBusyChange={setAfromanBusy}/>:p.title}</h2></div>
   <h2 class="foul-title-probe" aria-hidden="true"><FoulBallsTitle settled={false} probe/></h2>
   {p.subtitle&&<p class={`project-subtitle project-content transition-${stage}`}>{p.subtitle}</p>}
  </a>

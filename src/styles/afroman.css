@@ -110,3 +110,11 @@
  .app-shell[data-project-theme="afroman"] .landing .identity:not([data-neon-active="true"]) .signature-neon-tube,
  .app-shell[data-project-theme="afroman"] .landing .identity:not([data-neon-active="true"]) .signature-neon-boost{animation:none}
 }
+
+/* Preview-only walk-in uses the original sprite sheet, never the game runtime. */
+.afroman-title-arrival{display:inline-block;position:relative}
+.afroman-title-ink{display:block;clip-path:inset(0 100% 0 0)}
+.afroman-title-arrival.is-reduced .afroman-title-ink{clip-path:none}
+.afroman-walk-lane{position:absolute;overflow:hidden;pointer-events:none}
+.afroman-title-walker{position:absolute;left:0;visibility:hidden;background-image:url('/media/afroman/walk-sprites.png');background-repeat:no-repeat;image-rendering:pixelated;will-change:transform}
+.feature-details:has(.afroman-title-arrival){overflow:hidden}

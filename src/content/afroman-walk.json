@@ -1,0 +1,55 @@
+{
+  "sheetWidth": 1794,
+  "sheetHeight": 974,
+  "gamePixelsPerSecond": 480,
+  "frames": [
+    {
+      "name": "walk1.png",
+      "x": 226,
+      "y": 650,
+      "width": 222,
+      "height": 322,
+      "ms": 200.0
+    },
+    {
+      "name": "walk2.png",
+      "x": 450,
+      "y": 650,
+      "width": 222,
+      "height": 322,
+      "ms": 200.0
+    },
+    {
+      "name": "walk3.png",
+      "x": 674,
+      "y": 650,
+      "width": 222,
+      "height": 322,
+      "ms": 200.0
+    },
+    {
+      "name": "walk4.png",
+      "x": 898,
+      "y": 650,
+      "width": 222,
+      "height": 322,
+      "ms": 200.0
+    },
+    {
+      "name": "walk5.png",
+      "x": 1122,
+      "y": 650,
+      "width": 222,
+      "height": 322,
+      "ms": 200.0
+    },
+    {
+      "name": "walk6.png",
+      "x": 2,
+      "y": 650,
+      "width": 222,
+      "height": 322,
+      "ms": 200.0
+    }
+  ]
+}

@@ -40,35 +40,37 @@ export function SledsWordmarkArrival({ready,reduced,onBusyChange}:{ready:boolean
    const width=parseFloat(style.width),height=parseFloat(style.height);
    if(!width||!height){settle();return;}
    const size=Math.max(24,Math.min(46,height*.92));
-   const cross=width*dy+height*dx,spread=cross*.28;
-   const duration=1350,stagger=70;
+   const spacing=size*.9;
+   const duration=1350;
    const scaleY=bounds.height/height||1;
    const panelBottom=((element.closest('.feature-details')?.getBoundingClientRect().bottom??bounds.bottom)-bounds.top)/scaleY;
-   const bodyHeight=size*(399.36/335.5),centerX=width*.42,centerY=height/2;
+   const bodyHeight=size*(399.36/335.5),centerX=width*.08+spacing*(dx-dy)/dy,centerY=height/2;
    // One longitudinal coordinate drives every rider and the reveal plane.
-   const start=(-size*1.5-width*.08-centerX-dy*spread)/dx;
-   const end=(panelBottom+size+bodyHeight*.86-centerY+dx*spread)/dy;
+   const start=(-size*1.5-width*.08-centerX-spacing)/dx;
+   const end=(panelBottom+size+bodyHeight*.86-centerY+spacing)/dy;
    const travel=end-start;
    riders.forEach((rider,index)=>{
-    const lane=(index-1)*spread;
-    const startX=centerX-dy*lane+dx*start-size/2;
-    const startY=centerY+dx*lane+dy*start-bodyHeight*.86;
+    // Equal x/y offsets make a 45-degree formation, independent of travel angle.
+    const offset=(index-1)*spacing;
+    const startX=centerX+offset+dx*start-size/2;
+    const startY=centerY+offset+dy*start-bodyHeight*.86;
     rider.style.width=`${size}px`;rider.style.visibility='visible';
     const animation=rider.animate([
      {transform:`translate3d(${startX}px,${startY}px,0)`},
      {transform:`translate3d(${startX+dx*travel}px,${startY+dy*travel}px,0)`},
-    ],{duration,delay:(2-index)*stagger,easing:'linear',fill:'both'});
+    ],{duration,easing:'linear',fill:'both'});
     animations.push(animation);
    });
-   const initialFront=centerX*dx+centerY*dy+start-size*.25;
+   const initialFront=centerX*dx+centerY*dy+start-spacing*(dx+dy)-size*.25;
    const frames=Array.from({length:49},(_,index)=>{
     const progress=index/48;
     return {clipPath:wake(width,height,initialFront+travel*progress),offset:progress};
    });
-   const reveal=wordmark.animate(frames,{duration,delay:stagger+90,easing:'linear',fill:'forwards'});
+   const reveal=wordmark.animate(frames,{duration,delay:90,easing:'linear',fill:'forwards'});
    animations.push(reveal);
    // Retain the completed clipping layer: removing it causes a compositor flash.
-   animations[0].onfinish=hideRiders;
+   animations[0].onfinish=()=>{riders.forEach(rider=>rider.style.visibility='hidden');};
+   reveal.onfinish=()=>onBusyChange(false);
   });
   const resize=settle;
   window.addEventListener('resize',resize,{passive:true});
