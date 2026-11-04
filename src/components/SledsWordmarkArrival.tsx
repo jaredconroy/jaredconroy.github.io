@@ -34,32 +34,35 @@ export function SledsWordmarkArrival({ready,reduced,onBusyChange}:{ready:boolean
   onBusyChange(true);
   void document.fonts.ready.then(()=>{
    if(cancelled)return;
-   const bounds=element.getBoundingClientRect(),{width,height}=bounds;
+   const bounds=element.getBoundingClientRect(),style=getComputedStyle(element);
+   // Layout dimensions stay stable while the parent is still zooming into place.
+   const width=parseFloat(style.width),height=parseFloat(style.height);
    if(!width||!height){finish();return;}
    const size=Math.max(24,Math.min(46,height*.92));
-   const extent=width*dx+height*dy;
-   const cross=width*dy+height*dx;
+   const cross=width*dy+height*dx,spread=cross*.28;
    const duration=1350,stagger=125;
-   const panelBottom=(element.closest('.feature-details')?.getBoundingClientRect().bottom??bounds.bottom)-bounds.top;
-   const bodyHeight=size*(399.36/335.5);
-   // All riders share one velocity; extend even the highest lane below the panel.
-   const highestStart=height/2-dx*cross*.28+(-size*1.5-width/2-dy*cross*.28)*slope-bodyHeight*.86;
-   const travelX=Math.max(width+size*4,(panelBottom+size-highestStart)/slope);
+   const scaleY=bounds.height/height||1;
+   const panelBottom=((element.closest('.feature-details')?.getBoundingClientRect().bottom??bounds.bottom)-bounds.top)/scaleY;
+   const bodyHeight=size*(399.36/335.5),centerX=width*.42,centerY=height/2;
+   // One longitudinal coordinate drives every rider and the reveal plane.
+   const start=(-size*1.5-width*.08-centerX-dy*spread)/dx;
+   const end=(panelBottom+size+bodyHeight*.86-centerY+dx*spread)/dy;
+   const travel=end-start;
    riders.forEach((rider,index)=>{
-    const lane=(index-1)*cross*.28;
-    const centerX=width*.42-dy*lane,centerY=height/2+dx*lane;
-    const startX=-size*2-width*.08;
-    const startY=centerY+(startX+size/2-centerX)*slope-size*(399.36/335.5)*.86;
+    const lane=(index-1)*spread;
+    const startX=centerX-dy*lane+dx*start-size/2;
+    const startY=centerY+dx*lane+dy*start-bodyHeight*.86;
     rider.style.width=`${size}px`;rider.style.visibility='visible';
     const animation=rider.animate([
      {transform:`translate3d(${startX}px,${startY}px,0)`},
-     {transform:`translate3d(${startX+travelX}px,${startY+slope*travelX}px,0)`},
+     {transform:`translate3d(${startX+dx*travel}px,${startY+dy*travel}px,0)`},
     ],{duration,delay:index*stagger,easing:'linear',fill:'both'});
     animations.push(animation);
    });
+   const initialFront=centerX*dx+centerY*dy+start-size*.25;
    const frames=Array.from({length:49},(_,index)=>{
     const progress=index/48;
-    return {clipPath:wake(width,height,-size*2+(extent+size*4)*progress),offset:progress};
+    return {clipPath:wake(width,height,initialFront+travel*progress),offset:progress};
    });
    const reveal=wordmark.animate(frames,{duration,delay:stagger,easing:'linear',fill:'forwards'});
    animations.push(reveal);
