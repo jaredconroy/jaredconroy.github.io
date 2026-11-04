@@ -36,6 +36,15 @@ function Shell(){
  const path=visibleRoute.kind;
  const viewKey=path+(visibleRoute.kind==='project'?visibleRoute.id:'');
  const smartHeader=!isOverlay&&(path==='project'||path==='game');
+ const previousHeaderPath=useRef(path);
+ useLayoutEffect(()=>{
+  const header=headerElement.current;
+  if(header){
+   if(previousHeaderPath.current==='home'&&(path==='project'||path==='game')&&!reduced)header.dataset.homeEntry='true';
+   else delete header.dataset.homeEntry;
+  }
+  previousHeaderPath.current=path;
+ },[viewKey,reduced]);
  useEffect(()=>{
   const header=headerElement.current;
   if(!header)return;
@@ -91,7 +100,7 @@ function Shell(){
  return <div class={`app-shell ${path==='home'?'shell-home':''} ${smartHeader?'shell-project-route':''} ${returnHeaderVisible?'header-returning':''} ${returnHeaderLeaving?'header-returning-out':''} ${!introDone&&path==='home'?'intro-running':''}`} data-project-theme={themeProject?.id} ref={root} style={{'--illustration-maroon':ILLUSTRATION_MAROON,'--surface':theme.background,'--chapter-surface':chapterSurface,'--ink':theme.text,'--accent':theme.accent,'--accent-text':theme.accentText||theme.accent,'--player-surface':theme.playerBackground||theme.text,'--header-surface':activeHeaderPalette?.surface||theme.background,'--header-ink':activeHeaderPalette?.ink||theme.text,'--header-highlight':activeHeaderPalette?.highlight||theme.accent,'--tab-motion-duration':`${reduced?0:TAB_STROKE_MS}ms`}}>
  <div class="cursor-reveal" ref={spot} aria-hidden="true"/>
  <a class="skip-link" href="#main" onClick={e=>{e.preventDefault();document.getElementById('main')?.focus();}}>Skip to content</a>
- <header ref={headerElement} class={`header ${smartHeader?'project-route-header':''} ${returnHeaderVisible?'return-route-header':''} ${!introDone&&path==='home'?'intro-hidden':''}`} inert={!introDone&&path==='home'} onFocusCapture={revealHeader} onAnimationEnd={event=>{if(event.animationName==='header-band-up'){setReturnHeaderPalette(null);setReturnHeaderLeaving(false);}}}>
+ <header ref={headerElement} class={`header ${smartHeader?'project-route-header':''} ${returnHeaderVisible?'return-route-header':''} ${!introDone&&path==='home'?'intro-hidden':''}`} inert={!introDone&&path==='home'} onFocusCapture={revealHeader} onAnimationEnd={event=>{if(event.animationName==='header-band-down')delete headerElement.current?.dataset.homeEntry;if(event.animationName==='header-band-up'){setReturnHeaderPalette(null);setReturnHeaderLeaving(false);}}}>
   <div class="header-primary"><a class="wordmark" href="#/" aria-label="Jared Conroy home">jared conroy</a><MainNavigation active={route.kind==='overlay'?route.panel:'work'} reduced={reduced}/></div>
   <div class="featured-nav-slot" ref={setProjectNavigationTarget} hidden={path!=='home'}/>
   {pageIndex>=0&&<nav class="project-context-nav" aria-label="Browse projects"><a href={`#/work/${previousProject.id}`}>← {previousProject.indexTitle}</a><span>{String(pageIndex+1).padStart(2,'0')} / {String(projects.length).padStart(2,'0')}</span><a href={`#/work/${nextProject.id}`}>{nextProject.indexTitle} →</a></nav>}

@@ -258,3 +258,6 @@
 @media(prefers-reduced-motion:reduce){.foul-balls-feature-title:after{transition:none}}
 
 .foul-title-tail{margin-left:-.09375em}
+
+/* Keep the visible transport button circular at every responsive breakpoint. */
+.player .transport-buttons .play-button{width:32px;min-width:32px;height:32px;min-height:32px;aspect-ratio:1;flex:0 0 32px;padding:0;border-radius:50%}
