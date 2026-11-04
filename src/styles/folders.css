@@ -29,7 +29,7 @@
 .landing:not(.intro-handoff) .project-content.transition-out{animation-duration:var(--folder-out-duration)}
 .landing:not(.intro-handoff) .project-content.transition-in{animation-duration:var(--folder-in-duration)}
 .signature-real .signature-art{transition:color 600ms var(--ease)}
-.player{transition:background-color 600ms var(--ease),color 600ms var(--ease),opacity 600ms var(--ease)}
+.player{background:var(--painted-player-surface,var(--player-surface));transition:color 600ms var(--ease),opacity 600ms var(--ease)}
 @media(prefers-reduced-motion:reduce){.signature-real .signature-art,.player{transition:none}}
 .app-shell[data-project-theme="afroman"] .folder-cover>.progress-track{background:#000}
 .app-shell[data-project-theme="afroman"] .folder-cover>.progress-track>span{background:var(--accent)}

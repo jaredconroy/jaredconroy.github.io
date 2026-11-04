@@ -338,3 +338,15 @@ h1,h2,.wordmark,.bible-cover strong,.band-wordmark strong,.design-tile,.portrait
 .foul-balls-music{padding-top:24px;border-top:1px solid var(--line)}
 .foul-balls-music h2{font-size:28px;margin-bottom:12px}
 .foul-balls-music .see-more{margin-top:12px}
+
+/* Quiet utility corners leave the greeting composition unobstructed. */
+.intro-mute,.intro-skip{position:fixed;z-index:2;right:var(--site-inset,4.2%);display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:44px;padding:10px 16px;background:#ffffffed;color:#173458;border:1px solid #1734582b;border-radius:999px;font-size:15px;letter-spacing:var(--standard-tracking);transition:border-color 150ms}
+.intro-mute{top:max(20px,env(safe-area-inset-top,0px))}
+.intro-mute svg{width:18px;height:18px}
+.intro-skip{bottom:max(24px,env(safe-area-inset-bottom,0px))}
+.intro-skip>span{font-size:21px;line-height:1}
+.intro-mute:hover,.intro-skip:hover{background:#edf5fb;border-color:#17345875}
+.intro-mute[aria-pressed="true"]{background:#edf5fb}
+.intro-mute:focus-visible,.intro-skip:focus-visible{outline:3px solid #932c2c;outline-offset:4px}
+@media(max-width:540px){.intro-mute,.intro-skip{right:6%;font-size:14px;padding:9px 14px}}
+@media(prefers-reduced-motion:reduce){.intro-mute,.intro-skip{transition:none}}

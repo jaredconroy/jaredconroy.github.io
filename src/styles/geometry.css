@@ -56,7 +56,7 @@
 .main-nav-rule-clip{position:absolute;inset:0;overflow:clip;pointer-events:none}
 
 /* The caption is part of the project link, with a contrast-safe accent surface. */
-.feature-caption{--caption-ink:#fff;background:var(--accent);color:var(--caption-ink);transition:background-color 300ms var(--ease)}
+.feature-caption{--caption-ink:#fff;background:var(--accent);color:var(--caption-ink);transition:none}
 .app-shell[data-project-theme="foul-balls"] .feature-caption{--caption-ink:#fffaf3}
 .app-shell[data-project-theme="the-sleds"] .feature-caption{--caption-ink:#19364d}
 .app-shell[data-project-theme="afroman"] .feature-caption{--caption-ink:#000}
@@ -260,4 +260,7 @@
 .foul-title-tail{margin-left:-.09375em}
 
 /* Keep the visible transport button circular at every responsive breakpoint. */
-.player .transport-buttons .play-button{width:32px;min-width:32px;height:32px;min-height:32px;aspect-ratio:1;flex:0 0 32px;padding:0;border-radius:50%}
+.player .transport-buttons .play-button{width:32px;min-width:32px;height:32px;min-height:32px;aspect-ratio:1;flex:0 0 32px;padding:0;border-radius:50%;background:var(--painted-play-button-surface,#fffaf2)}
+/* The document canvas owns the page color. Avoid independent shell/body fades
+   exposing a stale surface when composited transition layers finish. */
+.app-shell,.app-shell.shell-project-route[data-project-theme="design"]{background:transparent;transition:color 400ms var(--ease)}

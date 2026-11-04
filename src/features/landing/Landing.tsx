@@ -292,6 +292,6 @@ export function Landing({overlayOpen,reduced,onIntroDone,visible,onThemeChange,n
  <div class="carousel-status"><div class="timer-copy"><span>{intro?'Meet Jared':reduced?'Manual selection':userPaused?'Paused':tabTransition?'Switching project':paused?'On pause':'Next in '+Math.ceil((CYCLE_MS-elapsed)/1000)+'s'}</span><button onClick={()=>setUserPaused(value=>!value)} aria-label={userPaused?'Play project auto-advance':'Pause project auto-advance'} aria-pressed={userPaused} disabled={reduced}>{userPaused?'▶':'Ⅱ'}</button></div></div>
  </section>
  <FoulBallsArrival run={baseballRun} awake={indexAwake} enabled={visible&&!intro&&!introTransition&&(active===0||tabTransition?.to===0)} reduced={reduced} onBusyChange={setBaseballBusy} onSettled={setBaseballSettled}/>
- {intro&&<IntroSequence destination={()=>identityRef.current} reduced={reduced} onComplete={finishIntro}/>}
+ {intro&&<IntroSequence destination={()=>identityRef.current} reduced={reduced} onComplete={finishIntro} onSkip={()=>{finishIntro();requestAnimationFrame(()=>identityRef.current?.closest('main')?.focus({preventScroll:true}));}}/>}
  </main>;
 }

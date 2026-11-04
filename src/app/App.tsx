@@ -9,6 +9,8 @@ import {parseRoute,useRoute} from './router';
 import {MainNavigation} from '../components/MainNavigation';
 import {baseTheme,projects} from '../content/projects';
 import {ILLUSTRATION_MAROON} from '../content/palette';
+import {usePageSurface} from './usePageSurface';
+import {usePaintedColor} from './usePaintedColor';
 import {TAB_STROKE_MS} from '../features/landing/timing';
 const SignatureEditor=import.meta.env.DEV&&new URLSearchParams(location.search).get('signature-editor')==='1'?lazy(()=>import('../features/signature-editor/SignatureEditor')):null;
 const projectHeaderPalettes:Record<string,{surface:string;ink:string;highlight:string}>={
@@ -87,6 +89,15 @@ function Shell(){
  const activeHeaderPalette=returnHeaderVisible?(returnHeaderPalette||lastDedicatedPalette.current):headerPalette;
  const pageSurface=visibleRoute.kind==='project'&&visibleRoute.id==='design'?chapterSurface:theme.background;
  const browserSurface=smartHeader||returnHeaderVisible?activeHeaderPalette?.surface||pageSurface:pageSurface;
+ const headerVisible=smartHeader||returnHeaderVisible;
+ const paintedHeaderVisible=useRef(headerVisible);
+ const enteringHeader=headerVisible&&!paintedHeaderVisible.current;
+ usePageSurface(pageSurface,reduced,visibleRoute.kind==='project'&&visibleRoute.id==='design'?500:600,headerVisible);
+ usePaintedColor(root,'--painted-header-surface',activeHeaderPalette?.surface||theme.background,reduced||enteringHeader,300,color=>{if(headerVisible)document.documentElement.style.backgroundColor=color;});
+ usePaintedColor(root,'--painted-player-surface',theme.playerBackground||theme.text,reduced,600);
+ usePaintedColor(root,'--painted-play-button-surface',themeProject?.id==='the-sleds'?'#19364d':'#fffaf2',reduced,600);
+ usePaintedColor(root,'--painted-nav-surface',headerVisible?(activeHeaderPalette?.highlight||theme.accent):theme.accent,reduced,400);
+ useLayoutEffect(()=>{paintedHeaderVisible.current=headerVisible;},[headerVisible]);
  useLayoutEffect(()=>{
   // Safari/Chrome can show the document canvas and theme tint outside the app,
   // including the top safe area and overscroll. Keep those surfaces in theme.

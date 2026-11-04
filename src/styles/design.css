@@ -131,12 +131,12 @@
 /* One chapter viewport and one full-window color layer. Chapter state never
    changes panel geometry, and scroll selection never depends on changed-only
    intersection entries. */
-.app-shell.shell-project-route[data-project-theme="design"]{height:100dvh;min-height:0;overflow:hidden;padding-inline:0;background:var(--chapter-surface,#fff);transition:background-color 500ms var(--ease),color 500ms var(--ease)}
+.app-shell.shell-project-route[data-project-theme="design"]{height:100dvh;min-height:0;overflow:hidden;padding-inline:0;background:transparent;transition:color 500ms var(--ease)}
 .app-shell.shell-project-route[data-project-theme="design"]>.view-container{width:100%;height:calc(100dvh - var(--header-height) - var(--player-height) - env(safe-area-inset-top,0px));min-height:0;margin:0;overflow-x:clip;overflow-y:auto;overscroll-behavior-y:contain;scroll-snap-type:y mandatory;scroll-behavior:smooth;scrollbar-width:thin;scrollbar-color:#00847766 transparent}
 .app-shell.shell-project-route[data-project-theme="design"]>.view-container>main.design-page{--design-masthead-height:96px;--design-panel-height:calc(100dvh - var(--header-height) - var(--player-height) - 96px);--chapter-pad:clamp(14px,2.5vh,28px);width:100%;max-width:none;min-height:100%;margin:0;padding:0;position:relative;background:none;color:var(--design-ink);transition:color 500ms var(--ease)}
-/* The shell paints the chapter color; this layer supplies cabinet grain only. */
+/* The document paints the chapter color; this layer supplies venue texture only. */
 .design-page .design-backdrop{position:fixed;inset:0;z-index:-1;pointer-events:none}
-.design-page .design-masthead{display:block;position:sticky;top:0;z-index:5;height:auto;min-height:0;margin:0;padding:12px var(--site-inset,6vw) 0;background:var(--design-surface);color:var(--design-ink);transition:background-color 500ms var(--ease),color 500ms var(--ease)}
+.design-page .design-masthead{display:block;position:sticky;top:0;z-index:5;height:auto;min-height:0;margin:0;padding:12px var(--site-inset,6vw) 0;background:var(--painted-surface,var(--design-surface));color:var(--design-ink);transition:color 500ms var(--ease)}
 .design-masthead-title{display:flex;align-items:center;justify-content:space-between;gap:24px}
 .design-page .design-masthead h1{font-size:clamp(28px,3vw,40px);line-height:1.05;margin:0;white-space:nowrap;color:inherit}
 .design-chapter-count{font-size:14px;font-weight:700;color:var(--design-accent);font-variant-numeric:tabular-nums;transition:color 500ms var(--ease)}
@@ -148,7 +148,7 @@
 .design-sections .project-nav-label{height:auto;transform:translate(-50%,calc(-50% - 2px));color:inherit}
 .design-sections .project-letter{font-weight:400}
 .design-sections .project-letter.is-bold{font-weight:700}
-.chapter-nav-indicator{position:absolute;left:0;bottom:0;width:var(--indicator-width,0px);height:4px;background:var(--design-accent);transform:translateX(var(--indicator-x,0px));transition:transform var(--nav-handoff-duration,750ms) cubic-bezier(.4,0,.6,1),width var(--nav-handoff-duration,750ms) cubic-bezier(.4,0,.6,1),background-color 500ms var(--ease);pointer-events:none}
+.chapter-nav-indicator{position:absolute;left:0;bottom:0;width:var(--indicator-width,0px);height:4px;background:var(--painted-chapter-accent,var(--design-accent));transform:translateX(var(--indicator-x,0px));transition:transform var(--nav-handoff-duration,750ms) cubic-bezier(.4,0,.6,1),width var(--nav-handoff-duration,750ms) cubic-bezier(.4,0,.6,1);pointer-events:none}
 .design-page .design-section{display:flex;flex-direction:column;justify-content:flex-start;height:var(--design-panel-height);min-height:var(--design-panel-height);min-width:0;margin:0;padding:var(--chapter-pad) var(--site-inset,6vw);gap:clamp(12px,2vh,22px);scroll-snap-align:start;scroll-snap-stop:always;scroll-margin-top:var(--design-masthead-height);color:inherit}
 .design-page .design-section>*{min-width:0}
 .design-page .design-section-heading{flex:none;align-items:center;margin:0;color:var(--design-accent);transition:color 500ms var(--ease)}

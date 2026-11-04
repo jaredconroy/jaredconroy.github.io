@@ -4,14 +4,17 @@ import {RoleDescriptor} from '../../components/RoleDescriptor';
 import {projects} from '../../content/projects';
 import {TAGLINE_MS,INTRO_SIGNATURE_DELAY_MS,INTRO_TAGLINE_DELAY_MS} from './timing';
 import {IntroRoleReel} from './IntroRoleReel';
+import {useAudio} from '../audio/AudioProvider';
+import {Icon} from '../../components/Player';
 
 const GREETING_MS=INTRO_SIGNATURE_DELAY_MS;
 const titles=[...new Set(projects.flatMap(p=>[...p.roles,...p.expandedRoles]))];
 const FINAL_PAIR=projects[0].roles;
 
 
-/** A non-interactive introduction, ending at the exact identity-column geometry. */
-export function IntroSequence({destination,reduced,onComplete}:{destination:()=>HTMLElement|null;reduced:boolean;onComplete:()=>void}){
+/** A timed introduction with optional skip and shared site-audio controls. */
+export function IntroSequence({destination,reduced,onComplete,onSkip}:{destination:()=>HTMLElement|null;reduced:boolean;onComplete:()=>void;onSkip:()=>void}){
+ const audio=useAudio();
  const block=useRef<HTMLDivElement>(null),roleBlock=useRef<HTMLDivElement>(null);
  const complete=useRef(onComplete);complete.current=onComplete;
  const [tagline,setTagline]=useState(reduced);
@@ -59,8 +62,11 @@ export function IntroSequence({destination,reduced,onComplete}:{destination:()=>
   };
   syncGeometry();
   const centered=(contentHeight:number,fraction:number,contentWidth=rect.width,left=0,top=0)=>{
-   const scale=Math.min((innerWidth-32)/contentWidth,innerHeight*fraction/contentHeight,3);
-   return `translate(${(innerWidth-contentWidth*scale)/2-rect.left-left*scale}px,${(innerHeight-contentHeight*scale)/2-rect.top-top*scale}px) scale(${scale})`;
+   const topGuard=(element.closest('.intro-sequence')?.querySelector('.intro-mute')?.getBoundingClientRect().bottom||64)+16;
+   const bottomGuard=innerHeight-(element.closest('.intro-sequence')?.querySelector('.intro-skip')?.getBoundingClientRect().top||innerHeight-68)+12;
+   const available=Math.max(120,innerHeight-topGuard-bottomGuard);
+   const scale=Math.min((innerWidth-32)/contentWidth,innerHeight*fraction/contentHeight,available/contentHeight,3);
+   return `translate(${(innerWidth-contentWidth*scale)/2-rect.left-left*scale}px,${topGuard+(available-contentHeight*scale)/2-rect.top-top*scale}px) scale(${scale})`;
   };
   const large=centered(head.height,.76,head.width,head.left-rect.left,head.top-rect.top);
   let full=centered(height,.86);
@@ -110,6 +116,8 @@ export function IntroSequence({destination,reduced,onComplete}:{destination:()=>
  },[reduced]);
  const reelSettled=()=>{setSettled(true);later(()=>shrink.current(),550);};
  return <div class="intro-sequence" aria-label="Introducing Jared">
+  <button class="intro-mute" onClick={audio.toggleMute} aria-pressed={audio.muted} aria-label={audio.muted?'Unmute site':'Mute site'}><Icon name={audio.muted?'muted':'volume'}/><span>{audio.muted?'Unmute site':'Mute site'}</span></button>
+  <button class="intro-skip" onClick={onSkip}>Skip intro <span aria-hidden="true">→</span></button>
   <span class="sr-only">Hi! I’m Jared, a multidisciplinary creative. Screenwriter and Illustrator.</span>
   <div ref={block} class="intro-composition" aria-hidden="true">
    <IdentityHeading intro reduced={reduced} taglineReady={tagline} signatureDelay={GREETING_MS} onWritten={afterWriting}/>

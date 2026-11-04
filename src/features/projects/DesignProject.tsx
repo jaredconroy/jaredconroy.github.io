@@ -1,3 +1,4 @@
+import {usePaintedColor} from '../../app/usePaintedColor';
 import {useEffect,useLayoutEffect,useRef,useState} from 'preact/hooks';
 import {ChapterNavigation} from '../../components/ChapterNavigation';
 import {FittedChapterTitle} from '../../components/FittedChapterTitle';
@@ -55,6 +56,7 @@ export function DesignProject({onSurfaceChange}:{onSurfaceChange?:(surface:strin
   viewport.scrollTo({top:chapter.offsetTop-masthead.offsetHeight,behavior:reduced?'instant':'smooth'});
  };
  const palette=chapterPalettes[currentSection];
+ usePaintedColor(main,'--painted-chapter-accent',palette.accent,reduced,500);
  useLayoutEffect(()=>{onSurfaceChange?.(palette.surface);},[palette.surface,onSurfaceChange]);
  const chapterIndex=designChapters.findIndex(chapter=>chapter.id===currentSection);
  const chapter=designChapters[chapterIndex]||designChapters[0];

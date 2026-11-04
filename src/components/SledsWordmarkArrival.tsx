@@ -1,84 +1,74 @@
-import {useLayoutEffect,useRef} from 'preact/hooks';
-import {SledsWordmark} from './SledsWordmark';
+import {useId,useLayoutEffect,useRef} from 'preact/hooks';
+import artwork from '../../public/media/the-sleds/wordmark2.svg?raw';
 import sledboy from '../../public/media/the-sleds/sledboy.svg?raw';
 
-// The lower runner in sledboy.svg slopes 107.43 units over 194.84 units.
-const slope=107.43/194.84;
-const angle=Math.atan(slope),dx=Math.cos(angle),dy=Math.sin(angle);
-/** A half-plane clips the title directly behind the descending riders. */
-function wake(width:number,height:number,front:number){
- const corners=[[0,0],[width,0],[width,height],[0,height]];
- const points:number[][]=[];
- for(let i=0;i<corners.length;i++){
-  const a=corners[i],b=corners[(i+1)%corners.length];
-  const pa=a[0]*dx+a[1]*dy,pb=b[0]*dx+b[1]*dy;
-  if(pa<=front)points.push(a);
-  if((pa<=front)!==(pb<=front)){
-   const t=(front-pa)/(pb-pa);points.push([a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t]);
-  }
- }
- // Keep keyframes compatible polygons, including the fully hidden state.
- while(points.length<6)points.push(points.at(-1)||[0,0]);
- return `polygon(${points.map(([x,y])=>`${x}px ${y}px`).join(',')})`;
-}
+const viewBox=artwork.match(/viewBox="([^"]+)"/)![1];
+const [svgX,svgY,svgWidth,svgHeight]=viewBox.split(/\s+/).map(Number);
+const paths=artwork.replace(/^[\s\S]*?<svg[^>]*>/,'').replace(/<\/svg>[\s\S]*$/,'');
+// Match the lower runner's slope, independently of the riders' formation.
+const angle=Math.atan(107.43/194.84),dx=Math.cos(angle),dy=Math.sin(angle);
+
 export function SledsWordmarkArrival({ready,reduced,onBusyChange}:{ready:boolean;reduced:boolean;onBusyChange:(busy:boolean)=>void}){
- const root=useRef<HTMLSpanElement>(null),started=useRef(false);
+ const root=useRef<HTMLSpanElement>(null),wipe=useRef<SVGRectElement>(null),started=useRef(false);
+ const clipId=useId();
+ const paint=(front:number)=>wipe.current?.setAttribute('transform',`matrix(${dx} ${dy} ${-dy} ${dx} ${svgX+dx*front} ${svgY+dy*front})`);
+ const revealAll=()=>paint(svgWidth*dx+svgHeight*dy+32);
+ useLayoutEffect(()=>{if(reduced)revealAll();},[reduced]);
  useLayoutEffect(()=>{
   if(!ready||started.current||reduced)return;
   started.current=true;
-  const element=root.current!,wordmark=element.querySelector<HTMLElement>('.sleds-wake')!;
-  const riders=[...element.querySelectorAll<HTMLElement>('.sleds-rider')];
-  let cancelled=false;
+  const element=root.current!,riders=[...element.querySelectorAll<HTMLElement>('.sleds-rider')];
+  let cancelled=false,frame=0;
   const animations:Animation[]=[];
-  const hideRiders=()=>{riders.forEach(rider=>rider.style.visibility='hidden');onBusyChange(false);};
-  const settle=()=>{wordmark.style.clipPath='polygon(0% 0%,100% 0%,100% 100%,0% 100%,0% 100%,0% 100%)';animations.forEach(animation=>animation.cancel());hideRiders();};
+  const hideRiders=()=>riders.forEach(rider=>rider.style.visibility='hidden');
+  const settle=()=>{cancelAnimationFrame(frame);revealAll();hideRiders();animations.forEach(animation=>animation.cancel());onBusyChange(false);};
   onBusyChange(true);
   void document.fonts.ready.then(()=>{
    if(cancelled)return;
    const bounds=element.getBoundingClientRect(),style=getComputedStyle(element);
-   // Layout dimensions stay stable while the parent is still zooming into place.
    const width=parseFloat(style.width),height=parseFloat(style.height);
    if(!width||!height){settle();return;}
-   const size=Math.max(24,Math.min(46,height*.92));
-   const spacing=size*1.1;
-   const duration=1350;
+   const size=Math.max(24,Math.min(46,height*.92)),spacing=size*1.1,duration=1350;
    const scaleY=bounds.height/height||1;
    const panelBottom=((element.closest('.feature-details')?.getBoundingClientRect().bottom??bounds.bottom)-bounds.top)/scaleY;
-   const bodyHeight=size*(399.36/335.5),centerX=width*.04+spacing*(dx+dy)/dy,centerY=height/2;
-   // One longitudinal coordinate drives every rider and the reveal plane.
-   // Shorter offstage lead-in: still fully hidden at the panel edge.
+   const bodyHeight=size*(399.36/335.5),centerX=width*.04+spacing*(dx+dy)/dy-12,centerY=height/2;
    const start=(-size*.5-18-centerX-spacing)/dx;
-   const end=(panelBottom+size+bodyHeight*.86-centerY+spacing)/dy;
-   const travel=end-start;
+   const end=(panelBottom+size+bodyHeight*.86-centerY+spacing)/dy,travel=end-start;
    riders.forEach((rider,index)=>{
-    // Opposite x/y offsets form an ascending 45-degree line while travelling downhill.
     const offset=(index-1)*spacing;
-    const startX=centerX+offset+dx*start-size/2;
-    const startY=centerY-offset+dy*start-bodyHeight*.86;
+    const x=centerX+offset+dx*start-size/2,y=centerY-offset+dy*start-bodyHeight*.86;
     rider.style.width=`${size}px`;rider.style.visibility='visible';
-    const animation=rider.animate([
-     {transform:`translate3d(${startX}px,${startY}px,0)`},
-     {transform:`translate3d(${startX+dx*travel}px,${startY+dy*travel}px,0)`},
-    ],{duration,easing:'linear',fill:'both'});
-    animations.push(animation);
+    animations.push(rider.animate([
+     {transform:`translate3d(${x}px,${y}px,0)`},
+     {transform:`translate3d(${x+dx*travel}px,${y+dy*travel}px,0)`},
+    ],{duration,easing:'linear',fill:'both'}));
    });
    const initialFront=centerX*dx+centerY*dy+start-spacing*(dx-dy)-size*.25;
-   const frames=Array.from({length:49},(_,index)=>{
-    const progress=index/48;
-    return {clipPath:wake(width,height,initialFront+travel*progress),offset:progress};
-   });
-   const reveal=wordmark.animate(frames,{duration,delay:90,easing:'linear',fill:'forwards'});
-   animations.push(reveal);
-   // Retain the completed clipping layer: removing it causes a compositor flash.
-   animations[0].onfinish=()=>{riders.forEach(rider=>rider.style.visibility='hidden');};
-   reveal.onfinish=()=>onBusyChange(false);
+   const startedAt=performance.now()+90,units=svgWidth/width;
+   paint(initialFront*units);
+   // Move one permanent SVG clipping rectangle. Its geometry and paint layer
+   // never change at completion, unlike morphing CSS polygons / clip removal.
+   const tick=(now:number)=>{
+    if(cancelled)return;
+    const progress=Math.max(0,Math.min(1,(now-startedAt)/duration));
+    paint((initialFront+travel*progress)*units);
+    if(progress<1)frame=requestAnimationFrame(tick);
+    else onBusyChange(false);
+   };
+   frame=requestAnimationFrame(tick);
+   animations[0].onfinish=hideRiders;
   });
-  const resize=settle;
+  const resize=()=>{cancelled=true;settle();};
   window.addEventListener('resize',resize,{passive:true});
-  return()=>{cancelled=true;animations.forEach(animation=>animation.cancel());window.removeEventListener('resize',resize);settle();};
+  return()=>{cancelled=true;settle();window.removeEventListener('resize',resize);};
  },[ready,reduced,onBusyChange]);
- return <span ref={root} aria-hidden="true" class={`sleds-wordmark-arrival${reduced?' is-reduced':''}`}>
-  <span class="sleds-wake"><SledsWordmark/></span>
+ return <span ref={root} class="sleds-wordmark-arrival" aria-hidden="true">
+  <span class="sleds-wake sleds-wordmark" style={{aspectRatio:`${svgWidth}/${svgHeight}`}}>
+   <svg viewBox={viewBox} aria-hidden="true">
+    <defs><clipPath id={clipId} clipPathUnits="userSpaceOnUse"><rect ref={wipe} x="-8192" y="-8192" width="8192" height="16384" transform="translate(-16384 0)"/></clipPath></defs>
+    <g clip-path={`url(#${clipId})`} dangerouslySetInnerHTML={{__html:paths}}/>
+   </svg>
+  </span>
   {!reduced&&[0,1,2].map(index=><span key={index} class="sleds-rider" dangerouslySetInnerHTML={{__html:sledboy}}/>)}
  </span>;
 }
