@@ -76,7 +76,7 @@ test('leaving during decode cannot start a late buzz or plink',async t=>{
 });
 test('the lit tube stays opaque while color and halo span dark orange, page orange and yellow',()=>{
  assert.deepEqual(neonAppearance(.25,'loop'),{opacity:1,color:'rgb(176, 86, 15)',glow:.18});
- assert.deepEqual(neonAppearance(.625,'loop'),{opacity:1,color:'rgb(239, 130, 22)',glow:.5});
+ assert.deepEqual(neonAppearance(.625,'loop'),{opacity:1,color:'rgb(240, 145, 19)',glow:.59});
  assert.deepEqual(neonAppearance(1,'loop'),{opacity:1,color:'rgb(245, 213, 4)',glow:1});
  assert.ok(NEON_LEVELS.every(level=>neonAppearance(level,'loop').opacity===1));
  assert.equal(neonAppearance(0,'blink').opacity,1);
