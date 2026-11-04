@@ -30,13 +30,13 @@ export function FoulBallsTitle({settled,probe=false}:{settled:boolean;probe?:boo
 }
 export type BaseballRun={id:number;rollMs:number};
 /** Runs after the final normal bold-letter frame of the selected label. */
-export function FoulBallsArrival({run,enabled,reduced,onBusyChange,onSettled}:{run:BaseballRun|null;enabled:boolean;reduced:boolean;onBusyChange:(busy:boolean)=>void;onSettled:(value:boolean)=>void}){
+export function FoulBallsArrival({run,enabled,reduced,onBusyChange,onSettled,onLabelRestore}:{run:BaseballRun|null;enabled:boolean;reduced:boolean;onBusyChange:(busy:boolean)=>void;onSettled:(value:boolean)=>void;onLabelRestore:(value:boolean)=>void}){
  const flight=useRef<HTMLSpanElement>(null);
  useLayoutEffect(()=>{
   if(!run||!enabled)return;
-  if(reduced){onSettled(true);return;}
-  onSettled(false);onBusyChange(true);
-  let frame=0,cancelled=false,animation:Animation|undefined,spin:Animation|undefined,restoreTimer:ReturnType<typeof setTimeout>|undefined,labelsRestored=false;
+  if(reduced){onSettled(true);onLabelRestore(true);return;}
+  onSettled(false);onLabelRestore(false);onBusyChange(true);
+  let frame=0,cancelled=false,animation:Animation|undefined,spin:Animation|undefined,labelsRestored=false;
   const erased:{letter:HTMLElement;animation:Animation}[]=[],fades:Animation[]=[];
   const ball=flight.current!;
   const restoreLabel=()=>{
@@ -51,11 +51,11 @@ export function FoulBallsArrival({run,enabled,reduced,onBusyChange,onSettled}:{r
     fade.onfinish=()=>fade.cancel();fades.push(fade);
    }
    erased.length=0;
-   onSettled(true);
+   onLabelRestore(true);
   };
   const settle=()=>{
    if(cancelled)return;
-   if(restoreTimer)clearTimeout(restoreTimer);restoreLabel();
+   restoreLabel();
    onSettled(true);ball.style.visibility='hidden';onBusyChange(false);
   };
   frame=requestAnimationFrame(()=>{void document.fonts.ready.then(()=>{
@@ -84,13 +84,13 @@ export function FoulBallsArrival({run,enabled,reduced,onBusyChange,onSettled}:{r
     const progress=Math.max(0,Math.min(.92,(startX+size/2-(bounds.left+bounds.right)/2)/(startX-x)));
     erased.push({letter,animation:letter.animate([{opacity:1},{opacity:0}],{duration:55,delay:progress*run.rollMs,fill:'forwards'})});
    }
-   // Fade the selected label back in at the ball's first ground contact.
-   restoreTimer=setTimeout(restoreLabel,run.rollMs+380);
+   // Keep the letters erased through the bounce; restore them only once the
+   // moving ball is hidden and the tab area is free to return to idle.
    animation.onfinish=settle;
   });});
   const stopForGeometryChange=()=>{cancelAnimationFrame(frame);animation?.cancel();spin?.cancel();settle();cancelled=true;};
   window.addEventListener('resize',stopForGeometryChange);window.addEventListener('scroll',stopForGeometryChange,{passive:true});
-  return()=>{cancelled=true;if(restoreTimer)clearTimeout(restoreTimer);cancelAnimationFrame(frame);animation?.cancel();spin?.cancel();erased.forEach(({letter,animation})=>{animation.cancel();letter.style.removeProperty('opacity');});fades.forEach(fade=>fade.cancel());ball.style.visibility='hidden';onBusyChange(false);window.removeEventListener('resize',stopForGeometryChange);window.removeEventListener('scroll',stopForGeometryChange);};
- },[run,enabled,reduced]);
+  return()=>{cancelled=true;cancelAnimationFrame(frame);animation?.cancel();spin?.cancel();erased.forEach(({letter,animation})=>{animation.cancel();letter.style.removeProperty('opacity');});fades.forEach(fade=>fade.cancel());ball.style.visibility='hidden';onBusyChange(false);window.removeEventListener('resize',stopForGeometryChange);window.removeEventListener('scroll',stopForGeometryChange);};
+ },[run,enabled,reduced,onBusyChange,onSettled,onLabelRestore]);
  return createPortal(<span ref={flight} class="foul-baseball-flight" aria-hidden="true"><Baseball/></span>,document.body);
 }

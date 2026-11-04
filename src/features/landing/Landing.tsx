@@ -33,7 +33,7 @@ export function Landing({overlayOpen,reduced,onIntroDone,visible,onThemeChange,n
  const [baseballBusy,setBaseballBusy]=useState(false);
  const [sledsBusy,setSledsBusy]=useState(false);
  const [afromanBusy,setAfromanBusy]=useState(false);
- const [baseballRun,setBaseballRun]=useState<BaseballRun|null>(null),[baseballSettled,setBaseballSettled]=useState(reduced);
+ const [baseballRun,setBaseballRun]=useState<BaseballRun|null>(null),[baseballSettled,setBaseballSettled]=useState(reduced),[baseballLabelReady,setBaseballLabelReady]=useState(reduced);
  const [previewIndex,setPreviewIndex]=useState<number|null>(null);
  const [pressedTab,setPressedTab]=useState<number|null>(null);
  const motion=projectTiming(reduced);
@@ -147,11 +147,12 @@ export function Landing({overlayOpen,reduced,onIntroDone,visible,onThemeChange,n
   setIntroTransition(true);setStage('in');setAmpEntering(false);onIntroDone();
   schedule(()=>{
    introAnimating.current=false;setStage('idle');setAmpEntering(false);setIntroTransition(false);
-   // The intro hands into the carousel with the same final→first folder wave
-   // visitors see when cycling from Illustration back to Foul Balls.
+   // Give the far-right folder a clear selected beat, then run the same
+   // right-to-left sweep used to wrap Illustration back to Foul Balls.
    indexRef.current=projects.length-1;targetRef.current=projects.length-1;
-   setActive(projects.length-1);setDisplayed(0);
-   activate(0,false);
+   setActive(projects.length-1);setDisplayed(projects.length-1);setPreviewIndex(projects.length-1);
+   onThemeChange(projects[projects.length-1].id);
+   schedule(()=>{setPreviewIndex(null);activate(0,false);},240);
   },INTRO_TRANSITION_MS/2);
  };
  useEffect(()=>{if(!intro)onIntroDone();},[]);
@@ -186,6 +187,7 @@ export function Landing({overlayOpen,reduced,onIntroDone,visible,onThemeChange,n
   const plan=tabTransitionPlan(previous,next);
   if(projects[next].id==='foul-balls'){
    setBaseballSettled(false);
+   setBaseballLabelReady(false);
    setBaseballRun(null);
    const {triggerAt,rollMs}=baseballArrivalTiming(plan);
    schedule(()=>setBaseballRun(value=>({id:(value?.id||0)+1,rollMs})),triggerAt);
@@ -231,8 +233,8 @@ export function Landing({overlayOpen,reduced,onIntroDone,visible,onThemeChange,n
  useEffect(()=>{if(elapsed>=CYCLE_MS&&!resumeCountdownOnSettle.current)activate((indexRef.current+1)%projects.length);},[elapsed]);
  const p=projects[displayed];
  useEffect(()=>{
-  if(visible&&!intro&&!introTransition&&p.id==='foul-balls'&&!baseballRun){setBaseballSettled(reduced);setBaseballRun({id:1,rollMs:BASEBALL_ROLL_MS});}
- },[visible,intro,introTransition,p.id,baseballRun,reduced]);
+  if(visible&&!intro&&!introTransition&&!tabTransition&&!transitionRef.current&&p.id==='foul-balls'&&!baseballRun){setBaseballSettled(reduced);setBaseballLabelReady(reduced);setBaseballRun({id:1,rollMs:BASEBALL_ROLL_MS});}
+ },[visible,intro,introTransition,tabTransition,p.id,baseballRun,reduced]);
  const roleOpen=expanded||hoverRoles;
  const neonActive=p.id==='afroman'&&roleOpen&&visible&&!hidden&&!overlayOpen&&!intro;
  useNeonSign(neonActive,reduced,identityRef);
@@ -267,7 +269,7 @@ export function Landing({overlayOpen,reduced,onIntroDone,visible,onThemeChange,n
  const indexAwake=baseballBusy||sledsBusy||afromanBusy||previewIndex!==null||lead!==null||(!!tabTransition&&phase!=='cleanup')||pressedTab!==null;
  useLayoutEffect(()=>{onIndexAwakeChange(indexAwake);},[indexAwake]);
  // Update navigation labels before the tab faces in the same render; neither animation waits for the other.
- const projectNavigation=<ProjectNavigation active={active} reduced={reduced} labelsAwake={indexAwake} selectionTarget={tabTransition?.to??active} handoffMs={tabTransition?.handoffMs} onPreview={setPreviewIndex} onPress={setPressedTab} onSelect={i=>activate(i,true)} boldActiveLabel={baseballSettled}/>;
+ const projectNavigation=<ProjectNavigation active={active} reduced={reduced} labelsAwake={indexAwake} selectionTarget={tabTransition?.to??active} handoffMs={tabTransition?.handoffMs} onPreview={setPreviewIndex} onPress={setPressedTab} onSelect={i=>activate(i,true)} boldActiveLabel={baseballLabelReady}/>;
  return <main id={visible?"main":"landing-main"} tabindex={-1} data-reduced-motion={reduced?'true':undefined} class={`landing ${intro?'is-intro':''} ${introTransition?'intro-handoff':''}`} style={{'--intro-half':`${INTRO_TRANSITION_MS/2}ms`,'--folder-out-duration':`${motion.out}ms`,'--folder-in-duration':`${motion.in}ms`}}>
  <section ref={identityRef} class="identity" aria-label="Jared, multidisciplinary creative">
   <IdentityHeading/>
@@ -299,7 +301,7 @@ export function Landing({overlayOpen,reduced,onIntroDone,visible,onThemeChange,n
  </div></div>
  <div class="carousel-status"><div class="timer-copy"><span>{intro?'Meet Jared':reduced?'Manual selection':userPaused?'Paused':tabTransition?'Switching project':paused?'On pause':'Next in '+Math.ceil((CYCLE_MS-elapsed)/1000)+'s'}</span><button onClick={()=>setUserPaused(value=>!value)} aria-label={userPaused?'Play project auto-advance':'Pause project auto-advance'} aria-pressed={userPaused} disabled={reduced}>{userPaused?'▶':'Ⅱ'}</button></div></div>
  </section>
- <FoulBallsArrival run={baseballRun} enabled={visible&&!intro&&!introTransition&&(active===0||tabTransition?.to===0)} reduced={reduced} onBusyChange={setBaseballBusy} onSettled={setBaseballSettled}/>
+ <FoulBallsArrival run={baseballRun} enabled={visible&&!intro&&!introTransition&&(active===0||tabTransition?.to===0)} reduced={reduced} onBusyChange={setBaseballBusy} onSettled={setBaseballSettled} onLabelRestore={setBaseballLabelReady}/>
  {intro&&<IntroSequence destination={()=>identityRef.current} reduced={reduced} onComplete={finishIntro} onSkip={()=>{finishIntro();requestAnimationFrame(()=>identityRef.current?.closest('main')?.focus({preventScroll:true}));}}/>}
  </main>;
 }
