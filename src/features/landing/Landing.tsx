@@ -14,6 +14,7 @@ import {useAutoplayInteraction} from './useAutoplayInteraction';
 import {IntroSequence} from './IntroSequence';
 import {ProjectNavigation} from '../../components/ProjectNavigation';
 import {FolderTab} from './FolderTab';
+import {FoulBallsTitle} from './FoulBallsTitle';
 import {useBatCrack} from '../audio/useBatCrack';
 import {useNeonSign} from '../neon/useNeonSign';
 import {CompactRoleChain} from './CompactRoleChain';
@@ -27,6 +28,7 @@ export function Landing({overlayOpen,reduced,onIntroDone,visible,onThemeChange,n
  const [ampEntering,setAmpEntering]=useState(false);
  const [introTransition,setIntroTransition]=useState(false);
  const [tabTransition,setTabTransition]=useState<TabTransition|null>(null);
+ const [baseballBusy,setBaseballBusy]=useState(false);
  const [previewIndex,setPreviewIndex]=useState<number|null>(null);
  const [pressedTab,setPressedTab]=useState<number|null>(null);
  const motion=projectTiming(reduced);
@@ -203,7 +205,7 @@ export function Landing({overlayOpen,reduced,onIntroDone,visible,onThemeChange,n
   }
  },[visible,returnProjectId]);
  const paused=!visible||hidden||overlayOpen||interacting||userPaused;
- const state=useRef({intro,paused,reduced,transitioning:!!tabTransition||stage!=='idle'});state.current={intro,paused,reduced,transitioning:!!tabTransition||stage!=='idle'};
+ const state=useRef({intro,paused,reduced,transitioning:!!tabTransition||stage!=='idle'||baseballBusy});state.current={intro,paused,reduced,transitioning:!!tabTransition||stage!=='idle'||baseballBusy};
  useEffect(()=>{let last=performance.now();const timer=setInterval(()=>{const now=performance.now(),delta=Math.min(now-last,250);last=now;const s=state.current;
   if(s.intro)return;
   if(!s.reduced)setElapsed(value=>stepClock(value,delta,s.paused,s.transitioning));
@@ -239,9 +241,9 @@ export function Landing({overlayOpen,reduced,onIntroDone,visible,onThemeChange,n
   return()=>observer.disconnect();
  },[roleOpen,p.id]);
  const lead=!intro&&!introTransition&&!tabTransition&&!reduced&&elapsed>=CYCLE_MS-1000?(active+1)%projects.length:null;
- const levels=tabLevels(projects.length,active,tabTransition,lead,previewIndex,pressedTab);
+ const levels=tabLevels(projects.length,active,tabTransition,lead,baseballBusy?active:previewIndex,pressedTab);
  const phase=tabTransition?.phase||'idle';
- const indexAwake=previewIndex!==null||lead!==null||(!!tabTransition&&phase!=='cleanup')||pressedTab!==null;
+ const indexAwake=baseballBusy||previewIndex!==null||lead!==null||(!!tabTransition&&phase!=='cleanup')||pressedTab!==null;
  useLayoutEffect(()=>{onIndexAwakeChange(indexAwake);},[indexAwake]);
  // Update navigation labels before the tab faces in the same render; neither animation waits for the other.
  const projectNavigation=<ProjectNavigation active={active} reduced={reduced} labelsAwake={indexAwake} selectionTarget={tabTransition?.to??active} handoffMs={tabTransition?.handoffMs} onPreview={setPreviewIndex} onPress={setPressedTab} onSelect={i=>activate(i,true)}/>;
@@ -265,7 +267,7 @@ export function Landing({overlayOpen,reduced,onIntroDone,visible,onThemeChange,n
  <div class={`folder-cover ${introTransition?'project-content transition-in':''}`} style={{'--folder-color':p.theme.accent,'--tab-count':projects.length}}>
  <div class="folder-tabs" aria-hidden="true">{projects.map((project,index)=><FolderTab key={project.id} id={project.id} index={index} color={project.theme.accent} level={levels[index]} pass={tabTransition?.phase!=='cleanup'?tabTransition?.passes.find(pass=>pass.index===index):undefined} reduced={reduced} pressed={pressedTab===index} wave={!!tabTransition}/>)}</div>
  <a class="feature-caption feature-details" href={projectRoute(p.id)} aria-labelledby="featured-title">
-  <div class={`feature-title project-content transition-${stage}`}><h2 id="featured-title" class={p.id==='the-sleds'?'sleds-feature-wordmark':undefined}>{p.id==='the-sleds'?<><span class="sr-only">The Sleds</span><SledsWordmark/></>:p.title}</h2></div>
+  <div class={`feature-title project-content transition-${stage}`}><h2 id="featured-title" class={p.id==='the-sleds'?'sleds-feature-wordmark':undefined}>{p.id==='the-sleds'?<><span class="sr-only">The Sleds</span><SledsWordmark/></>:p.id==='foul-balls'?<FoulBallsTitle ready={!intro&&!introTransition&&stage==='idle'&&visible} reduced={reduced} onBusyChange={setBaseballBusy}/>:p.title}</h2></div>
   {p.subtitle&&<p class={`project-subtitle project-content transition-${stage}`}>{p.subtitle}</p>}
  </a>
  <div class="feature-visual">
