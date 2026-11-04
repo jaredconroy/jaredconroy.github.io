@@ -59,6 +59,7 @@
 .sleds-amp-flip{display:block;position:relative;transform-style:preserve-3d;transform:perspective(600px) rotateY(0deg);transition:transform 650ms cubic-bezier(.45,0,.2,1)}
 .sleds-amp-front{display:block;backface-visibility:hidden;-webkit-backface-visibility:hidden}
 .sleds-amp-back{display:block;position:absolute;left:50%;top:var(--sleds-logo-top,0px);height:var(--sleds-logo-height,.8em);width:var(--sleds-logo-width,.85em);transform:translateX(-50%) rotateY(180deg);backface-visibility:hidden;-webkit-backface-visibility:hidden;pointer-events:none}
+.sleds-amp-back{color:var(--accent)}
 .sleds-amp-back svg{display:block;width:100%;height:100%;fill:currentColor;overflow:visible}
 .app-shell[data-project-theme="the-sleds"] .role-system.expanded .ampersand{animation:none;transform:translate(-50%,-50%)}
 .role-system.expanded .sleds-amp-flip{transform:perspective(600px) rotateY(180deg)}

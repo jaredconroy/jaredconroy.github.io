@@ -33,10 +33,10 @@ test('baseball starts on the final normal bold-letter frame of Foul Balls',()=>{
  assert.ok(baseballArrivalTiming(tabTransitionPlan(4,0)).triggerAt>baseballArrivalTiming(tabTransitionPlan(1,0)).triggerAt);
 });
 
-test('visible circle matches the full a ink footprint, includes the 1px lower landing and proportional left nudge',()=>{
+test('visible circle matches the full a ink footprint, includes the 0.75px lower landing and proportional left nudge',()=>{
  const metrics={ascent:20,descent:1,baseline:30,width:24},fit=baseballLetterFit(metrics);
  assert.equal(fit.size*.96,metrics.width);
- assert.equal(fit.top+fit.size*.98,metrics.baseline+metrics.descent+1);
+ assert.equal(fit.top+fit.size*.98,metrics.baseline+metrics.descent+.75);
  assert.equal(fit.shift,-1.75);
  assert.equal(baseballLetterFit({...metrics,fontSize:24}).shift,-.875);
 });
