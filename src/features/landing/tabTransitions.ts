@@ -39,7 +39,7 @@ export function tabLevels(count:number,active:number,transition:TabTransition|nu
  const awake=preview!==null||lead!==null;
  const levels:TabLevel[]=transition&&transition.phase!=='cleanup'
   ?Array.from({length:count},(_,index)=>transition.raised.includes(index)||index===transition.to&&(transition.phase==='raise'||transition.phase==='hold')?'full':'half')
-  :Array.from({length:count},(_,index)=>index===active?(awake?'full':'half'):index===preview?'full':awake?'half':'hidden');
+  :Array.from({length:count},(_,index)=>index===active?(awake?'full':'half'):index===preview?'full':'half');
  if(pressed!==null)levels[pressed]='half';
  return levels;
 }

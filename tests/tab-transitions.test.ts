@@ -56,9 +56,9 @@ test('all passing faces are halfway during the 500ms fan hold',()=>{
  assert.deepEqual(hold.raised,[]);assert.equal(cleanup.at-hold.at,500);
  assert.deepEqual(tabLevels(5,4,state(0,4,hold),null,null),['half','half','half','half','full']);
 });
-test('cleanup hides the fan unless pointer or keyboard preview owns the index',()=>{
+test('cleanup rests the whole fan at equal lowered heights unless a preview owns the index',()=>{
  const transition:TabTransition={from:0,to:3,phase:'cleanup',raised:[],passes:[],handoffMs:0};
- assert.deepEqual(tabLevels(5,3,transition,null,null),['hidden','hidden','hidden','half','hidden']);
+ assert.deepEqual(tabLevels(5,3,transition,null,null),['half','half','half','half','half']);
  assert.deepEqual(tabLevels(5,3,transition,null,1),['half','full','half','full','half']);
 });
 test('pointer-down targets halfway immediately and release restores the current tab without navigation',()=>{
@@ -89,9 +89,9 @@ test('every destination uses a separate complete descriptor exit before swapping
  }
 });
 
-test('idle index rests halfway and wakes the active face with the whole fan',()=>{
- assert.deepEqual(tabLevels(5,2,null,null,null),['hidden','hidden','half','hidden','hidden']);
+test('all five idle tabs share the lowered resting height and wake on interaction',()=>{
+ assert.deepEqual(tabLevels(5,2,null,null,null),['half','half','half','half','half']);
  assert.deepEqual(tabLevels(5,2,null,null,4),['half','half','full','half','full']);
  assert.deepEqual(tabLevels(5,2,null,3,null),['half','half','full','half','half']);
- assert.deepEqual(tabLevels(5,2,null,null,null),['hidden','hidden','half','hidden','hidden']);
+ assert.deepEqual(tabLevels(5,2,null,null,null),['half','half','half','half','half']);
 });

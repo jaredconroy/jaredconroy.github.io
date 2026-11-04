@@ -12,7 +12,7 @@ import {TAB_STROKE_MS} from '../features/landing/timing';
 const SignatureEditor=import.meta.env.DEV&&new URLSearchParams(location.search).get('signature-editor')==='1'?lazy(()=>import('../features/signature-editor/SignatureEditor')):null;
 const projectHeaderPalettes:Record<string,{surface:string;ink:string;highlight:string}>={
  'foul-balls':{surface:'#241c32',ink:'#ffffff',highlight:'#846393'},
- 'the-sleds':{surface:'#19364d',ink:'#ffffff',highlight:'#b6d3e9'},
+ 'the-sleds':{surface:'#19364d',ink:'#ffffff',highlight:'#91b2cb'},
  'design':{surface:'#173458',ink:'#ffffff',highlight:'#008477'},
  'illustration':{surface:'#edf5fb',ink:'#173458',highlight:'#88281d'},
  'afroman':{surface:'#000000',ink:'#ffffff',highlight:'#ef8216'},
