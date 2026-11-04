@@ -1,6 +1,8 @@
 import {useLayoutEffect,useRef} from 'preact/hooks';
 import walk from '../content/afroman-walk.json';
 
+const PREVIEW_SPEED=1.6;
+
 /** The game's own frames and cadence, with movement scaled to the displayed sprite. */
 export function AfromanTitleArrival({ready,reduced,onBusyChange}:{ready:boolean;reduced:boolean;onBusyChange:(busy:boolean)=>void}){
  const root=useRef<HTMLSpanElement>(null),started=useRef(false);
@@ -31,13 +33,13 @@ export function AfromanTitleArrival({ready,reduced,onBusyChange}:{ready:boolean;
    actor.style.top=`${panelHeight-height-6}px`;
    actor.style.backgroundSize=`${walk.sheetWidth*scale}px ${walk.sheetHeight*scale}px`;
    actor.style.visibility='visible';
-   const cycleMs=walk.frames.reduce((sum,frame)=>sum+frame.ms,0);
+   const cycleMs=walk.frames.reduce((sum,frame)=>sum+frame.ms,0)/PREVIEW_SPEED;
    const frames=walk.frames.map((frame,index)=>({backgroundPosition:`${-frame.x*scale}px ${-frame.y*scale}px`,offset:index/walk.frames.length,easing:'steps(1,end)'}));
    frames.push({...frames[0],offset:1});
    const cycle=actor.animate(frames,{duration:cycleMs,iterations:Infinity});
-   // GameScene: 8px/update at 60Hz, at the same scale as the original 322px frame.
+   // Accelerate the original 8px/update at 60Hz and its cadence together.
    const from=-spriteWidth,to=width+padding*2,distance=to-from;
-   const duration=distance/(walk.gamePixelsPerSecond*scale)*1000;
+   const duration=distance/(walk.gamePixelsPerSecond*scale*PREVIEW_SPEED)*1000;
    const movement=actor.animate([{transform:`translate3d(${from}px,0,0)`},{transform:`translate3d(${to}px,0,0)`}],{duration,easing:'linear',fill:'both'});
    const reveal=ink.animate(Array.from({length:49},(_,index)=>{
     const progress=index/48,x=from+distance*progress-padding+spriteWidth*.12;

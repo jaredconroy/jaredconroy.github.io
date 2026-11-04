@@ -40,20 +40,20 @@ export function SledsWordmarkArrival({ready,reduced,onBusyChange}:{ready:boolean
    const width=parseFloat(style.width),height=parseFloat(style.height);
    if(!width||!height){settle();return;}
    const size=Math.max(24,Math.min(46,height*.92));
-   const spacing=size*.9;
+   const spacing=size*1.1;
    const duration=1350;
    const scaleY=bounds.height/height||1;
    const panelBottom=((element.closest('.feature-details')?.getBoundingClientRect().bottom??bounds.bottom)-bounds.top)/scaleY;
-   const bodyHeight=size*(399.36/335.5),centerX=width*.08+spacing*(dx-dy)/dy,centerY=height/2;
+   const bodyHeight=size*(399.36/335.5),centerX=width*.08+spacing*(dx+dy)/dy,centerY=height/2;
    // One longitudinal coordinate drives every rider and the reveal plane.
    const start=(-size*1.5-width*.08-centerX-spacing)/dx;
    const end=(panelBottom+size+bodyHeight*.86-centerY+spacing)/dy;
    const travel=end-start;
    riders.forEach((rider,index)=>{
-    // Equal x/y offsets make a 45-degree formation, independent of travel angle.
+    // Opposite x/y offsets form an ascending 45-degree line while travelling downhill.
     const offset=(index-1)*spacing;
     const startX=centerX+offset+dx*start-size/2;
-    const startY=centerY+offset+dy*start-bodyHeight*.86;
+    const startY=centerY-offset+dy*start-bodyHeight*.86;
     rider.style.width=`${size}px`;rider.style.visibility='visible';
     const animation=rider.animate([
      {transform:`translate3d(${startX}px,${startY}px,0)`},
@@ -61,7 +61,7 @@ export function SledsWordmarkArrival({ready,reduced,onBusyChange}:{ready:boolean
     ],{duration,easing:'linear',fill:'both'});
     animations.push(animation);
    });
-   const initialFront=centerX*dx+centerY*dy+start-spacing*(dx+dy)-size*.25;
+   const initialFront=centerX*dx+centerY*dy+start-spacing*(dx-dy)-size*.25;
    const frames=Array.from({length:49},(_,index)=>{
     const progress=index/48;
     return {clipPath:wake(width,height,initialFront+travel*progress),offset:progress};
