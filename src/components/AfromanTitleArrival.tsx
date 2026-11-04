@@ -1,11 +1,20 @@
 import {useLayoutEffect,useRef} from 'preact/hooks';
 import walk from '../content/afroman-walk.json';
+import {textLineMetrics} from './textMetrics';
 
 const PREVIEW_SPEED=1.6;
 
 /** The game's own frames and cadence, with movement scaled to the displayed sprite. */
 export function AfromanTitleArrival({ready,reduced,onBusyChange}:{ready:boolean;reduced:boolean;onBusyChange:(busy:boolean)=>void}){
  const root=useRef<HTMLSpanElement>(null),started=useRef(false);
+ useLayoutEffect(()=>{
+  const element=root.current!,title=element.closest('h2');
+  if(!title)return;
+  const align=()=>{const style=getComputedStyle(title),metrics=textLineMetrics(element,'Afroman');title.style.setProperty('--afroman-underline-top',`${metrics.baseline+(parseFloat(style.textUnderlineOffset)||0)}px`);};
+  align();const observer=new ResizeObserver(align);observer.observe(element);
+  void document.fonts.ready.then(align);
+  return()=>observer.disconnect();
+ },[]);
  useLayoutEffect(()=>{
   if(!ready||started.current||reduced)return;
   started.current=true;

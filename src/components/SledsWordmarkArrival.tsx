@@ -44,9 +44,10 @@ export function SledsWordmarkArrival({ready,reduced,onBusyChange}:{ready:boolean
    const duration=1350;
    const scaleY=bounds.height/height||1;
    const panelBottom=((element.closest('.feature-details')?.getBoundingClientRect().bottom??bounds.bottom)-bounds.top)/scaleY;
-   const bodyHeight=size*(399.36/335.5),centerX=width*.08+spacing*(dx+dy)/dy,centerY=height/2;
+   const bodyHeight=size*(399.36/335.5),centerX=width*.04+spacing*(dx+dy)/dy,centerY=height/2;
    // One longitudinal coordinate drives every rider and the reveal plane.
-   const start=(-size*1.5-width*.08-centerX-spacing)/dx;
+   // Shorter offstage lead-in: still fully hidden at the panel edge.
+   const start=(-size*.5-18-centerX-spacing)/dx;
    const end=(panelBottom+size+bodyHeight*.86-centerY+spacing)/dy;
    const travel=end-start;
    riders.forEach((rider,index)=>{

@@ -118,3 +118,9 @@
 .afroman-walk-lane{position:absolute;overflow:hidden;pointer-events:none}
 .afroman-title-walker{position:absolute;left:0;visibility:hidden;background-image:url('/media/afroman/walk-sprites.png');background-repeat:no-repeat;image-rendering:pixelated;will-change:transform}
 .feature-details:has(.afroman-title-arrival){overflow:hidden}
+/* A title-level line survives the inline-block sprite-reveal wrapper. */
+.feature .feature-details .afroman-feature-title{position:relative;text-decoration:none}
+.afroman-feature-title:after{content:'';position:absolute;left:0;right:0;top:var(--afroman-underline-top,100%);height:2px;background:currentColor;opacity:0;transition:opacity 180ms}
+.feature-details:is(:hover,:focus-visible) .afroman-feature-title:after,
+.feature:has(.folder-cover>.feature-visual .media-link:is(:hover,:focus-visible)) .afroman-feature-title:after{opacity:1}
+@media(prefers-reduced-motion:reduce){.afroman-feature-title:after{transition:none}}
