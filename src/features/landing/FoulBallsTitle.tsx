@@ -5,7 +5,7 @@ import {baseballMotion,baseballLetterFit,baseballSpinFrames,BASEBALL_LANDING_MS}
 
 function Baseball(){
  const id=useId();
- return <svg viewBox="0 0 100 100" aria-hidden="true"><defs><mask id={id} maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="100"><circle cx="50" cy="50" r="48" fill="white"/><g fill="none" stroke="black" stroke-width="6.5" stroke-dasharray="6 8" stroke-linecap="round"><path d="M8 -4 C29 25 29 75 8 104"/><path d="M92 -4 C71 25 71 75 92 104"/></g></mask></defs><circle cx="50" cy="50" r="48" fill="white" mask={`url(#${id})`}/></svg>;
+ return <svg viewBox="0 0 100 100" aria-hidden="true"><defs><mask id={id} maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="100"><circle cx="50" cy="50" r="48" fill="white"/><g fill="none" stroke="black" stroke-width="6.5" stroke-dasharray="6 8" stroke-linecap="round"><path d="M10 -4 C33 25 33 75 10 104"/><path d="M90 -4 C67 25 67 75 90 104"/></g></mask></defs><circle cx="50" cy="50" r="48" fill="white" mask={`url(#${id})`}/></svg>;
 }
 export function FoulBallsTitle({settled,probe=false}:{settled:boolean;probe?:boolean}){
  const slot=useRef<HTMLSpanElement>(null);
