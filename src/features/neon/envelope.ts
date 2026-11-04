@@ -40,7 +40,9 @@ export function createNeonVisualSampler(){
 const DARK_ORANGE=[140,62,11] as const,THEME_ORANGE=[239,130,22] as const,BRIGHT_YELLOW=[245,213,4] as const;
 /** The lit tube stays opaque. Its color and halo carry the brightness cycle. */
 export function neonAppearance(level:number,phase:NeonPhase){
- let strength=phase==='loop'?(level-.25)/.75:level;
+ // The ignition flickers and idle state still extinguish completely. Once
+ // the sign is in its breathing loop, retain a small ember at the low point.
+ let strength=phase==='loop'?.18+((level-.25)/.75)*.82:level;
  strength=Math.max(0,Math.min(1,strength));
  if(strength<.015)strength=0;
  const from=strength<=.5?DARK_ORANGE:THEME_ORANGE,to=strength<=.5?THEME_ORANGE:BRIGHT_YELLOW;

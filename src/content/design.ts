@@ -63,11 +63,12 @@ const chapterOrder=[
 export const designChapters=chapterOrder.map(chapter=>({...chapter,title:designSections.find(section=>section.id===chapter.id)!.title}));
 const logos=designSections[0].items,digital=designSections[1].items,film=designSections[4].items;
 export const designIdentities=[
- {kind:'lni',name:'Late Night Idle',detail:'I transformed the band’s chosen font into custom lettering and a distinctive wordmark. The comparison shows the original type alongside the finished lettering.',background:'#222326',items:[logos[0],{title:'Late Night Idle · before & after',caption:'The band’s original font, reworked into custom typography and a wordmark.',src:`${base}media/design/lni-before-after.svg?layout=compact-v2`,width:3512.264,height:408.149,background:'#222326'} as DesignArtwork]},
+ {kind:'lni',name:'Late Night Idle',detail:'I transformed the band’s chosen font into custom lettering and a distinctive wordmark.',background:'#222326',items:[logos[0]]},
  {kind:'ctt',name:'Consumer Think Tank',detail:'An identity for a platform built around consumer ideas.',background:'#262262',items:[digital[2]]},
  {kind:'six-pack',name:'Six Pack with Jack',detail:'Commissioned podcast identity.',background:'#efe4d5',items:[logos[3]]},
  {kind:'slim',name:'Slim Thick Sports',detail:'A custom logo and wordmark for a comedic sports blog.',background:'#0f75bc',items:[logos[2]]},
  {kind:'boots',name:'Boots & Cats',detail:'A boot, a cat, a music note. Logo explorations lead to an identity for a songwriting app.',background:'#4555a5',items:[digital[0]]},
+ {kind:'sleds',name:'The Sleds',detail:'The wordmark for my rock ’n’ roll band.',background:'#19364d',items:[{title:'The Sleds',caption:'Band wordmark.',src:`${base}media/the-sleds/wordmark.svg`,width:1008.17,height:697.6}]},
 ];
 // Fixed homepage composition: square artwork around a thumbnail and portrait, with corner wordmarks.
 export const designPreview=[

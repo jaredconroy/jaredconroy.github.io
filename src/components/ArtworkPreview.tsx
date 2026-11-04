@@ -11,7 +11,7 @@ function DesignWall(){
  })}</div>)}</div>;
 }
 function SketchbookSpread(){
- const picks=['illustration-dog','illustration-golfer','illustration-speech'];
+ const picks=['illustration-boone','illustration-golfer','illustration-speech'];
  return <>{picks.map((id,index)=>{
   const art=illustrationPreview.find(item=>item.id===id);
   if(!art)return null;

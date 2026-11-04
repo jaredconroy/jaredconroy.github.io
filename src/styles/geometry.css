@@ -41,6 +41,7 @@
 .identity-heading .greeting-hi-text{font-weight:700}
 .identity-heading .greeting-im{font-weight:400}
 @media(max-width:1000px){.identity-heading{max-width:390px;margin-inline:auto}}
+@media(max-width:679px){.identity-heading .identity-tagline{top:calc(var(--identity-tagline-top,0px) + 4px)}}
 
 /* Identity and role corners share one width at every stacked breakpoint. */
 @media(max-width:1000px){

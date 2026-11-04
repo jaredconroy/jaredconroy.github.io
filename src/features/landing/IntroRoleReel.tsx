@@ -1,5 +1,6 @@
 import {useLayoutEffect,useRef} from 'preact/hooks';
 import {RoleDescriptor} from '../../components/RoleDescriptor';
+import {INTRO_REEL_MS} from './timing';
 
 /** Two masked vertical tracks decelerate together into the canonical pair. */
 export function IntroRoleReel({titles,finalPair,onSettled}:{titles:string[];finalPair:[string,string];onSettled:()=>void}){
@@ -12,7 +13,7 @@ export function IntroRoleReel({titles,finalPair,onSettled}:{titles:string[];fina
   const animations=[...tracks].map(track=>track.animate([
    {transform:'translateY(0)'},
    {transform:'translateY(calc(-100% + var(--label-row)))'}
-  ],{duration:2200,easing:'cubic-bezier(.12,.78,.2,1)',fill:'forwards'}));
+  ],{duration:INTRO_REEL_MS,easing:'cubic-bezier(.12,.78,.2,1)',fill:'forwards'}));
   void Promise.all(animations.map(animation=>animation.finished)).then(()=>{if(alive)done.current();}).catch(()=>{});
   return()=>{alive=false;animations.forEach(animation=>animation.cancel());};
  },[]);

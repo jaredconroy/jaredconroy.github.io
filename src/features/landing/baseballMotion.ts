@@ -1,11 +1,11 @@
 import {TAB_STROKE_MS} from './timing';
 export const BASEBALL_ROLL_MS=480;
-export const BASEBALL_REST_ANGLE=8;
+export const BASEBALL_REST_ANGLE=-8;
 export const BASEBALL_LANDING_MS=600;
 export function baseballLetterFit(metrics:{ascent:number;descent:number;baseline:number;width?:number;fontSize?:number}){
  // Circle radius is 48 inside a 100-unit SVG: size the visible ink, not its box.
  const size=Math.max(metrics.ascent+metrics.descent,metrics.width||0)/.96;
- return {size,top:metrics.baseline+metrics.descent-size*.98+.75,shift:-1.75*(metrics.fontSize??48)/48};
+ return {size,top:metrics.baseline+metrics.descent-size*.98+.25,shift:-1.75*(metrics.fontSize??48)/48};
 }
 export function baseballSpinFrames(rotation:number,rollFraction:number){
  return [{transform:`rotate(${-rotation}deg)`,offset:0},{transform:`rotate(${BASEBALL_REST_ANGLE}deg)`,offset:rollFraction},{transform:`rotate(${BASEBALL_REST_ANGLE}deg)`,offset:1}];

@@ -142,11 +142,17 @@ export function Landing({overlayOpen,reduced,onIntroDone,visible,onThemeChange,n
  const schedule=(run:()=>void,delay:number)=>{const id=setTimeout(()=>{timers.current.delete(id);run();},delay);timers.current.add(id);};
  const finishIntro=()=>{
   if(!introRef.current)return;
-  onThemeChange(projects[indexRef.current].id);
   introRef.current=false;setIntro(false);
   introAnimating.current=true;
   setIntroTransition(true);setStage('in');setAmpEntering(false);onIntroDone();
-  schedule(()=>{introAnimating.current=false;setStage('idle');setAmpEntering(false);setIntroTransition(false);if(targetRef.current!==indexRef.current)activate(targetRef.current,manualRequest.current);},INTRO_TRANSITION_MS/2);
+  schedule(()=>{
+   introAnimating.current=false;setStage('idle');setAmpEntering(false);setIntroTransition(false);
+   // The intro hands into the carousel with the same final→first folder wave
+   // visitors see when cycling from Illustration back to Foul Balls.
+   indexRef.current=projects.length-1;targetRef.current=projects.length-1;
+   setActive(projects.length-1);setDisplayed(0);
+   activate(0,false);
+  },INTRO_TRANSITION_MS/2);
  };
  useEffect(()=>{if(!intro)onIntroDone();},[]);
  useEffect(()=>{
@@ -197,22 +203,23 @@ export function Landing({overlayOpen,reduced,onIntroDone,visible,onThemeChange,n
    else if(resumeCountdownOnSettle.current){setElapsed(CYCLE_MS-2000);resumeCountdownOnSettle.current=false;}
   },plan.total);
  };
- useEffect(()=>{
+ useLayoutEffect(()=>{
   if(!visible){lastReturnProject.current=null;return;}
   if(!returnProjectId||lastReturnProject.current===returnProjectId)return;
   const destination=projects.findIndex(project=>project.id===returnProjectId);
   if(destination<0)return;
   lastReturnProject.current=returnProjectId;
   setUserPaused(false);
-  if(indexRef.current===destination){
-   onThemeChange(projects[destination].id);
-   resumeCountdownOnSettle.current=true;
-   setActive(destination);setDisplayed(destination);setElapsed(CYCLE_MS-2000);
-   requestAnimationFrame(()=>{resumeCountdownOnSettle.current=false;});
-  }else{
-   resumeCountdownOnSettle.current=true;
-   activate(destination,false);
-  }
+  // Routing back from a project page is a restore, not a carousel selection.
+  // Snap every carousel source of truth before paint and start at 2s remaining.
+  timers.current.forEach(clearTimeout);timers.current.clear();
+  indexRef.current=targetRef.current=destination;
+  transitionRef.current=false;introAnimating.current=false;manualRequest.current=false;
+  resumeCountdownOnSettle.current=false;
+  setTabTransition(null);setStage('idle');setIntroTransition(false);setAmpEntering(false);
+  setActive(destination);setDisplayed(destination);setElapsed(CYCLE_MS-2000);
+  setBaseballBusy(false);setSledsBusy(false);setAfromanBusy(false);
+  onThemeChange(projects[destination].id);
  },[visible,returnProjectId]);
  const paused=!visible||hidden||overlayOpen||interacting||userPaused;
  const state=useRef({intro,paused,reduced,transitioning:!!tabTransition||stage!=='idle'||baseballBusy||sledsBusy||afromanBusy});state.current={intro,paused,reduced,transitioning:!!tabTransition||stage!=='idle'||baseballBusy||sledsBusy||afromanBusy};
@@ -291,7 +298,7 @@ export function Landing({overlayOpen,reduced,onIntroDone,visible,onThemeChange,n
  </div></div>
  <div class="carousel-status"><div class="timer-copy"><span>{intro?'Meet Jared':reduced?'Manual selection':userPaused?'Paused':tabTransition?'Switching project':paused?'On pause':'Next in '+Math.ceil((CYCLE_MS-elapsed)/1000)+'s'}</span><button onClick={()=>setUserPaused(value=>!value)} aria-label={userPaused?'Play project auto-advance':'Pause project auto-advance'} aria-pressed={userPaused} disabled={reduced}>{userPaused?'▶':'Ⅱ'}</button></div></div>
  </section>
- <FoulBallsArrival run={baseballRun} awake={indexAwake} enabled={visible&&!intro&&!introTransition&&(active===0||tabTransition?.to===0)} reduced={reduced} onBusyChange={setBaseballBusy} onSettled={setBaseballSettled}/>
+ <FoulBallsArrival run={baseballRun} enabled={visible&&!intro&&!introTransition&&(active===0||tabTransition?.to===0)} reduced={reduced} onBusyChange={setBaseballBusy} onSettled={setBaseballSettled}/>
  {intro&&<IntroSequence destination={()=>identityRef.current} reduced={reduced} onComplete={finishIntro} onSkip={()=>{finishIntro();requestAnimationFrame(()=>identityRef.current?.closest('main')?.focus({preventScroll:true}));}}/>}
  </main>;
 }

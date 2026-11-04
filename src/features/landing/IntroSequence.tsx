@@ -1,8 +1,8 @@
-import {useLayoutEffect,useRef,useState} from 'preact/hooks';
+import {useEffect,useLayoutEffect,useRef,useState} from 'preact/hooks';
 import {IdentityHeading} from '../../components/IdentityHeading';
 import {RoleDescriptor} from '../../components/RoleDescriptor';
 import {projects} from '../../content/projects';
-import {TAGLINE_MS,INTRO_SIGNATURE_DELAY_MS,INTRO_TAGLINE_DELAY_MS} from './timing';
+import {TAGLINE_MS,INTRO_SIGNATURE_DELAY_MS,INTRO_TAGLINE_DELAY_MS,INTRO_DURATION_MS,INTRO_REFRAME_MS,INTRO_SETTLE_MS,INTRO_SHRINK_MS} from './timing';
 import {IntroRoleReel} from './IntroRoleReel';
 import {useAudio} from '../audio/AudioProvider';
 import {Icon} from '../../components/Player';
@@ -21,11 +21,18 @@ export function IntroSequence({destination,reduced,onComplete,onSkip}:{destinati
  const [rolesVisible,setRolesVisible]=useState(false);
  const [reelRunning,setReelRunning]=useState(false);
  const [settled,setSettled]=useState(false);
+ const [progress,setProgress]=useState(0);
+ const startedAt=useRef(performance.now());
  const sequence=useRef<()=>void>(()=>{});
  const shrink=useRef<()=>void>(()=>{});
  const timers=useRef<ReturnType<typeof setTimeout>[]>([]);
  const started=useRef(false);
  const later=(fn:()=>void,ms:number)=>timers.current.push(setTimeout(fn,ms));
+ useEffect(()=>{
+  const update=()=>setProgress(reduced?1:Math.min(1,(performance.now()-startedAt.current)/INTRO_DURATION_MS));
+  update();const interval=setInterval(update,50);
+  return()=>clearInterval(interval);
+ },[reduced]);
  const afterWriting=()=>{
   if(started.current)return;
   started.current=true;
@@ -90,14 +97,14 @@ export function IntroSequence({destination,reduced,onComplete,onSkip}:{destinati
    const finalHeight=syncGeometry();syncTagline();
    element.style.height=`${finalHeight}px`;
    full=centered(finalHeight,.86);
-   move(full,'translate(0,0) scale(1)',1200,()=>complete.current());
+   move(full,'translate(0,0) scale(1)',INTRO_SHRINK_MS,()=>complete.current());
   };
   sequence.current=()=>{
    if(reduced){setRolesVisible(true);setSettled(true);later(()=>complete.current(),200);return;}
    setRolesVisible(true);
    // Reframe the centered identity to make room for the title montage below it.
-   move(large,full,600);
-   later(()=>setReelRunning(true),600);
+   move(large,full,INTRO_REFRAME_MS);
+   later(()=>setReelRunning(true),INTRO_REFRAME_MS);
   };
   // The landing column positions its role section after measuring the J.
   // Read that final geometry after the parent's layout effect has run.
@@ -114,10 +121,10 @@ export function IntroSequence({destination,reduced,onComplete,onSkip}:{destinati
   window.addEventListener('resize',queueGeometry);
   return()=>{cancelAnimationFrame(layoutFrame);sizes.disconnect();geometry.disconnect();window.removeEventListener('resize',queueGeometry);timers.current.forEach(clearTimeout);animations.forEach(animation=>animation.cancel());};
  },[reduced]);
- const reelSettled=()=>{setSettled(true);later(()=>shrink.current(),550);};
+ const reelSettled=()=>{setSettled(true);later(()=>shrink.current(),INTRO_SETTLE_MS);};
  return <div class="intro-sequence" aria-label="Introducing Jared">
   <button class="intro-mute" onClick={audio.toggleMute} aria-pressed={audio.muted} aria-label={audio.muted?'Unmute site':'Mute site'}><Icon name={audio.muted?'muted':'volume'}/><span>{audio.muted?'Unmute site':'Mute site'}</span></button>
-  <button class="intro-skip" onClick={onSkip}>Skip intro <span aria-hidden="true">→</span></button>
+  <button class="intro-skip" onClick={onSkip} aria-label={`Skip intro, about ${Math.ceil((1-progress)*INTRO_DURATION_MS/1000)} seconds remaining`} style={{'--intro-progress':progress}}><span class="intro-skip-progress" aria-hidden="true"/><span class="intro-skip-copy">Skip intro · {Math.ceil((1-progress)*INTRO_DURATION_MS/1000)}s <span aria-hidden="true">→</span></span></button>
   <span class="sr-only">Hi! I’m Jared, a multidisciplinary creative. Screenwriter and Illustrator.</span>
   <div ref={block} class="intro-composition" aria-hidden="true">
    <IdentityHeading intro reduced={reduced} taglineReady={tagline} signatureDelay={GREETING_MS} onWritten={afterWriting}/>

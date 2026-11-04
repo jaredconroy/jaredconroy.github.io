@@ -17,7 +17,7 @@ const projectHeaderPalettes:Record<string,{surface:string;ink:string;highlight:s
  'foul-balls':{surface:'#241c32',ink:'#ffffff',highlight:'#846393'},
  'the-sleds':{surface:'#19364d',ink:'#ffffff',highlight:'#91b2cb'},
  'design':{surface:'#173458',ink:'#ffffff',highlight:'#008477'},
- 'illustration':{surface:'#edf5fb',ink:'#173458',highlight:ILLUSTRATION_MAROON},
+ 'illustration':{surface:'#173458',ink:'#ffffff',highlight:ILLUSTRATION_MAROON},
  'afroman':{surface:'#000000',ink:'#ffffff',highlight:'#ef8216'},
 };
 function Shell(){

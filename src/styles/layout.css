@@ -28,14 +28,14 @@ body{background-color:var(--page-surface,#fff)}
 .header .featured-work-link{margin-left:0;flex-shrink:0}
 .project-title-line{margin-top:0;justify-content:flex-end}
 .feature h2{width:100%;text-align:right}
-.progress-track{height:var(--navigation-rule-size)}
+.progress-track{height:calc(var(--navigation-rule-size)*1.5)}
 
 /* Readable copy and controls, including the compact persistent player. */
 .eyebrow{font-size:12px}
 .timer-copy{font-size:12px;gap:6px;line-height:1.4;align-items:start}
 .timer-copy>span{padding-top:5px}
 .timer-copy button{flex-shrink:0;min-width:32px;min-height:32px}
-.roles-toggle{font-size:12px}
+.roles-toggle{font-size:12px;transform:translateY(calc(var(--navigation-rule-size)*.5))}
 .feature-description{gap:20px}
 .feature-copy{flex:1;min-width:0}
 .feature-copy .project-category{display:block;max-width:none;font-size:12px;line-height:1.5;text-align:left;margin-bottom:6px;padding:0}

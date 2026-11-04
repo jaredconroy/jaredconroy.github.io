@@ -38,6 +38,7 @@
 .identity-ctt .identity-primary{padding:0;overflow:hidden}
 .identity-ctt .identity-primary img{width:min(100%,560px);height:auto;flex:none}
 .identity-six-pack .identity-primary{padding:0}
+.identity-sleds .identity-primary img{filter:brightness(0) invert(1)}
 .identity-lni .identity-caption{display:block}
 .identity-lni .identity-caption p{max-width:none;margin-top:6px}
 .design-section-heading>span{display:none}

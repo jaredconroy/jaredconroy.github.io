@@ -28,35 +28,47 @@ export function SledsWordmarkArrival({ready,reduced,onBusyChange}:{ready:boolean
    const bounds=element.getBoundingClientRect(),style=getComputedStyle(element);
    const width=parseFloat(style.width),height=parseFloat(style.height);
    if(!width||!height){settle();return;}
-   const size=Math.max(24,Math.min(46,height*.92)),spacing=size*1.1,duration=1350;
+   const size=Math.max(24,Math.min(46,height*.92)),spacing=size*1.5,duration=1350;
    const scaleY=bounds.height/height||1;
    const panelBottom=((element.closest('.feature-details')?.getBoundingClientRect().bottom??bounds.bottom)-bounds.top)/scaleY;
-   const bodyHeight=size*(399.36/335.5),centerX=width*.04+spacing*(dx+dy)/dy-12,centerY=height/2;
+   const bodyHeight=size*(399.36/335.5),centerX=width*.04+spacing*(dx+dy)/dy-24,centerY=height/2;
    const start=(-size*.5-18-centerX-spacing)/dx;
    const end=(panelBottom+size+bodyHeight*.86-centerY+spacing)/dy,travel=end-start;
+   // The last rider finishes as a punctuation mark beside the fully revealed
+   // wordmark, with its body centered on the title's vertical midpoint.
+   const targetX=width+size*.42,targetY=(height-bodyHeight)/2;
+   const stopX=targetX,stopY=targetY;
+   const thirdOffset=spacing;
+   const thirdStartX=centerX+thirdOffset+dx*start-size/2;
+   const thirdStartY=centerY-thirdOffset+dy*start-bodyHeight*.86;
+   const revealDuration=duration*Math.hypot(stopX-thirdStartX,stopY-thirdStartY)/travel;
    riders.forEach((rider,index)=>{
     const offset=(index-1)*spacing;
     const x=centerX+offset+dx*start-size/2,y=centerY-offset+dy*start-bodyHeight*.86;
+    const travelTo=end-start;
     rider.style.width=`${size}px`;rider.style.visibility='visible';
-    animations.push(rider.animate([
+    animations.push(rider.animate(index===2?[
      {transform:`translate3d(${x}px,${y}px,0)`},
-     {transform:`translate3d(${x+dx*travel}px,${y+dy*travel}px,0)`},
-    ],{duration,easing:'linear',fill:'both'}));
+     {transform:`translate3d(${stopX}px,${stopY}px,0)`},
+    ]:[
+     {transform:`translate3d(${x}px,${y}px,0)`},
+     {transform:`translate3d(${x+dx*travelTo}px,${y+dy*travelTo}px,0)`},
+    ],{duration:index===2?revealDuration:duration,easing:'linear',fill:'both'}));
    });
    const initialFront=centerX*dx+centerY*dy+start-spacing*(dx-dy)-size*.25;
    const startedAt=performance.now()+90,units=svgWidth/width;
+   const revealTravel=Math.max(0,(svgWidth*dx+svgHeight*dy+32)/units-initialFront);
    paint(initialFront*units);
    // Move one permanent SVG clipping rectangle. Its geometry and paint layer
    // never change at completion, unlike morphing CSS polygons / clip removal.
    const tick=(now:number)=>{
     if(cancelled)return;
-    const progress=Math.max(0,Math.min(1,(now-startedAt)/duration));
-    paint((initialFront+travel*progress)*units);
+    const progress=Math.max(0,Math.min(1,(now-startedAt)/revealDuration));
+    paint((initialFront+revealTravel*progress)*units);
     if(progress<1)frame=requestAnimationFrame(tick);
-    else onBusyChange(false);
    };
    frame=requestAnimationFrame(tick);
-   animations[0].onfinish=hideRiders;
+   animations[0].onfinish=()=>{riders[0].style.visibility='hidden';riders[1].style.visibility='hidden';onBusyChange(false);};
   });
   const resize=()=>{cancelled=true;settle();};
   window.addEventListener('resize',resize,{passive:true});

@@ -30,21 +30,20 @@ export function FoulBallsTitle({settled,probe=false}:{settled:boolean;probe?:boo
 }
 export type BaseballRun={id:number;rollMs:number};
 /** Runs after the final normal bold-letter frame of the selected label. */
-export function FoulBallsArrival({run,enabled,reduced,awake,onBusyChange,onSettled}:{run:BaseballRun|null;enabled:boolean;reduced:boolean;awake:boolean;onBusyChange:(busy:boolean)=>void;onSettled:(value:boolean)=>void}){
+export function FoulBallsArrival({run,enabled,reduced,onBusyChange,onSettled}:{run:BaseballRun|null;enabled:boolean;reduced:boolean;onBusyChange:(busy:boolean)=>void;onSettled:(value:boolean)=>void}){
  const flight=useRef<HTMLSpanElement>(null);
- const erasedLetters=useRef<Animation[]>([]),finished=useRef(false),sawIdle=useRef(false);
  useLayoutEffect(()=>{
   if(!run||!enabled)return;
   if(reduced){onSettled(true);return;}
-  finished.current=false;sawIdle.current=false;
   onSettled(false);onBusyChange(true);
-  let frame=0,cancelled=false,animation:Animation|undefined,spin:Animation|undefined;
-  const erased:Animation[]=[];erasedLetters.current=erased;
+  let frame=0,cancelled=false,animation:Animation|undefined,spin:Animation|undefined,restoreTimer:ReturnType<typeof setTimeout>|undefined,labelsRestored=false;
+  const erased:Animation[]=[];
   const ball=flight.current!;
+  const restoreLabel=()=>{if(labelsRestored)return;labelsRestored=true;erased.forEach(letter=>letter.cancel());erased.length=0;};
   const settle=()=>{
    if(cancelled)return;
-   erased.forEach(letter=>letter.finish());
-   finished.current=true;onSettled(true);ball.style.visibility='hidden';onBusyChange(false);
+   if(restoreTimer)clearTimeout(restoreTimer);restoreLabel();
+   onSettled(true);ball.style.visibility='hidden';onBusyChange(false);
   };
   frame=requestAnimationFrame(()=>{void document.fonts.ready.then(()=>{
    if(cancelled)return;
@@ -72,16 +71,13 @@ export function FoulBallsArrival({run,enabled,reduced,awake,onBusyChange,onSettl
     const progress=Math.max(0,Math.min(.92,(startX+size/2-(bounds.left+bounds.right)/2)/(startX-x)));
     erased.push(letter.animate([{opacity:1},{opacity:0}],{duration:55,delay:progress*run.rollMs,fill:'forwards'}));
    }
+   // Reveal the word at first impact, not after the small bounce has settled.
+   restoreTimer=setTimeout(restoreLabel,run.rollMs+380);
    animation.onfinish=settle;
   });});
   const stopForGeometryChange=()=>{cancelAnimationFrame(frame);animation?.cancel();spin?.cancel();settle();cancelled=true;};
   window.addEventListener('resize',stopForGeometryChange);window.addEventListener('scroll',stopForGeometryChange,{passive:true});
-  return()=>{cancelled=true;cancelAnimationFrame(frame);animation?.cancel();spin?.cancel();erased.forEach(letter=>letter.cancel());erasedLetters.current=[];finished.current=false;sawIdle.current=false;ball.style.visibility='hidden';onBusyChange(false);window.removeEventListener('resize',stopForGeometryChange);window.removeEventListener('scroll',stopForGeometryChange);};
+  return()=>{cancelled=true;if(restoreTimer)clearTimeout(restoreTimer);cancelAnimationFrame(frame);animation?.cancel();spin?.cancel();erased.forEach(letter=>letter.cancel());ball.style.visibility='hidden';onBusyChange(false);window.removeEventListener('resize',stopForGeometryChange);window.removeEventListener('scroll',stopForGeometryChange);};
  },[run,enabled,reduced]);
- useLayoutEffect(()=>{
-  if(!finished.current)return;
-  if(!awake){sawIdle.current=true;return;}
-  if(sawIdle.current){erasedLetters.current.forEach(letter=>letter.cancel());erasedLetters.current=[];sawIdle.current=false;}
- },[awake]);
  return createPortal(<span ref={flight} class="foul-baseball-flight" aria-hidden="true"><Baseball/></span>,document.body);
 }

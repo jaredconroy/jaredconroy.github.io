@@ -92,19 +92,23 @@
 
 /* Visible but restrained tube fluctuations; the existing hover ignition owns its
    stronger flicker and audio envelope without another animation fighting it. */
-.app-shell[data-project-theme="afroman"] .landing .identity:not([data-neon-active="true"]) .signature-neon-tube{animation:signature-neon-microflicker 8.4s linear infinite}
-.app-shell[data-project-theme="afroman"] .landing .identity:not([data-neon-active="true"]) .signature-neon-boost{animation:signature-neon-microhalo 8.4s linear infinite}
+.app-shell[data-project-theme="afroman"] .landing .identity:not([data-neon-active="true"]) .signature-neon-tube{animation:signature-neon-microflicker 6.7s linear infinite}
+.app-shell[data-project-theme="afroman"] .landing .identity:not([data-neon-active="true"]) .signature-neon-boost{animation:signature-neon-microhalo 6.7s linear infinite}
 @keyframes signature-neon-microflicker{
- 0%,18%,18.8%,53%,53.7%,78%,78.9%,100%{opacity:1}
- 18.2%{opacity:.80}18.5%{opacity:.96}
- 53.2%{opacity:.84}53.45%{opacity:.97}
- 78.2%{opacity:.76}78.55%{opacity:.95}
+ 0%,7%,7.4%,22%,22.7%,39%,39.3%,62%,62.7%,84%,84.4%,100%{opacity:1}
+ 7.1%{opacity:.94}7.25%{opacity:.99}
+ 22.15%{opacity:.91}22.4%{opacity:.98}
+ 39.08%{opacity:.95}39.2%{opacity:.99}
+ 62.15%{opacity:.92}62.45%{opacity:.98}
+ 84.08%{opacity:.94}84.25%{opacity:.99}
 }
 @keyframes signature-neon-microhalo{
- 0%,18%,18.8%,53%,53.7%,78%,78.9%,100%{opacity:.5}
- 18.2%{opacity:.26}18.5%{opacity:.43}
- 53.2%{opacity:.30}53.45%{opacity:.46}
- 78.2%{opacity:.22}78.55%{opacity:.42}
+ 0%,7%,7.4%,22%,22.7%,39%,39.3%,62%,62.7%,84%,84.4%,100%{opacity:.5}
+ 7.1%{opacity:.43}7.25%{opacity:.49}
+ 22.15%{opacity:.40}22.4%{opacity:.48}
+ 39.08%{opacity:.45}39.2%{opacity:.49}
+ 62.15%{opacity:.41}62.45%{opacity:.48}
+ 84.08%{opacity:.43}84.25%{opacity:.49}
 }
 @media(prefers-reduced-motion:reduce){
  .app-shell[data-project-theme="afroman"] .landing .identity:not([data-neon-active="true"]) .signature-neon-tube,
