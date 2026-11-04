@@ -36,7 +36,7 @@ export function FoulBallsArrival({run,enabled,reduced,onBusyChange,onSettled,onL
   if(!run||!enabled)return;
   if(reduced){onSettled(true);onLabelRestore(true);return;}
   onSettled(false);onLabelRestore(false);onBusyChange(true);
-  let frame=0,cancelled=false,animation:Animation|undefined,spin:Animation|undefined,labelsRestored=false;
+  let frame=0,cancelled=false,animation:Animation|undefined,spin:Animation|undefined,restoreTimer=0,labelsRestored=false;
   const erased:{letter:HTMLElement;animation:Animation}[]=[],fades:Animation[]=[];
   const ball=flight.current!;
   const restoreLabel=()=>{
@@ -55,8 +55,10 @@ export function FoulBallsArrival({run,enabled,reduced,onBusyChange,onSettled,onL
   };
   const settle=()=>{
    if(cancelled)return;
-   restoreLabel();
    onSettled(true);ball.style.visibility='hidden';onBusyChange(false);
+   const indexStillEngaged=!!document.querySelector('.featured-project-nav:hover,.featured-project-nav:focus-within');
+   if(indexStillEngaged)restoreLabel();
+   else restoreTimer=window.setTimeout(restoreLabel,250);
   };
   frame=requestAnimationFrame(()=>{void document.fonts.ready.then(()=>{
    if(cancelled)return;
@@ -90,7 +92,7 @@ export function FoulBallsArrival({run,enabled,reduced,onBusyChange,onSettled,onL
   });});
   const stopForGeometryChange=()=>{cancelAnimationFrame(frame);animation?.cancel();spin?.cancel();settle();cancelled=true;};
   window.addEventListener('resize',stopForGeometryChange);window.addEventListener('scroll',stopForGeometryChange,{passive:true});
-  return()=>{cancelled=true;cancelAnimationFrame(frame);animation?.cancel();spin?.cancel();erased.forEach(({letter,animation})=>{animation.cancel();letter.style.removeProperty('opacity');});fades.forEach(fade=>fade.cancel());ball.style.visibility='hidden';onBusyChange(false);window.removeEventListener('resize',stopForGeometryChange);window.removeEventListener('scroll',stopForGeometryChange);};
+  return()=>{cancelled=true;cancelAnimationFrame(frame);window.clearTimeout(restoreTimer);animation?.cancel();spin?.cancel();erased.forEach(({letter,animation})=>{animation.cancel();letter.style.removeProperty('opacity');});fades.forEach(fade=>fade.cancel());ball.style.visibility='hidden';onBusyChange(false);window.removeEventListener('resize',stopForGeometryChange);window.removeEventListener('scroll',stopForGeometryChange);};
  },[run,enabled,reduced,onBusyChange,onSettled,onLabelRestore]);
  return createPortal(<span ref={flight} class="foul-baseball-flight" aria-hidden="true"><Baseball/></span>,document.body);
 }

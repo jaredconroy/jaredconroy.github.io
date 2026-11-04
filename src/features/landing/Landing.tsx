@@ -147,12 +147,13 @@ export function Landing({overlayOpen,reduced,onIntroDone,visible,onThemeChange,n
   setIntroTransition(true);setStage('in');setAmpEntering(false);onIntroDone();
   schedule(()=>{
    introAnimating.current=false;setStage('idle');setAmpEntering(false);setIntroTransition(false);
-   // Give the far-right folder a clear selected beat, then run the same
-   // right-to-left sweep used to wrap Illustration back to Foul Balls.
-   indexRef.current=projects.length-1;targetRef.current=projects.length-1;
-   setActive(projects.length-1);setDisplayed(projects.length-1);setPreviewIndex(projects.length-1);
-   onThemeChange(projects[projects.length-1].id);
-   schedule(()=>{setPreviewIndex(null);activate(0,false);},240);
+   // Reveal directly on the first project. The full tab index wakes with the
+   // baseball arrival instead of making an extra wraparound carousel pass.
+   indexRef.current=targetRef.current=0;
+   setActive(0);setDisplayed(0);setPreviewIndex(null);setElapsed(0);
+   setBaseballSettled(false);setBaseballLabelReady(false);
+   setBaseballRun(value=>({id:(value?.id||0)+1,rollMs:BASEBALL_ROLL_MS}));
+   onThemeChange(projects[0].id);
   },INTRO_TRANSITION_MS/2);
  };
  useEffect(()=>{if(!intro)onIntroDone();},[]);
