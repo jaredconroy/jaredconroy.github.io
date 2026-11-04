@@ -14,7 +14,8 @@ import {useAutoplayInteraction} from './useAutoplayInteraction';
 import {IntroSequence} from './IntroSequence';
 import {ProjectNavigation} from '../../components/ProjectNavigation';
 import {FolderTab} from './FolderTab';
-import {FoulBallsTitle} from './FoulBallsTitle';
+import {FoulBallsTitle,FoulBallsArrival,type BaseballRun} from './FoulBallsTitle';
+import {baseballArrivalTiming} from './baseballMotion';
 import {useBatCrack} from '../audio/useBatCrack';
 import {useNeonSign} from '../neon/useNeonSign';
 import {CompactRoleChain} from './CompactRoleChain';
@@ -29,6 +30,7 @@ export function Landing({overlayOpen,reduced,onIntroDone,visible,onThemeChange,n
  const [introTransition,setIntroTransition]=useState(false);
  const [tabTransition,setTabTransition]=useState<TabTransition|null>(null);
  const [baseballBusy,setBaseballBusy]=useState(false);
+ const [baseballRun,setBaseballRun]=useState<BaseballRun|null>(null),[baseballSettled,setBaseballSettled]=useState(reduced);
  const [previewIndex,setPreviewIndex]=useState<number|null>(null);
  const [pressedTab,setPressedTab]=useState<number|null>(null);
  const motion=projectTiming(reduced);
@@ -173,6 +175,10 @@ export function Landing({overlayOpen,reduced,onIntroDone,visible,onThemeChange,n
   if(reduced){indexRef.current=next;onThemeChange(projects[next].id);setActive(next);setDisplayed(next);setFlipped(v=>!v);setStage('idle');setElapsed(resumeCountdownOnSettle.current?CYCLE_MS-2000:0);resumeCountdownOnSettle.current=false;return;}
   transitionRef.current=true;
   const plan=tabTransitionPlan(previous,next);
+  if(projects[next].id==='foul-balls'){
+   const {triggerAt,rollMs}=baseballArrivalTiming(plan);
+   schedule(()=>{setBaseballSettled(false);setBaseballRun(value=>({id:(value?.id||0)+1,rollMs}));},triggerAt);
+  }
   const apply=(step:typeof plan.steps[number])=>{
    setTabTransition({from:previous,to:next,phase:step.phase,passes:plan.passes,raised:step.raised,handoffMs:plan.handoffMs});
    if(step.commit){indexRef.current=next;setActive(next);setStage('out');setElapsed(0);}
@@ -212,6 +218,9 @@ export function Landing({overlayOpen,reduced,onIntroDone,visible,onThemeChange,n
  },50);return()=>clearInterval(timer);},[]);
  useEffect(()=>{if(elapsed>=CYCLE_MS&&!resumeCountdownOnSettle.current)activate((indexRef.current+1)%projects.length);},[elapsed]);
  const p=projects[displayed];
+ useEffect(()=>{
+  if(visible&&!intro&&!introTransition&&p.id==='foul-balls'&&!baseballRun){setBaseballSettled(reduced);setBaseballRun({id:1,rollMs:620});}
+ },[visible,intro,introTransition,p.id,baseballRun,reduced]);
  const roleOpen=expanded||hoverRoles;
  const neonActive=p.id==='afroman'&&roleOpen&&visible&&!hidden&&!overlayOpen&&!intro;
  useNeonSign(neonActive,reduced,identityRef);
@@ -267,7 +276,8 @@ export function Landing({overlayOpen,reduced,onIntroDone,visible,onThemeChange,n
  <div class={`folder-cover ${introTransition?'project-content transition-in':''}`} style={{'--folder-color':p.theme.accent,'--tab-count':projects.length}}>
  <div class="folder-tabs" aria-hidden="true">{projects.map((project,index)=><FolderTab key={project.id} id={project.id} index={index} color={project.theme.accent} level={levels[index]} pass={tabTransition?.phase!=='cleanup'?tabTransition?.passes.find(pass=>pass.index===index):undefined} reduced={reduced} pressed={pressedTab===index} wave={!!tabTransition}/>)}</div>
  <a class="feature-caption feature-details" href={projectRoute(p.id)} aria-labelledby="featured-title">
-  <div class={`feature-title project-content transition-${stage}`}><h2 id="featured-title" class={p.id==='the-sleds'?'sleds-feature-wordmark':undefined}>{p.id==='the-sleds'?<><span class="sr-only">The Sleds</span><SledsWordmark/></>:p.id==='foul-balls'?<FoulBallsTitle ready={!intro&&!introTransition&&stage==='idle'&&visible} reduced={reduced} onBusyChange={setBaseballBusy}/>:p.title}</h2></div>
+  <div class={`feature-title project-content transition-${stage}`}><h2 id="featured-title" class={p.id==='the-sleds'?'sleds-feature-wordmark':undefined}>{p.id==='the-sleds'?<><span class="sr-only">The Sleds</span><SledsWordmark/></>:p.id==='foul-balls'?<FoulBallsTitle settled={baseballSettled||reduced}/>:p.title}</h2></div>
+  <h2 class="foul-title-probe" aria-hidden="true"><FoulBallsTitle settled={false} probe/></h2>
   {p.subtitle&&<p class={`project-subtitle project-content transition-${stage}`}>{p.subtitle}</p>}
  </a>
  <div class="feature-visual">
@@ -277,6 +287,7 @@ export function Landing({overlayOpen,reduced,onIntroDone,visible,onThemeChange,n
  </div></div>
  <div class="carousel-status"><div class="timer-copy"><span>{intro?'Meet Jared':reduced?'Manual selection':userPaused?'Paused':tabTransition?'Switching project':paused?'On pause':'Next in '+Math.ceil((CYCLE_MS-elapsed)/1000)+'s'}</span><button onClick={()=>setUserPaused(value=>!value)} aria-label={userPaused?'Play project auto-advance':'Pause project auto-advance'} aria-pressed={userPaused} disabled={reduced}>{userPaused?'▶':'Ⅱ'}</button></div></div>
  </section>
+ <FoulBallsArrival run={baseballRun} enabled={visible&&!intro&&!introTransition&&(active===0||tabTransition?.to===0)} reduced={reduced} onBusyChange={setBaseballBusy} onSettled={setBaseballSettled}/>
  {intro&&<IntroSequence destination={()=>identityRef.current} reduced={reduced} onComplete={finishIntro}/>}
  </main>;
 }

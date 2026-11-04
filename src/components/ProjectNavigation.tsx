@@ -82,7 +82,7 @@ export function ProjectNavigation({active,reduced,onSelect,onPreview,onPress,sel
   {projects.map((project,i)=><button key={project.id} onMouseEnter={()=>{if(matchMedia('(hover:hover)').matches)onPreview(i);}} onFocus={e=>{if(e.currentTarget.matches(':focus-visible'))onPreview(i);}} onPointerDown={e=>{if(e.isPrimary&&e.button===0){cancelAnimationFrame(releaseFrame.current);onPress(i);}}} onClick={()=>{cancelAnimationFrame(releaseFrame.current);onPress(null);if(i!==active)onSelect(i);}} class={i===active?'active':''} aria-current={i===active?'true':undefined} aria-label={project.indexTitle}>
    {/* Reserve the widest weight so letter handoffs never resize the tabs. */}
    <span class="project-nav-reserve" aria-hidden="true">{project.indexTitle}</span>
-   <span class="project-label-clip"><NavigationLabel label={project.indexTitle} letters={boldLetters[i]}/></span>
+   <span class="project-label-clip"><NavigationLabel label={project.indexTitle} letters={i===0&&selectionTarget===0&&!reduced?boldLetters[i].map(()=>false):boldLetters[i]}/></span>
   </button>)}
  </nav>;
 }

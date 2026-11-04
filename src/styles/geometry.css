@@ -246,3 +246,6 @@
 .foul-title-o.is-settled .foul-title-baseball{visibility:visible}
 .foul-title-baseball svg,.foul-baseball-flight svg{display:block;width:100%;height:100%}
 .foul-baseball-flight{position:fixed;top:0;left:0;z-index:30;pointer-events:none;visibility:hidden;will-change:transform;filter:drop-shadow(0 1px 1px #30243d40)}
+
+.feature .feature-details .foul-title-probe{position:absolute;left:16px;top:50%;transform:translateY(-50%);visibility:hidden;pointer-events:none;margin:0}
+@media(max-width:540px){.feature .feature-details .foul-title-probe{left:12px}}
