@@ -256,3 +256,5 @@
 .feature-details:is(:hover,:focus-visible) .foul-balls-feature-title:after,
 .feature:has(.folder-cover>.feature-visual .media-link:is(:hover,:focus-visible)) .foul-balls-feature-title:after{opacity:1}
 @media(prefers-reduced-motion:reduce){.foul-balls-feature-title:after{transition:none}}
+
+.foul-title-tail{margin-left:-2px}

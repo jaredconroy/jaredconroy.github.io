@@ -24,7 +24,7 @@ export function FoulBallsTitle({settled,probe=false}:{settled:boolean;probe?:boo
   void document.fonts.ready.then(fit);
   return()=>observer.disconnect();
  },[]);
- return <>{!probe&&<span class="sr-only">Foul Balls</span>}<span aria-hidden="true">F<span ref={slot} class={`foul-title-o${settled?' is-settled':''}`}><span class="foul-title-hidden-o">o</span>{!probe&&<span class="foul-title-baseball"><Baseball/></span>}</span>ul Balls</span></>;
+ return <>{!probe&&<span class="sr-only">Foul Balls</span>}<span aria-hidden="true">F<span ref={slot} class={`foul-title-o${settled?' is-settled':''}`}><span class="foul-title-hidden-o">o</span>{!probe&&<span class="foul-title-baseball"><Baseball/></span>}</span><span class="foul-title-tail">ul Balls</span></span></>;
 }
 export type BaseballRun={id:number;rollMs:number};
 /** Runs after the final normal bold-letter frame of the selected label. */
