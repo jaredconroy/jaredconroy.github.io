@@ -240,7 +240,7 @@
 }
 
 /* Foul Balls: reserve the real o's advance, then land the ball on its ink. */
-.foul-title-o{position:relative;display:inline-block;padding-inline:.025em}
+.foul-title-o{position:relative;display:inline-block;padding-inline:.05em}
 .foul-title-hidden-o{color:transparent}
 .foul-title-baseball{position:absolute;left:calc(50% + var(--baseball-shift,0px));top:var(--baseball-top,0px);width:var(--baseball-size,.55em);height:var(--baseball-size,.55em);transform:translateX(-50%) rotate(var(--baseball-rotation,0deg));visibility:hidden}
 .foul-title-o.is-settled .foul-title-baseball{visibility:visible}

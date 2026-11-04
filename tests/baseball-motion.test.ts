@@ -33,10 +33,10 @@ test('baseball starts on the final normal bold-letter frame of Foul Balls',()=>{
  assert.ok(baseballArrivalTiming(tabTransitionPlan(4,0)).triggerAt>baseballArrivalTiming(tabTransitionPlan(1,0)).triggerAt);
 });
 
-test('ball matches the a ink height, preserves its baseline, and stays centered',()=>{
- const metrics={ascent:20,descent:1,baseline:30},fit=baseballLetterFit(metrics);
- assert.equal(fit.size,metrics.ascent+metrics.descent);
- assert.equal(fit.top+fit.size,metrics.baseline+metrics.descent);
+test('visible circle matches the full a ink footprint, preserves its baseline, and stays centered',()=>{
+ const metrics={ascent:20,descent:1,baseline:30,width:24},fit=baseballLetterFit(metrics);
+ assert.equal(fit.size*.96,metrics.width);
+ assert.equal(fit.top+fit.size*.98,metrics.baseline+metrics.descent);
  assert.equal(fit.shift,0);
 });
 test('rolling seams finish vertical and remain vertical through the bounce',()=>{
