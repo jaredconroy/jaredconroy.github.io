@@ -28,7 +28,7 @@ export function SledsWordmarkArrival({ready,reduced,onBusyChange}:{ready:boolean
    const bounds=element.getBoundingClientRect(),style=getComputedStyle(element);
    const width=parseFloat(style.width),height=parseFloat(style.height);
    if(!width||!height){settle();return;}
-   const size=Math.max(24,Math.min(46,height*.92)),spacing=size*1.5,duration=1350;
+   const size=Math.max(24,Math.min(46,height*.92)),spacing=size*1.5,duration=1550;
    const scaleY=bounds.height/height||1;
    const panelBottom=((element.closest('.feature-details')?.getBoundingClientRect().bottom??bounds.bottom)-bounds.top)/scaleY;
    const bodyHeight=size*(399.36/335.5),centerX=width*.04+spacing*(dx+dy)/dy-24,centerY=height/2;
@@ -42,33 +42,42 @@ export function SledsWordmarkArrival({ready,reduced,onBusyChange}:{ready:boolean
    const thirdStartX=centerX+thirdOffset+dx*start-size/2;
    const thirdStartY=centerY-thirdOffset+dy*start-bodyHeight*.86;
    const revealDuration=duration*Math.hypot(stopX-thirdStartX,stopY-thirdStartY)/travel;
+   const arrivalLag=180,wordmarkLead=120,thirdDistance=Math.hypot(stopX-thirdStartX,stopY-thirdStartY);
+   const extension=thirdDistance/revealDuration*arrivalLag;
+   const delayedStartX=thirdStartX+(thirdStartX-stopX)/thirdDistance*extension;
+   const delayedStartY=thirdStartY+(thirdStartY-stopY)/thirdDistance*extension;
+   let otherRidersGone=false,lastRiderLanded=false;
+   const finishIfReady=()=>{if(otherRidersGone&&lastRiderLanded)onBusyChange(false);};
    riders.forEach((rider,index)=>{
     const offset=(index-1)*spacing;
     const x=centerX+offset+dx*start-size/2,y=centerY-offset+dy*start-bodyHeight*.86;
     const travelTo=end-start;
     rider.style.width=`${size}px`;rider.style.visibility='visible';
-    animations.push(rider.animate(index===2?[
-     {transform:`translate3d(${x}px,${y}px,0)`},
+    const motion=rider.animate(index===2?[
+     {transform:`translate3d(${delayedStartX}px,${delayedStartY}px,0)`},
      {transform:`translate3d(${stopX}px,${stopY}px,0)`},
     ]:[
      {transform:`translate3d(${x}px,${y}px,0)`},
      {transform:`translate3d(${x+dx*travelTo}px,${y+dy*travelTo}px,0)`},
-    ],{duration:index===2?revealDuration:duration,easing:'linear',fill:'both'}));
+    ],{duration:index===2?revealDuration+arrivalLag:duration,easing:'linear',fill:'both'});
+    animations.push(motion);
+    if(index===0)motion.onfinish=()=>{riders[0].style.visibility='hidden';riders[1].style.visibility='hidden';otherRidersGone=true;finishIfReady();};
+    if(index===2)motion.onfinish=()=>{lastRiderLanded=true;finishIfReady();};
    });
    const initialFront=centerX*dx+centerY*dy+start-spacing*(dx-dy)-size*.25;
-   const startedAt=performance.now()+90,units=svgWidth/width;
+   const startedAt=performance.now()+90+arrivalLag,units=svgWidth/width;
+   const wipeDuration=Math.max(1,revealDuration-wordmarkLead);
    const revealTravel=Math.max(0,(svgWidth*dx+svgHeight*dy+32)/units-initialFront);
    paint(initialFront*units);
    // Move one permanent SVG clipping rectangle. Its geometry and paint layer
    // never change at completion, unlike morphing CSS polygons / clip removal.
    const tick=(now:number)=>{
     if(cancelled)return;
-    const progress=Math.max(0,Math.min(1,(now-startedAt)/revealDuration));
+    const progress=Math.max(0,Math.min(1,(now-startedAt)/wipeDuration));
     paint((initialFront+revealTravel*progress)*units);
     if(progress<1)frame=requestAnimationFrame(tick);
    };
    frame=requestAnimationFrame(tick);
-   animations[0].onfinish=()=>{riders[0].style.visibility='hidden';riders[1].style.visibility='hidden';onBusyChange(false);};
   });
   const resize=()=>{cancelled=true;settle();};
   window.addEventListener('resize',resize,{passive:true});
