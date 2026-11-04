@@ -1,7 +1,8 @@
+import {TAB_STROKE_MS} from './timing';
 export const BASEBALL_LANDING_MS=600;
 export function baseballLetterFit(metrics:{ascent:number;descent:number;baseline:number}){
- const size=(metrics.ascent+metrics.descent)*1.18;
- return {size,top:metrics.baseline+metrics.descent-size,shift:size*.035};
+ const size=metrics.ascent+metrics.descent;
+ return {size,top:metrics.baseline+metrics.descent-size,shift:0};
 }
 export function baseballSpinFrames(rotation:number,rollFraction:number){
  return [{transform:`rotate(${-rotation}deg)`,offset:0},{transform:'rotate(0deg)',offset:rollFraction},{transform:'rotate(0deg)',offset:1}];
@@ -18,8 +19,8 @@ export function baseballMotion(startX:number,endX:number,baselineY:number,endY:n
  ]};
 }
 
-/** Start as the final neighboring tab receives the bold wave. */
-export function baseballArrivalTiming(plan:{passes:readonly {start:number}[];contentEndAt:number}){
- const triggerAt=plan.passes.at(-1)?.start??0;
+/** Match the last normal bold-letter frame of the destination label. */
+export function baseballArrivalTiming(plan:{commitAt:number;contentEndAt:number}){
+ const triggerAt=plan.commitAt+Math.max(0,TAB_STROKE_MS-1000/60);
  return {triggerAt,rollMs:Math.max(620,plan.contentEndAt-triggerAt+40)};
 }

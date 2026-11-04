@@ -12,11 +12,13 @@ export function FoulBallsTitle({settled,probe=false}:{settled:boolean;probe?:boo
  useLayoutEffect(()=>{
   const hole=slot.current!;
   const fit=()=>{
-   const metrics=textLineMetrics(hole,'o');
+   const metrics=textLineMetrics(hole,'a');
    const geometry=baseballLetterFit(metrics);
    hole.style.setProperty('--baseball-size',`${geometry.size}px`);
    hole.style.setProperty('--baseball-top',`${geometry.top}px`);
    hole.style.setProperty('--baseball-shift',`${geometry.shift}px`);
+   const title=hole.closest('h2');
+   if(title){const offset=parseFloat(getComputedStyle(title).textUnderlineOffset)||0;title.style.setProperty('--foul-underline-top',`${metrics.baseline+offset}px`);}
   };
   fit();const observer=new ResizeObserver(fit);observer.observe(hole);
   void document.fonts.ready.then(fit);
@@ -25,27 +27,29 @@ export function FoulBallsTitle({settled,probe=false}:{settled:boolean;probe?:boo
  return <>{!probe&&<span class="sr-only">Foul Balls</span>}<span aria-hidden="true">F<span ref={slot} class={`foul-title-o${settled?' is-settled':''}`}><span class="foul-title-hidden-o">o</span>{!probe&&<span class="foul-title-baseball"><Baseball/></span>}</span>ul Balls</span></>;
 }
 export type BaseballRun={id:number;rollMs:number};
-/** Starts with the neighboring label's handoff, before the incoming title swaps. */
-export function FoulBallsArrival({run,enabled,reduced,onBusyChange,onSettled}:{run:BaseballRun|null;enabled:boolean;reduced:boolean;onBusyChange:(busy:boolean)=>void;onSettled:(value:boolean)=>void}){
+/** Runs after the final normal bold-letter frame of the selected label. */
+export function FoulBallsArrival({run,enabled,reduced,awake,onBusyChange,onSettled}:{run:BaseballRun|null;enabled:boolean;reduced:boolean;awake:boolean;onBusyChange:(busy:boolean)=>void;onSettled:(value:boolean)=>void}){
  const flight=useRef<HTMLSpanElement>(null);
+ const erasedLetters=useRef<Animation[]>([]),finished=useRef(false),sawIdle=useRef(false);
  useLayoutEffect(()=>{
   if(!run||!enabled)return;
   if(reduced){onSettled(true);return;}
+  finished.current=false;sawIdle.current=false;
   onSettled(false);onBusyChange(true);
   let frame=0,cancelled=false,animation:Animation|undefined,spin:Animation|undefined;
-  const erased:Animation[]=[];
+  const erased:Animation[]=[];erasedLetters.current=erased;
   const ball=flight.current!;
   const settle=()=>{
    if(cancelled)return;
    erased.forEach(letter=>letter.finish());
-   onSettled(true);ball.style.visibility='hidden';onBusyChange(false);
+   finished.current=true;onSettled(true);ball.style.visibility='hidden';onBusyChange(false);
   };
   frame=requestAnimationFrame(()=>{void document.fonts.ready.then(()=>{
    if(cancelled)return;
    const hole=document.querySelector<HTMLElement>('.foul-title-probe .foul-title-o');
    const tab=document.querySelector<HTMLElement>('.featured-project-nav button[aria-label="Foul Balls"]');
    if(!hole||!tab){settle();return;}
-   const rect=hole.getBoundingClientRect(),metrics=textLineMetrics(hole,'o'),fit=baseballLetterFit(metrics),size=fit.size;
+   const rect=hole.getBoundingClientRect(),metrics=textLineMetrics(hole,'a'),fit=baseballLetterFit(metrics),size=fit.size;
    const letters=[...tab.querySelectorAll<HTMLElement>('.project-nav-label .project-letter')];
    const nav=letters[0];
    const labelShift=nav?parseFloat(getComputedStyle(nav.parentElement!).translate.split(' ').at(-1)||'0')||0:0;
@@ -70,7 +74,12 @@ export function FoulBallsArrival({run,enabled,reduced,onBusyChange,onSettled}:{r
   });});
   const stopForGeometryChange=()=>{cancelAnimationFrame(frame);animation?.cancel();spin?.cancel();settle();cancelled=true;};
   window.addEventListener('resize',stopForGeometryChange);window.addEventListener('scroll',stopForGeometryChange,{passive:true});
-  return()=>{cancelled=true;cancelAnimationFrame(frame);animation?.cancel();spin?.cancel();erased.forEach(letter=>letter.cancel());ball.style.visibility='hidden';onBusyChange(false);window.removeEventListener('resize',stopForGeometryChange);window.removeEventListener('scroll',stopForGeometryChange);};
+  return()=>{cancelled=true;cancelAnimationFrame(frame);animation?.cancel();spin?.cancel();erased.forEach(letter=>letter.cancel());erasedLetters.current=[];finished.current=false;sawIdle.current=false;ball.style.visibility='hidden';onBusyChange(false);window.removeEventListener('resize',stopForGeometryChange);window.removeEventListener('scroll',stopForGeometryChange);};
  },[run,enabled,reduced]);
+ useLayoutEffect(()=>{
+  if(!finished.current)return;
+  if(!awake){sawIdle.current=true;return;}
+  if(sawIdle.current){erasedLetters.current.forEach(letter=>letter.cancel());erasedLetters.current=[];sawIdle.current=false;}
+ },[awake]);
  return createPortal(<span ref={flight} class="foul-baseball-flight" aria-hidden="true"><Baseball/></span>,document.body);
 }
