@@ -6,7 +6,7 @@ import {baseballMotion,baseballLetterFit,baseballSpinFrames,BASEBALL_LANDING_MS}
 
 function Baseball(){
  const id=useId();
- return <svg viewBox="0 0 100 100" aria-hidden="true"><defs><clipPath id={id}><circle cx="50" cy="50" r="48"/></clipPath></defs><circle cx="50" cy="50" r="48" fill="white"/><g fill="none" stroke={ILLUSTRATION_MAROON} stroke-width="6.5" stroke-dasharray="6 8" stroke-linecap="round" clip-path={`url(#${id})`}><path d="M10 -4 C33 25 33 75 10 104"/><path d="M90 -4 C67 25 67 75 90 104"/></g></svg>;
+ return <svg viewBox="0 0 100 100" aria-hidden="true"><defs><clipPath id={id}><circle cx="50" cy="50" r="48"/></clipPath></defs><circle cx="50" cy="50" r="48" fill="white"/><g fill="none" stroke={ILLUSTRATION_MAROON} stroke-width="8" stroke-dasharray="3 9" stroke-linecap="round" clip-path={`url(#${id})`}><path d="M12 -4 C36 25 36 75 12 104"/><path d="M88 -4 C64 25 64 75 88 104"/></g></svg>;
 }
 export function FoulBallsTitle({settled,probe=false}:{settled:boolean;probe?:boolean}){
  const slot=useRef<HTMLSpanElement>(null);
