@@ -70,6 +70,8 @@
 .feature-details:is(:hover,:focus-visible) h2,
 .feature:has(.folder-cover>.feature-visual .media-link:is(:hover,:focus-visible)) .feature-details h2{text-decoration-color:currentColor}
 .feature-details:focus-visible{outline:3px solid var(--caption-ink);outline-offset:-6px}
+.feature[data-project-transitioning="true"] .feature-details h2{text-decoration-color:transparent!important}
+.feature[data-project-transitioning="true"] :is(.foul-balls-feature-title:after,.sleds-feature-wordmark:after,.afroman-feature-title:after){opacity:0!important}
 @media(max-width:540px){
  .feature .feature-details{height:64px;padding:8px 12px;gap:14px}
  .feature .feature-details h2{font-size:clamp(20px,5.8cqw,30px)}
@@ -221,6 +223,7 @@
 .featured-project-nav .project-nav-label{visibility:visible;color:#fff;translate:0 0;transition:translate 240ms linear}
 .featured-project-nav[data-labels-awake="true"] .project-nav-label{transition-duration:140ms}
 .featured-project-nav[data-labels-awake="false"] .project-nav-label{translate:0 64px}
+.featured-project-nav button[data-label-suppressed="true"] .project-nav-label{opacity:0;transition:none}
 @media(prefers-reduced-motion:reduce){.featured-project-nav .project-nav-label{transition:none}}
 @media(min-width:1001px) and (min-height:701px){
  .shell-home{--feature-lift:calc(8px - var(--header-height)/2)}

@@ -1,4 +1,4 @@
-import {useEffect,useLayoutEffect,useRef,useState} from 'preact/hooks';
+import {useCallback,useEffect,useLayoutEffect,useRef,useState} from 'preact/hooks';
 import {createPortal} from 'preact/compat';
 import {NeonAmpersand} from '../../components/NeonAmpersand';
 import {AfromanTitleArrival} from '../../components/AfromanTitleArrival';
@@ -34,6 +34,7 @@ export function Landing({overlayOpen,reduced,onIntroDone,visible,onThemeChange,n
  const [sledsBusy,setSledsBusy]=useState(false);
  const [afromanBusy,setAfromanBusy]=useState(false);
  const [baseballRun,setBaseballRun]=useState<BaseballRun|null>(null),[baseballSettled,setBaseballSettled]=useState(reduced),[baseballLabelReady,setBaseballLabelReady]=useState(reduced);
+ const [hideFoulBallsLabel,setHideFoulBallsLabel]=useState(false);
  const [previewIndex,setPreviewIndex]=useState<number|null>(null);
  const [pressedTab,setPressedTab]=useState<number|null>(null);
  const motion=projectTiming(reduced);
@@ -152,7 +153,8 @@ export function Landing({overlayOpen,reduced,onIntroDone,visible,onThemeChange,n
    indexRef.current=targetRef.current=0;
    setActive(0);setDisplayed(0);setPreviewIndex(null);setElapsed(0);
    setBaseballSettled(false);setBaseballLabelReady(false);
-   setBaseballRun(value=>({id:(value?.id||0)+1,rollMs:BASEBALL_ROLL_MS}));
+   setHideFoulBallsLabel(true);
+   setBaseballRun(value=>({id:(value?.id||0)+1,rollMs:BASEBALL_ROLL_MS,wipeLabel:false}));
    onThemeChange(projects[0].id);
   },INTRO_TRANSITION_MS/2);
  };
@@ -189,6 +191,7 @@ export function Landing({overlayOpen,reduced,onIntroDone,visible,onThemeChange,n
   if(projects[next].id==='foul-balls'){
    setBaseballSettled(false);
    setBaseballLabelReady(false);
+   setHideFoulBallsLabel(false);
    setBaseballRun(null);
    const {triggerAt,rollMs}=baseballArrivalTiming(plan);
    schedule(()=>setBaseballRun(value=>({id:(value?.id||0)+1,rollMs})),triggerAt);
@@ -223,6 +226,7 @@ export function Landing({overlayOpen,reduced,onIntroDone,visible,onThemeChange,n
   setTabTransition(null);setStage('idle');setIntroTransition(false);setAmpEntering(false);
   setActive(destination);setDisplayed(destination);setElapsed(CYCLE_MS-2000);
   setBaseballBusy(false);setSledsBusy(false);setAfromanBusy(false);
+  setHideFoulBallsLabel(false);
   onThemeChange(projects[destination].id);
  },[visible,returnProjectId]);
  const paused=!visible||hidden||overlayOpen||interacting||userPaused;
@@ -270,7 +274,8 @@ export function Landing({overlayOpen,reduced,onIntroDone,visible,onThemeChange,n
  const indexAwake=baseballBusy||sledsBusy||afromanBusy||previewIndex!==null||lead!==null||(!!tabTransition&&phase!=='cleanup')||pressedTab!==null;
  useLayoutEffect(()=>{onIndexAwakeChange(indexAwake);},[indexAwake]);
  // Update navigation labels before the tab faces in the same render; neither animation waits for the other.
- const projectNavigation=<ProjectNavigation active={active} reduced={reduced} labelsAwake={indexAwake} selectionTarget={tabTransition?.to??active} handoffMs={tabTransition?.handoffMs} onPreview={setPreviewIndex} onPress={setPressedTab} onSelect={i=>activate(i,true)} boldActiveLabel={baseballLabelReady}/>;
+ const handleBaseballLabelRestore=useCallback((ready:boolean)=>{setBaseballLabelReady(ready);if(ready)setHideFoulBallsLabel(false);},[]);
+ const projectNavigation=<ProjectNavigation active={active} reduced={reduced} labelsAwake={indexAwake} selectionTarget={tabTransition?.to??active} handoffMs={tabTransition?.handoffMs} onPreview={setPreviewIndex} onPress={setPressedTab} onSelect={i=>activate(i,true)} boldActiveLabel={baseballLabelReady} hideFoulBallsLabel={hideFoulBallsLabel}/>;
  return <main id={visible?"main":"landing-main"} tabindex={-1} data-reduced-motion={reduced?'true':undefined} class={`landing ${intro?'is-intro':''} ${introTransition?'intro-handoff':''}`} style={{'--intro-half':`${INTRO_TRANSITION_MS/2}ms`,'--folder-out-duration':`${motion.out}ms`,'--folder-in-duration':`${motion.in}ms`}}>
  <section ref={identityRef} class="identity" aria-label="Jared, multidisciplinary creative">
   <IdentityHeading/>
@@ -285,7 +290,7 @@ export function Landing({overlayOpen,reduced,onIntroDone,visible,onThemeChange,n
   </div>
 
  </section>
- <section inert={intro} data-autoplay-interaction="" class="feature" aria-label="Featured project">
+ <section inert={intro} data-autoplay-interaction="" data-project-transitioning={introTransition||stage!=='idle'||!!tabTransition?'true':undefined} class="feature" aria-label="Featured project">
  {desktop&&navigationTarget?createPortal(projectNavigation,navigationTarget):<div class="feature-project-index">{projectNavigation}</div>}
  <div class="folder-stack" data-index-idle={!indexAwake?'true':undefined} data-tab-phase={phase} data-pressed-project={pressedTab===null?undefined:projects[pressedTab].id} data-lead-project={lead===null?undefined:projects[lead].id}>
  <div class={`folder-cover ${introTransition?'project-content transition-in':''}`} style={{'--folder-color':p.theme.accent,'--tab-count':projects.length}}>
@@ -302,7 +307,7 @@ export function Landing({overlayOpen,reduced,onIntroDone,visible,onThemeChange,n
  </div></div>
  <div class="carousel-status"><div class="timer-copy"><span>{intro?'Meet Jared':reduced?'Manual selection':userPaused?'Paused':tabTransition?'Switching project':paused?'On pause':'Next in '+Math.ceil((CYCLE_MS-elapsed)/1000)+'s'}</span><button onClick={()=>setUserPaused(value=>!value)} aria-label={userPaused?'Play project auto-advance':'Pause project auto-advance'} aria-pressed={userPaused} disabled={reduced}>{userPaused?'▶':'Ⅱ'}</button></div></div>
  </section>
- <FoulBallsArrival run={baseballRun} enabled={visible&&!intro&&!introTransition&&(active===0||tabTransition?.to===0)} reduced={reduced} onBusyChange={setBaseballBusy} onSettled={setBaseballSettled} onLabelRestore={setBaseballLabelReady}/>
+ <FoulBallsArrival run={baseballRun} enabled={visible&&!intro&&!introTransition&&(active===0||tabTransition?.to===0)} reduced={reduced} onBusyChange={setBaseballBusy} onSettled={setBaseballSettled} onLabelRestore={handleBaseballLabelRestore}/>
  {intro&&<IntroSequence destination={()=>identityRef.current} reduced={reduced} onComplete={finishIntro} onSkip={()=>{finishIntro();requestAnimationFrame(()=>identityRef.current?.closest('main')?.focus({preventScroll:true}));}}/>}
  </main>;
 }

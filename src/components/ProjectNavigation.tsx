@@ -6,7 +6,7 @@ import {tabTiming} from '../features/landing/timing';
 
 const labels=projects.map(project=>project.indexTitle);
 
-export function ProjectNavigation({active,reduced,onSelect,onPreview,onPress,selectionTarget=active,handoffMs=NAV_HANDOFF_MS,labelsAwake=true,boldActiveLabel=true}:{active:number;reduced:boolean;onSelect:(index:number)=>void;onPreview:(index:number|null)=>void;onPress:(index:number|null)=>void;selectionTarget?:number;handoffMs?:number;labelsAwake?:boolean;boldActiveLabel?:boolean}){
+export function ProjectNavigation({active,reduced,onSelect,onPreview,onPress,selectionTarget=active,handoffMs=NAV_HANDOFF_MS,labelsAwake=true,boldActiveLabel=true,hideFoulBallsLabel=false}:{active:number;reduced:boolean;onSelect:(index:number)=>void;onPreview:(index:number|null)=>void;onPress:(index:number|null)=>void;selectionTarget?:number;handoffMs?:number;labelsAwake?:boolean;boldActiveLabel?:boolean;hideFoulBallsLabel?:boolean}){
  const nav=useRef<HTMLElement>(null);
  const releaseFrame=useRef(0);
  const motion=tabTiming(reduced);
@@ -79,7 +79,7 @@ export function ProjectNavigation({active,reduced,onSelect,onPreview,onPress,sel
   buttons[next]?.focus();onSelect(next);
  }}>
   <span class="project-nav-indicator" aria-hidden="true"/>
-  {projects.map((project,i)=><button key={project.id} onMouseEnter={()=>{if(matchMedia('(hover:hover)').matches)onPreview(i);}} onFocus={e=>{if(e.currentTarget.matches(':focus-visible'))onPreview(i);}} onPointerDown={e=>{if(e.isPrimary&&e.button===0){cancelAnimationFrame(releaseFrame.current);onPress(i);}}} onClick={()=>{cancelAnimationFrame(releaseFrame.current);onPress(null);if(i!==active)onSelect(i);}} class={i===active?'active':''} aria-current={i===active?'true':undefined} aria-label={project.indexTitle}>
+  {projects.map((project,i)=><button key={project.id} onMouseEnter={()=>{if(matchMedia('(hover:hover)').matches)onPreview(i);}} onFocus={e=>{if(e.currentTarget.matches(':focus-visible'))onPreview(i);}} onPointerDown={e=>{if(e.isPrimary&&e.button===0){cancelAnimationFrame(releaseFrame.current);onPress(i);}}} onClick={()=>{cancelAnimationFrame(releaseFrame.current);onPress(null);if(i!==active)onSelect(i);}} class={i===active?'active':''} aria-current={i===active?'true':undefined} aria-label={project.indexTitle} data-label-suppressed={hideFoulBallsLabel&&i===0?'true':undefined}>
    {/* Reserve the widest weight so letter handoffs never resize the tabs. */}
    <span class="project-nav-reserve" aria-hidden="true">{project.indexTitle}</span>
    <span class="project-label-clip"><NavigationLabel label={project.indexTitle} letters={i===0&&selectionTarget===0&&!reduced&&!boldActiveLabel?boldLetters[i].map(()=>false):boldLetters[i]}/></span>

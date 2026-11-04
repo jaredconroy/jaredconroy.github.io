@@ -28,7 +28,7 @@ export function FoulBallsTitle({settled,probe=false}:{settled:boolean;probe?:boo
  },[]);
  return <>{!probe&&<span class="sr-only">Foul Balls</span>}<span aria-hidden="true">F<span ref={slot} class={`foul-title-o${settled?' is-settled':''}`}><span class="foul-title-hidden-o">o</span>{!probe&&<span class="foul-title-baseball"><Baseball/></span>}</span><span class="foul-title-tail">ul Balls</span></span></>;
 }
-export type BaseballRun={id:number;rollMs:number};
+export type BaseballRun={id:number;rollMs:number;wipeLabel?:boolean};
 /** Runs after the final normal bold-letter frame of the selected label. */
 export function FoulBallsArrival({run,enabled,reduced,onBusyChange,onSettled,onLabelRestore}:{run:BaseballRun|null;enabled:boolean;reduced:boolean;onBusyChange:(busy:boolean)=>void;onSettled:(value:boolean)=>void;onLabelRestore:(value:boolean)=>void}){
  const flight=useRef<HTMLSpanElement>(null);
@@ -41,7 +41,7 @@ export function FoulBallsArrival({run,enabled,reduced,onBusyChange,onSettled,onL
   const ball=flight.current!;
   const restoreLabel=()=>{
    if(labelsRestored)return;labelsRestored=true;
-   const label=erased[0]?.letter.closest<HTMLElement>('.project-nav-label');
+   const label=erased[0]?.letter.closest<HTMLElement>('.project-nav-label')||document.querySelector<HTMLElement>('.featured-project-nav button[aria-label="Foul Balls"] .project-nav-label');
    erased.forEach(({letter,animation:erase})=>{
     erase.cancel();
     letter.style.removeProperty('opacity');
@@ -56,9 +56,9 @@ export function FoulBallsArrival({run,enabled,reduced,onBusyChange,onSettled,onL
   const settle=()=>{
    if(cancelled)return;
    onSettled(true);ball.style.visibility='hidden';onBusyChange(false);
-   const indexStillEngaged=!!document.querySelector('.featured-project-nav:hover,.featured-project-nav:focus-within');
+   const indexStillEngaged=!!document.querySelector('.featured-project-nav:hover,.featured-project-nav button:focus-visible');
    if(indexStillEngaged)restoreLabel();
-   else restoreTimer=window.setTimeout(restoreLabel,250);
+   else restoreTimer=window.setTimeout(restoreLabel,300);
   };
   frame=requestAnimationFrame(()=>{void document.fonts.ready.then(()=>{
    if(cancelled)return;
@@ -81,7 +81,7 @@ export function FoulBallsArrival({run,enabled,reduced,onBusyChange,onSettled,onL
    ball.style.width=`${size}px`;ball.style.height=`${size}px`;ball.style.visibility='visible';
    animation=ball.animate(motion.frames,{duration:run.rollMs+BASEBALL_LANDING_MS,fill:'forwards'});
    spin=ball.firstElementChild!.animate(baseballSpinFrames(motion.rotation,rollFraction),{duration:run.rollMs+BASEBALL_LANDING_MS,fill:'forwards'});
-   for(const letter of letters){
+   for(const letter of run.wipeLabel===false?[]:letters){
     const bounds=letter.getBoundingClientRect();
     const progress=Math.max(0,Math.min(.92,(startX+size/2-(bounds.left+bounds.right)/2)/(startX-x)));
     erased.push({letter,animation:letter.animate([{opacity:1},{opacity:0}],{duration:55,delay:progress*run.rollMs,fill:'forwards'})});
