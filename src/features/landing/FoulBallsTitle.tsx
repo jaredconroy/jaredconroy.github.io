@@ -37,9 +37,22 @@ export function FoulBallsArrival({run,enabled,reduced,onBusyChange,onSettled}:{r
   if(reduced){onSettled(true);return;}
   onSettled(false);onBusyChange(true);
   let frame=0,cancelled=false,animation:Animation|undefined,spin:Animation|undefined,restoreTimer:ReturnType<typeof setTimeout>|undefined,labelsRestored=false;
-  const erased:Animation[]=[];
+  const erased:{letter:HTMLElement;animation:Animation}[]=[],fades:Animation[]=[];
   const ball=flight.current!;
-  const restoreLabel=()=>{if(labelsRestored)return;labelsRestored=true;erased.forEach(letter=>letter.cancel());erased.length=0;};
+  const restoreLabel=()=>{
+   if(labelsRestored)return;labelsRestored=true;
+   const label=erased[0]?.letter.closest<HTMLElement>('.project-nav-label');
+   erased.forEach(({letter,animation:erase})=>{
+    erase.cancel();
+    letter.style.removeProperty('opacity');
+   });
+   if(label){
+    const fade=label.animate([{opacity:0},{opacity:1}],{duration:180,easing:'ease-out',fill:'forwards'});
+    fade.onfinish=()=>fade.cancel();fades.push(fade);
+   }
+   erased.length=0;
+   onSettled(true);
+  };
   const settle=()=>{
    if(cancelled)return;
    if(restoreTimer)clearTimeout(restoreTimer);restoreLabel();
@@ -69,15 +82,15 @@ export function FoulBallsArrival({run,enabled,reduced,onBusyChange,onSettled}:{r
    for(const letter of letters){
     const bounds=letter.getBoundingClientRect();
     const progress=Math.max(0,Math.min(.92,(startX+size/2-(bounds.left+bounds.right)/2)/(startX-x)));
-    erased.push(letter.animate([{opacity:1},{opacity:0}],{duration:55,delay:progress*run.rollMs,fill:'forwards'}));
+    erased.push({letter,animation:letter.animate([{opacity:1},{opacity:0}],{duration:55,delay:progress*run.rollMs,fill:'forwards'})});
    }
-   // Reveal the word at first impact, not after the small bounce has settled.
+   // Fade the selected label back in at the ball's first ground contact.
    restoreTimer=setTimeout(restoreLabel,run.rollMs+380);
    animation.onfinish=settle;
   });});
   const stopForGeometryChange=()=>{cancelAnimationFrame(frame);animation?.cancel();spin?.cancel();settle();cancelled=true;};
   window.addEventListener('resize',stopForGeometryChange);window.addEventListener('scroll',stopForGeometryChange,{passive:true});
-  return()=>{cancelled=true;if(restoreTimer)clearTimeout(restoreTimer);cancelAnimationFrame(frame);animation?.cancel();spin?.cancel();erased.forEach(letter=>letter.cancel());ball.style.visibility='hidden';onBusyChange(false);window.removeEventListener('resize',stopForGeometryChange);window.removeEventListener('scroll',stopForGeometryChange);};
+  return()=>{cancelled=true;if(restoreTimer)clearTimeout(restoreTimer);cancelAnimationFrame(frame);animation?.cancel();spin?.cancel();erased.forEach(({letter,animation})=>{animation.cancel();letter.style.removeProperty('opacity');});fades.forEach(fade=>fade.cancel());ball.style.visibility='hidden';onBusyChange(false);window.removeEventListener('resize',stopForGeometryChange);window.removeEventListener('scroll',stopForGeometryChange);};
  },[run,enabled,reduced]);
  return createPortal(<span ref={flight} class="foul-baseball-flight" aria-hidden="true"><Baseball/></span>,document.body);
 }

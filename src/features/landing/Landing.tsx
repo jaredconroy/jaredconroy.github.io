@@ -185,9 +185,10 @@ export function Landing({overlayOpen,reduced,onIntroDone,visible,onThemeChange,n
   transitionRef.current=true;
   const plan=tabTransitionPlan(previous,next);
   if(projects[next].id==='foul-balls'){
+   setBaseballSettled(false);
    setBaseballRun(null);
    const {triggerAt,rollMs}=baseballArrivalTiming(plan);
-   schedule(()=>{setBaseballSettled(false);setBaseballRun(value=>({id:(value?.id||0)+1,rollMs}));},triggerAt);
+   schedule(()=>setBaseballRun(value=>({id:(value?.id||0)+1,rollMs})),triggerAt);
   }
   const apply=(step:typeof plan.steps[number])=>{
    setTabTransition({from:previous,to:next,phase:step.phase,passes:plan.passes,raised:step.raised,handoffMs:plan.handoffMs});
@@ -266,7 +267,7 @@ export function Landing({overlayOpen,reduced,onIntroDone,visible,onThemeChange,n
  const indexAwake=baseballBusy||sledsBusy||afromanBusy||previewIndex!==null||lead!==null||(!!tabTransition&&phase!=='cleanup')||pressedTab!==null;
  useLayoutEffect(()=>{onIndexAwakeChange(indexAwake);},[indexAwake]);
  // Update navigation labels before the tab faces in the same render; neither animation waits for the other.
- const projectNavigation=<ProjectNavigation active={active} reduced={reduced} labelsAwake={indexAwake} selectionTarget={tabTransition?.to??active} handoffMs={tabTransition?.handoffMs} onPreview={setPreviewIndex} onPress={setPressedTab} onSelect={i=>activate(i,true)}/>;
+ const projectNavigation=<ProjectNavigation active={active} reduced={reduced} labelsAwake={indexAwake} selectionTarget={tabTransition?.to??active} handoffMs={tabTransition?.handoffMs} onPreview={setPreviewIndex} onPress={setPressedTab} onSelect={i=>activate(i,true)} boldActiveLabel={baseballSettled}/>;
  return <main id={visible?"main":"landing-main"} tabindex={-1} data-reduced-motion={reduced?'true':undefined} class={`landing ${intro?'is-intro':''} ${introTransition?'intro-handoff':''}`} style={{'--intro-half':`${INTRO_TRANSITION_MS/2}ms`,'--folder-out-duration':`${motion.out}ms`,'--folder-in-duration':`${motion.in}ms`}}>
  <section ref={identityRef} class="identity" aria-label="Jared, multidisciplinary creative">
   <IdentityHeading/>
