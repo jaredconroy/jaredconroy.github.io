@@ -1,6 +1,6 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {baseballMotion,baseballArrivalTiming,baseballLetterFit,baseballSpinFrames} from '../src/features/landing/baseballMotion.ts';
+import {baseballMotion,baseballArrivalTiming,baseballLetterFit,baseballSpinFrames,BASEBALL_LANDING_MS} from '../src/features/landing/baseballMotion.ts';
 test('baseball rolls right to left on one baseline then drops without horizontal drift',()=>{
  const {frames,rotation}=baseballMotion(1000,400,60,130,30);
  assert.equal(frames[0].transform,'translate3d(1000px,60px,0)');
@@ -27,7 +27,7 @@ test('baseball starts on the final normal bold-letter frame of Foul Balls',()=>{
   const plan=tabTransitionPlan(from,0),arrival=baseballArrivalTiming(plan);
   const frames=timedNavigationLetterFrames(labels,navigationSelection(labels,from),from,0,TAB_STROKE_MS,TAB_STROKE_MS);
   assert.equal(arrival.triggerAt,frames.filter(frame=>frame.waypoint===0).at(-1)!.at);
-  assert.ok(arrival.triggerAt+arrival.rollMs>plan.contentEndAt);
+  assert.ok(arrival.triggerAt+arrival.rollMs+BASEBALL_LANDING_MS>plan.contentEndAt);
  }
  assert.ok(baseballArrivalTiming(tabTransitionPlan(1,0)).triggerAt>0);
  assert.ok(baseballArrivalTiming(tabTransitionPlan(4,0)).triggerAt>baseballArrivalTiming(tabTransitionPlan(1,0)).triggerAt);
@@ -46,4 +46,14 @@ test('rolling seams finish vertical and remain vertical through the bounce',()=>
  assert.equal(spin[0].transform,`rotate(${-rotation}deg)`);
  assert.equal(spin[1].transform,'rotate(0deg)');
  assert.equal(spin[2].transform,'rotate(0deg)');
+});
+
+test('quicker rolls preserve the 380ms fall and 600ms full landing sequence',()=>{
+ for(const roll of [480,620]){
+  const total=roll+BASEBALL_LANDING_MS;
+  const {frames}=baseballMotion(500,100,0,100,25,roll/total);
+  assert.ok(Math.abs((frames[2].offset-frames[1].offset)*total-380)<1e-8);
+  assert.ok(Math.abs((frames[3].offset-frames[1].offset)*total-480)<1e-8);
+  assert.ok(Math.abs((frames[4].offset-frames[1].offset)*total-600)<1e-8);
+ }
 });

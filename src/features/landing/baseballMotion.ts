@@ -1,4 +1,5 @@
 import {TAB_STROKE_MS} from './timing';
+export const BASEBALL_ROLL_MS=480;
 export const BASEBALL_LANDING_MS=600;
 export function baseballLetterFit(metrics:{ascent:number;descent:number;baseline:number;width?:number;fontSize?:number}){
  // Circle radius is 48 inside a 100-unit SVG: size the visible ink, not its box.
@@ -23,5 +24,5 @@ export function baseballMotion(startX:number,endX:number,baselineY:number,endY:n
 /** Match the last normal bold-letter frame of the destination label. */
 export function baseballArrivalTiming(plan:{commitAt:number;contentEndAt:number}){
  const triggerAt=plan.commitAt+Math.max(0,TAB_STROKE_MS-1000/60);
- return {triggerAt,rollMs:Math.max(620,plan.contentEndAt-triggerAt+40)};
+ return {triggerAt,rollMs:Math.max(BASEBALL_ROLL_MS,(plan.contentEndAt-triggerAt+40)*.78)};
 }

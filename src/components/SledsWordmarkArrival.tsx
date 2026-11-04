@@ -41,7 +41,7 @@ export function SledsWordmarkArrival({ready,reduced,onBusyChange}:{ready:boolean
    if(!width||!height){settle();return;}
    const size=Math.max(24,Math.min(46,height*.92));
    const cross=width*dy+height*dx,spread=cross*.28;
-   const duration=1350,stagger=160;
+   const duration=1350,stagger=70;
    const scaleY=bounds.height/height||1;
    const panelBottom=((element.closest('.feature-details')?.getBoundingClientRect().bottom??bounds.bottom)-bounds.top)/scaleY;
    const bodyHeight=size*(399.36/335.5),centerX=width*.42,centerY=height/2;

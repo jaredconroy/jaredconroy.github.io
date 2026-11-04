@@ -15,7 +15,7 @@ import {IntroSequence} from './IntroSequence';
 import {ProjectNavigation} from '../../components/ProjectNavigation';
 import {FolderTab} from './FolderTab';
 import {FoulBallsTitle,FoulBallsArrival,type BaseballRun} from './FoulBallsTitle';
-import {baseballArrivalTiming} from './baseballMotion';
+import {baseballArrivalTiming,BASEBALL_ROLL_MS} from './baseballMotion';
 import {useBatCrack} from '../audio/useBatCrack';
 import {useNeonSign} from '../neon/useNeonSign';
 import {CompactRoleChain} from './CompactRoleChain';
@@ -221,7 +221,7 @@ export function Landing({overlayOpen,reduced,onIntroDone,visible,onThemeChange,n
  useEffect(()=>{if(elapsed>=CYCLE_MS&&!resumeCountdownOnSettle.current)activate((indexRef.current+1)%projects.length);},[elapsed]);
  const p=projects[displayed];
  useEffect(()=>{
-  if(visible&&!intro&&!introTransition&&p.id==='foul-balls'&&!baseballRun){setBaseballSettled(reduced);setBaseballRun({id:1,rollMs:620});}
+  if(visible&&!intro&&!introTransition&&p.id==='foul-balls'&&!baseballRun){setBaseballSettled(reduced);setBaseballRun({id:1,rollMs:BASEBALL_ROLL_MS});}
  },[visible,intro,introTransition,p.id,baseballRun,reduced]);
  const roleOpen=expanded||hoverRoles;
  const neonActive=p.id==='afroman'&&roleOpen&&visible&&!hidden&&!overlayOpen&&!intro;
