@@ -1,11 +1,12 @@
 import {useId,useLayoutEffect,useRef} from 'preact/hooks';
 import {createPortal} from 'preact/compat';
 import {textLineMetrics} from '../../components/textMetrics';
+import {ILLUSTRATION_MAROON} from '../../content/palette';
 import {baseballMotion,baseballLetterFit,baseballSpinFrames,BASEBALL_LANDING_MS} from './baseballMotion';
 
 function Baseball(){
  const id=useId();
- return <svg viewBox="0 0 100 100" aria-hidden="true"><defs><mask id={id} maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="100"><circle cx="50" cy="50" r="48" fill="white"/><g fill="none" stroke="black" stroke-width="6.5" stroke-dasharray="6 8" stroke-linecap="round"><path d="M10 -4 C33 25 33 75 10 104"/><path d="M90 -4 C67 25 67 75 90 104"/></g></mask></defs><circle cx="50" cy="50" r="48" fill="white" mask={`url(#${id})`}/></svg>;
+ return <svg viewBox="0 0 100 100" aria-hidden="true"><defs><clipPath id={id}><circle cx="50" cy="50" r="48"/></clipPath></defs><circle cx="50" cy="50" r="48" fill="white"/><g fill="none" stroke={ILLUSTRATION_MAROON} stroke-width="6.5" stroke-dasharray="6 8" stroke-linecap="round" clip-path={`url(#${id})`}><path d="M10 -4 C33 25 33 75 10 104"/><path d="M90 -4 C67 25 67 75 90 104"/></g></svg>;
 }
 export function FoulBallsTitle({settled,probe=false}:{settled:boolean;probe?:boolean}){
  const slot=useRef<HTMLSpanElement>(null);

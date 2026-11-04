@@ -255,7 +255,7 @@ h1,h2,.wordmark,.bible-cover strong,.band-wordmark strong,.design-tile,.portrait
 /* Keep the same painted signature throughout writing, title montage and shrink. */
 .intro-composition{position:absolute;transform-origin:left top;pointer-events:none}
 .intro-sequence .intro-composition>.intro-identity{position:relative;inset:auto;width:100%;margin:0}
-.intro-sequence .intro-role-system{position:absolute;left:0;margin:0!important;width:100%;max-width:none;visibility:hidden;--accent:#88281d}
+.intro-sequence .intro-role-system{position:absolute;left:0;margin:0!important;width:100%;max-width:none;visibility:hidden;--accent:var(--illustration-maroon)}
 .intro-sequence .intro-roles-visible{visibility:visible}
 .intro-roles-visible .ampersand{animation:intro-amp-grow 550ms var(--ease) both}
 @keyframes intro-amp-grow{from{opacity:0;transform:translate(-50%,-50%) scale(.25)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}

@@ -29,9 +29,9 @@
 .artwork-lightbox-image{display:flex;align-items:center;justify-content:center;min-height:0}
 .artwork-lightbox-image img{display:block;max-width:100%;width:auto;height:auto;max-height:calc(100dvh - var(--player-height) - 240px);object-fit:contain}
 .artwork-lightbox footer{display:flex;justify-content:space-between;align-items:center;gap:26px;margin-top:18px}
-.artwork-lightbox h2{font-size:clamp(26px,3vw,38px);line-height:1.1;color:#88281d}
+.artwork-lightbox h2{font-size:clamp(26px,3vw,38px);line-height:1.1;color:var(--illustration-maroon)}
 .artwork-lightbox p{font-size:16px;line-height:1.5;margin-top:7px;max-width:780px}
-.artwork-lightbox footer>a{font-size:16px;color:#88281d;white-space:nowrap;border-bottom:2px solid currentColor;padding-bottom:4px}
+.artwork-lightbox footer>a{font-size:16px;color:var(--illustration-maroon);white-space:nowrap;border-bottom:2px solid currentColor;padding-bottom:4px}
 .foul-balls-artworks{margin:32px 0}
 .foul-balls-artworks>h2{font-size:32px;margin-bottom:20px}
 .foul-balls-artworks .artwork-gallery{columns:2}

@@ -8,13 +8,14 @@ import {ProjectView,GameView,Missing} from '../features/projects/ProjectView';
 import {parseRoute,useRoute} from './router';
 import {MainNavigation} from '../components/MainNavigation';
 import {baseTheme,projects} from '../content/projects';
+import {ILLUSTRATION_MAROON} from '../content/palette';
 import {TAB_STROKE_MS} from '../features/landing/timing';
 const SignatureEditor=import.meta.env.DEV&&new URLSearchParams(location.search).get('signature-editor')==='1'?lazy(()=>import('../features/signature-editor/SignatureEditor')):null;
 const projectHeaderPalettes:Record<string,{surface:string;ink:string;highlight:string}>={
  'foul-balls':{surface:'#241c32',ink:'#ffffff',highlight:'#846393'},
  'the-sleds':{surface:'#19364d',ink:'#ffffff',highlight:'#91b2cb'},
  'design':{surface:'#173458',ink:'#ffffff',highlight:'#008477'},
- 'illustration':{surface:'#edf5fb',ink:'#173458',highlight:'#88281d'},
+ 'illustration':{surface:'#edf5fb',ink:'#173458',highlight:ILLUSTRATION_MAROON},
  'afroman':{surface:'#000000',ink:'#ffffff',highlight:'#ef8216'},
 };
 function Shell(){
@@ -87,7 +88,7 @@ function Shell(){
  const pageIndex=visibleRoute.kind==='project'?projects.findIndex(p=>p.id===visibleRoute.id):-1;
  const previousProject=projects[(pageIndex+projects.length-1)%projects.length],nextProject=projects[(pageIndex+1)%projects.length];
  const revealHeader=()=>{headerCollapse.current=0;headerElement.current?.style.setProperty('--header-collapse','0px');};
- return <div class={`app-shell ${path==='home'?'shell-home':''} ${smartHeader?'shell-project-route':''} ${returnHeaderVisible?'header-returning':''} ${returnHeaderLeaving?'header-returning-out':''} ${!introDone&&path==='home'?'intro-running':''}`} data-project-theme={themeProject?.id} ref={root} style={{'--surface':theme.background,'--chapter-surface':chapterSurface,'--ink':theme.text,'--accent':theme.accent,'--accent-text':theme.accentText||theme.accent,'--player-surface':theme.playerBackground||theme.text,'--header-surface':activeHeaderPalette?.surface||theme.background,'--header-ink':activeHeaderPalette?.ink||theme.text,'--header-highlight':activeHeaderPalette?.highlight||theme.accent,'--tab-motion-duration':`${reduced?0:TAB_STROKE_MS}ms`}}>
+ return <div class={`app-shell ${path==='home'?'shell-home':''} ${smartHeader?'shell-project-route':''} ${returnHeaderVisible?'header-returning':''} ${returnHeaderLeaving?'header-returning-out':''} ${!introDone&&path==='home'?'intro-running':''}`} data-project-theme={themeProject?.id} ref={root} style={{'--illustration-maroon':ILLUSTRATION_MAROON,'--surface':theme.background,'--chapter-surface':chapterSurface,'--ink':theme.text,'--accent':theme.accent,'--accent-text':theme.accentText||theme.accent,'--player-surface':theme.playerBackground||theme.text,'--header-surface':activeHeaderPalette?.surface||theme.background,'--header-ink':activeHeaderPalette?.ink||theme.text,'--header-highlight':activeHeaderPalette?.highlight||theme.accent,'--tab-motion-duration':`${reduced?0:TAB_STROKE_MS}ms`}}>
  <div class="cursor-reveal" ref={spot} aria-hidden="true"/>
  <a class="skip-link" href="#main" onClick={e=>{e.preventDefault();document.getElementById('main')?.focus();}}>Skip to content</a>
  <header key={smartHeader?viewKey:'home'} ref={headerElement} class={`header ${smartHeader?'project-route-header':''} ${returnHeaderVisible?'return-route-header':''} ${!introDone&&path==='home'?'intro-hidden':''}`} inert={!introDone&&path==='home'} onFocusCapture={revealHeader} onAnimationEnd={event=>{if(event.animationName==='header-band-up'){setReturnHeaderPalette(null);setReturnHeaderLeaving(false);}}}>

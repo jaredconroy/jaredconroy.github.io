@@ -1,10 +1,11 @@
+import {ILLUSTRATION_MAROON} from './palette';
 export interface Project {
   id: string; title: string; indexTitle: string; category: string; subtitle?:string;
   roles: [string, string]; expandedRoles: string[]; description: string;
   theme: {background:string; text:string; accent:string; accentText?:string; playerBackground?:string};
   color: string; ink: string; media: 'cover' | 'band' | 'game' | 'design' | 'illustration';
 }
-export const baseTheme:Project['theme']={background:'#ffffff',text:'#173458',accent:'#88281d',accentText:'#88281d'};
+export const baseTheme:Project['theme']={background:'#ffffff',text:'#173458',accent:ILLUSTRATION_MAROON,accentText:ILLUSTRATION_MAROON};
 export const projects: Project[] = [
   {id:'foul-balls',theme:{background:'#f7f0e7',text:'#30243d',accent:'#846393',playerBackground:'#846393'},title:'Foul Balls',indexTitle:'Foul Balls',category:'An animated series',subtitle:'An original animated series',roles:['Screenwriter','Illustrator'],expandedRoles:['Creator','Character Designer','Creative Producer','Composer','Voice Actor','Animator'],description:'A world of characters. A whole different ball game.',color:'#9B7EA9',ink:'#30243d',media:'cover'},
   {id:'the-sleds',theme:{background:'#66534b',text:'#ffffff',accent:'#91b2cb',playerBackground:'#91b2cb'},title:'The Sleds',indexTitle:'The Sleds',category:'Music & moving pictures',subtitle:"Rock ’n’ roll band outta Boston",roles:['Creative Director','Lead Singer'],expandedRoles:['Performing Artist','Music Video Director','Songwriter'],description:'On the microphone. Behind the vision.',color:'#91b2cb',ink:'#19364d',media:'band'},
