@@ -40,7 +40,7 @@ export function AfromanTitleArrival({ready,reduced,onBusyChange}:{ready:boolean;
    lane.style.left=`-${padding}px`;
    lane.style.top=`${-top}px`;lane.style.height=`${panelHeight}px`;
    actor.style.width=`${spriteWidth}px`;actor.style.height=`${height}px`;
-   actor.style.top=`${(panelHeight-height)/2}px`;
+   actor.style.top=`${(panelHeight-height)/2+1}px`;
    actor.style.backgroundSize=`${walk.sheetWidth*scale}px ${walk.sheetHeight*scale}px`;
    actor.style.visibility='visible';
    const cycleMs=walk.frames.reduce((sum,frame)=>sum+frame.ms,0)/PREVIEW_SPEED;
@@ -59,13 +59,14 @@ export function AfromanTitleArrival({ready,reduced,onBusyChange}:{ready:boolean;
     return {clipPath:`inset(0 ${Math.max(0,Math.min(width,width-x))}px 0 0)`,offset:progress};
    }),{duration:revealDuration,easing:'linear',fill:'forwards'});
    animations.push(cycle,movement,reveal);
-   // Stop beside the title in the game's true idle pose, pause briefly, then
+   // Stop beside the title in the extended-arm running pose, pause briefly, then
    // turn the color sprite into a silhouette without moving it from its mark.
    movement.onfinish=()=>{
     actor.style.transform=`translate3d(${to}px,0,0)`;
     movement.cancel();
     cycle.cancel();
-    actor.style.backgroundPosition=`${-walk.restingFrame.x*scale}px ${-walk.restingFrame.y*scale}px`;
+    const landingFrame=walk.frames[0];
+    actor.style.backgroundPosition=`${-landingFrame.x*scale}px ${-landingFrame.y*scale}px`;
     restTimeout=window.setTimeout(()=>{
       if(cancelled)return;
       const silhouette=actor.animate([{filter:'brightness(1)'},{filter:'brightness(0)'}],{duration:360,easing:'ease-out',fill:'forwards'});
