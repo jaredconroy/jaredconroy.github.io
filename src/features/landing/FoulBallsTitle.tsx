@@ -2,11 +2,11 @@ import {useId,useLayoutEffect,useRef} from 'preact/hooks';
 import {createPortal} from 'preact/compat';
 import {textLineMetrics} from '../../components/textMetrics';
 import {ILLUSTRATION_MAROON} from '../../content/palette';
-import {baseballMotion,baseballLetterFit,baseballSpinFrames,BASEBALL_LANDING_MS} from './baseballMotion';
+import {baseballMotion,baseballLetterFit,baseballSpinFrames,BASEBALL_LANDING_MS,BASEBALL_REST_ANGLE} from './baseballMotion';
 
 function Baseball(){
  const id=useId();
- return <svg viewBox="0 0 100 100" aria-hidden="true"><defs><clipPath id={id}><circle cx="50" cy="50" r="48"/></clipPath></defs><circle cx="50" cy="50" r="48" fill="white"/><g fill="none" stroke={ILLUSTRATION_MAROON} stroke-width="8" stroke-dasharray="3 9" stroke-linecap="round" clip-path={`url(#${id})`}><path d="M12 -4 C36 25 36 75 12 104"/><path d="M88 -4 C64 25 64 75 88 104"/></g></svg>;
+ return <svg viewBox="0 0 100 100" aria-hidden="true"><defs><clipPath id={id}><circle cx="50" cy="50" r="48"/></clipPath></defs><circle cx="50" cy="50" r="48" fill="white"/><g fill="none" stroke={ILLUSTRATION_MAROON} stroke-width="8.75" stroke-dasharray="4.5 10.5" stroke-linecap="round" clip-path={`url(#${id})`}><path d="M12 -4 C36 25 36 75 12 104"/><path d="M88 -4 C64 25 64 75 88 104"/></g></svg>;
 }
 export function FoulBallsTitle({settled,probe=false}:{settled:boolean;probe?:boolean}){
  const slot=useRef<HTMLSpanElement>(null);
@@ -18,6 +18,7 @@ export function FoulBallsTitle({settled,probe=false}:{settled:boolean;probe?:boo
    hole.style.setProperty('--baseball-size',`${geometry.size}px`);
    hole.style.setProperty('--baseball-top',`${geometry.top}px`);
    hole.style.setProperty('--baseball-shift',`${geometry.shift}px`);
+   hole.style.setProperty('--baseball-rotation',`${BASEBALL_REST_ANGLE}deg`);
    const title=hole.closest('h2');
    if(title){const offset=parseFloat(getComputedStyle(title).textUnderlineOffset)||0;title.style.setProperty('--foul-underline-top',`${metrics.baseline+offset}px`);}
   };
@@ -60,9 +61,9 @@ export function FoulBallsArrival({run,enabled,reduced,awake,onBusyChange,onSettl
    const rollFraction=run.rollMs/(run.rollMs+BASEBALL_LANDING_MS);
    const motion=baseballMotion(startX,x,Math.min(baseline-size,y-size),y,size,rollFraction);
    const actualHole=document.querySelector<HTMLElement>('#featured-title .foul-title-o');
-   actualHole?.style.setProperty('--baseball-rotation','0deg');
-   // The target title may mount after the roll starts; always settle upright.
-   document.querySelector<HTMLElement>('.landing')?.style.setProperty('--baseball-rotation','0deg');
+   actualHole?.style.setProperty('--baseball-rotation',`${BASEBALL_REST_ANGLE}deg`);
+   // The target title may mount after the roll starts; preserve the same resting tilt.
+   document.querySelector<HTMLElement>('.landing')?.style.setProperty('--baseball-rotation',`${BASEBALL_REST_ANGLE}deg`);
    ball.style.width=`${size}px`;ball.style.height=`${size}px`;ball.style.visibility='visible';
    animation=ball.animate(motion.frames,{duration:run.rollMs+BASEBALL_LANDING_MS,fill:'forwards'});
    spin=ball.firstElementChild!.animate(baseballSpinFrames(motion.rotation,rollFraction),{duration:run.rollMs+BASEBALL_LANDING_MS,fill:'forwards'});

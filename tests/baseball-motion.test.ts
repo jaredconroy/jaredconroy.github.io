@@ -1,6 +1,6 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {baseballMotion,baseballArrivalTiming,baseballLetterFit,baseballSpinFrames,BASEBALL_LANDING_MS} from '../src/features/landing/baseballMotion.ts';
+import {baseballMotion,baseballArrivalTiming,baseballLetterFit,baseballSpinFrames,BASEBALL_LANDING_MS,BASEBALL_REST_ANGLE} from '../src/features/landing/baseballMotion.ts';
 test('baseball rolls right to left on one baseline then drops without horizontal drift',()=>{
  const {frames,rotation}=baseballMotion(1000,400,60,130,30);
  assert.equal(frames[0].transform,'translate3d(1000px,60px,0)');
@@ -40,12 +40,12 @@ test('visible circle matches the full a ink footprint, includes the 0.75px lower
  assert.equal(fit.shift,-1.75);
  assert.equal(baseballLetterFit({...metrics,fontSize:24}).shift,-.875);
 });
-test('rolling seams finish vertical and remain vertical through the bounce',()=>{
+test('rolling seams keep their resting tilt through the drop and bounce',()=>{
  const rotation=baseballMotion(500,100,0,100,25).rotation;
  const spin=baseballSpinFrames(rotation,.6);
  assert.equal(spin[0].transform,`rotate(${-rotation}deg)`);
- assert.equal(spin[1].transform,'rotate(0deg)');
- assert.equal(spin[2].transform,'rotate(0deg)');
+ assert.equal(spin[1].transform,`rotate(${BASEBALL_REST_ANGLE}deg)`);
+ assert.equal(spin[2].transform,`rotate(${BASEBALL_REST_ANGLE}deg)`);
 });
 
 test('quicker rolls preserve the 380ms fall and 600ms full landing sequence',()=>{
