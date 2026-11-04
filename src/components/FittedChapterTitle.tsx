@@ -4,7 +4,7 @@ import {ExpressiveText} from './ExpressiveText';
 const versions:Record<string,readonly string[]>={
  identities:['Logos & Identities','Logo Design','Logos'],
  covers:['Album Covers','Albums'],
- digital:['UI / UX Design & Development','UI / UX'],
+ digital:['UI / UX Design & Development','UI / UX Design','UI / UX'],
  film:['Movie Posters & Thumbnails','Movie Posters','Movies'],
  posters:['Promotional Flyers','Promo Flyers','Flyers'],
 };

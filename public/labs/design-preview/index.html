@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Choose the Graphic Design Preview · Jared Conroy</title>
+  <link rel="stylesheet" href="./picker.css">
+</head>
+<body>
+  <header class="topbar"><a href="../../#/">← Portfolio</a><span>PREVIEW PICKER</span></header>
+  <main>
+    <p class="eyebrow">Homepage composition</p>
+    <h1>Choose the pieces.</h1>
+    <p class="intro">Try artwork in each position. Square artwork stays square in the top slots, surrounded by a generous fill in its own brand color. Consumer Think Tank is zoomed slightly, with padding kept around the logo. The three bottom squares show artwork edge-to-edge.</p>
+
+    <section class="preview" aria-label="Live Graphic Design homepage preview">
+      <div class="wide-row">
+        <figure class="slot wide-slot" data-slot="wide-1"><img alt=""><figcaption>Top square 1</figcaption></figure>
+        <figure class="slot wide-slot" data-slot="wide-2"><img alt=""><figcaption>Top square 2</figcaption></figure>
+      </div>
+      <div class="square-row">
+        <figure class="slot square-slot" data-slot="square-1"><img alt=""><figcaption>Bottom square 1</figcaption></figure>
+        <figure class="slot square-slot" data-slot="square-2"><img alt=""><figcaption>Square 2</figcaption></figure>
+        <figure class="slot square-slot" data-slot="square-3"><img alt=""><figcaption>Bottom square 3</figcaption></figure>
+      </div>
+    </section>
+
+    <section class="controls" aria-labelledby="controls-title">
+      <div class="controls-heading"><div><p class="eyebrow">Image choices</p><h2 id="controls-title">Fill each position</h2></div>
+        <div class="actions"><button id="reset" type="button">Reset</button><button id="copy" type="button">Copy choices</button></div>
+      </div>
+      <div id="selectors" class="selectors"></div>
+      <p id="status" class="status" role="status" aria-live="polite">Your choices are saved in this browser.</p>
+    </section>
+  </main>
+  <script type="module" src="./picker.js"></script>
+</body>
+</html>

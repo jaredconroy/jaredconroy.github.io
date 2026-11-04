@@ -9,16 +9,16 @@
       <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" xChannelSelector="R" yChannelSelector="G"/>
     </filter>
     <pattern id="brick" width="400" height="160" patternUnits="userSpaceOnUse">
-      <path fill="#bfb6a7" d="M0 0h400v160H0z"/>
+      <path fill="#e0d7ca" d="M0 0h400v160H0z"/>
       <g filter="url(#rough)">
-        <rect x="4" y="4" width="190" height="70" rx="3" fill="#cda18a"/>
-        <rect x="202" y="4" width="194" height="70" rx="3" fill="#c49a82"/>
-        <rect x="-96" y="84" width="190" height="70" rx="3" fill="#d3ab91"/>
-        <rect x="102" y="84" width="192" height="70" rx="3" fill="#c69d87"/>
-        <rect x="302" y="84" width="192" height="70" rx="3" fill="#d0a68d"/>
+        <rect x="4" y="4" width="190" height="70" rx="3" fill="#dc9878"/>
+        <rect x="202" y="4" width="194" height="70" rx="3" fill="#d28766"/>
+        <rect x="-96" y="84" width="190" height="70" rx="3" fill="#e3a181"/>
+        <rect x="102" y="84" width="192" height="70" rx="3" fill="#cc805f"/>
+        <rect x="302" y="84" width="192" height="70" rx="3" fill="#d99270"/>
         <g fill="none" stroke-width="2">
-          <path stroke="#f0d9c3" opacity=".55" d="M7 7h184M205 7h188M0 87h91m14 0h186m14 0h95"/>
-          <path stroke="#665044" opacity=".22" d="M6 72h186M204 72h190M0 152h92m12 0h188m12 0h96"/>
+          <path stroke="#f5eadc" opacity=".5" d="M7 7h184M205 7h188M0 87h91m14 0h186m14 0h95"/>
+          <path stroke="#825642" opacity=".18" d="M6 72h186M204 72h190M0 152h92m12 0h188m12 0h96"/>
         </g>
       </g>
     </pattern>

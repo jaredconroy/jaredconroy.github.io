@@ -23,3 +23,5 @@ import './styles/records.css';
 import './styles/illustration.css';
 import './styles/artwork-previews.css';
 import './styles/chapters.css';
+import './styles/project-scroll.css';
+import './styles/overlays.css';

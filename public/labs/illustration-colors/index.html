@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width,initial-scale=1">
+ <title>Illustration · Palette study</title>
+ <link rel="stylesheet" href="./study.css">
+</head>
+<body>
+ <main>
+  <header class="study-heading">
+   <a href="../../#/work/illustration">← Illustration</a>
+   <p class="eyebrow">Palette study</p>
+   <h1>A little more color.</h1>
+   <p>Compare the current three colors with peach and coral. Shortlist favorites, or try any combination on the full Illustration page below.</p>
+   <div class="palette-key" aria-label="Palette colors"></div>
+  </header>
+  <div class="study-controls"><span id="count">12 combinations</span><button id="shortlist-filter" type="button" aria-pressed="false">Show shortlist <span id="shortlist-count">0</span></button></div>
+  <section id="options" class="options" aria-label="Illustration color combinations"></section>
+  <p id="empty" hidden>No shortlisted combinations yet.</p>
+  <section class="full-preview" id="full-preview" aria-labelledby="preview-title">
+   <div class="preview-heading"><div><p class="eyebrow">Full-page preview</p><h2 id="preview-title">01 · Current palette</h2></div><button id="preview-shortlist" type="button" aria-pressed="false">Shortlist</button></div>
+   <div id="preview-swatches" class="assignments"></div>
+   <iframe id="page-preview" title="Illustration in the selected palette" src="../../#/work/illustration" loading="lazy"></iframe>
+  </section>
+ </main>
+ <script src="./study.js"></script>
+</body>
+</html>

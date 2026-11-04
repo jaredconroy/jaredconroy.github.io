@@ -3,10 +3,13 @@ import {projects} from '../content/projects';
 import {NAV_HANDOFF_MS,useNavigationLetters} from './useNavigationLetters';
 import {NavigationLabel} from './NavigationLabel';
 import {tabTiming} from '../features/landing/timing';
+import {useCompactProjectLabels} from './useCompactProjectLabels';
 
-const labels=projects.map(project=>project.indexTitle);
+const fullLabels=projects.map(project=>project.indexTitle);
+const compactLabels=fullLabels.map(label=>label==='Graphic Design'?'Design':label);
 
 export function ProjectNavigation({active,reduced,onSelect,onPreview,onPress,selectionTarget=active,handoffMs=NAV_HANDOFF_MS,labelsAwake=true,boldActiveLabel=true,hideFoulBallsLabel=false}:{active:number;reduced:boolean;onSelect:(index:number)=>void;onPreview:(index:number|null)=>void;onPress:(index:number|null)=>void;selectionTarget?:number;handoffMs?:number;labelsAwake?:boolean;boldActiveLabel?:boolean;hideFoulBallsLabel?:boolean}){
+ const labels=useCompactProjectLabels()?compactLabels:fullLabels;
  const nav=useRef<HTMLElement>(null);
  const releaseFrame=useRef(0);
  const motion=tabTiming(reduced);
@@ -69,7 +72,7 @@ export function ProjectNavigation({active,reduced,onSelect,onPreview,onPress,sel
   if(stack)observer.observe(stack);
   window.addEventListener('resize',position);
   return()=>{observer.disconnect();window.removeEventListener('resize',position);};
- },[active,reduced]);
+ },[active,reduced,labels]);
  return <nav ref={nav} data-autoplay-interaction="" data-labels-awake={labelsAwake?'true':'false'} data-reduced-motion={reduced?'true':undefined} class="featured-project-nav" aria-label="Featured projects" style={{'--nav-handoff-duration':`${handoffMs}ms`,'--tab-count':projects.length}} onMouseLeave={()=>onPreview(null)} onBlur={e=>{if(!e.currentTarget.contains(e.relatedTarget as Node|null))onPreview(null);}} onKeyDown={e=>{
   if(!['ArrowLeft','ArrowRight','Home','End'].includes(e.key))return;
   e.preventDefault();
@@ -81,8 +84,8 @@ export function ProjectNavigation({active,reduced,onSelect,onPreview,onPress,sel
   <span class="project-nav-indicator" aria-hidden="true"/>
   {projects.map((project,i)=><button key={project.id} onMouseEnter={()=>{if(matchMedia('(hover:hover)').matches)onPreview(i);}} onFocus={e=>{if(e.currentTarget.matches(':focus-visible'))onPreview(i);}} onPointerDown={e=>{if(e.isPrimary&&e.button===0){cancelAnimationFrame(releaseFrame.current);onPress(i);}}} onClick={()=>{cancelAnimationFrame(releaseFrame.current);onPress(null);if(i!==active)onSelect(i);}} class={i===active?'active':''} aria-current={i===active?'true':undefined} aria-label={project.indexTitle} data-label-suppressed={hideFoulBallsLabel&&i===0?'true':undefined}>
    {/* Reserve the widest weight so letter handoffs never resize the tabs. */}
-   <span class="project-nav-reserve" aria-hidden="true">{project.indexTitle}</span>
-   <span class="project-label-clip"><NavigationLabel label={project.indexTitle} letters={i===0&&selectionTarget===0&&!reduced&&!boldActiveLabel?boldLetters[i].map(()=>false):boldLetters[i]}/></span>
+   <span class="project-nav-reserve" aria-hidden="true">{labels[i]}</span>
+   <span class="project-label-clip"><NavigationLabel label={labels[i]} letters={i===0&&selectionTarget===0&&!reduced&&!boldActiveLabel?boldLetters[i].map(()=>false):boldLetters[i]}/></span>
   </button>)}
  </nav>;
 }

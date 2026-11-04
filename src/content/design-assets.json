@@ -148,5 +148,10 @@
     "file": "slimthick-logo-wordmark",
     "width": 2400,
     "height": 555
+  },
+  "slimthick/sts-new.png": {
+    "file": "slimthick-sts-new",
+    "width": 6251,
+    "height": 6251
   }
 }

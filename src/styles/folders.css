@@ -8,11 +8,14 @@
 .folder-tab .project-letter-space{display:block;flex:0 0 .28em;width:.28em}
 @media(min-width:1001px) and (min-height:701px){.folder-tab .project-nav-label{--main-nav-size:16px}}
 .folder-tab[data-project="the-sleds"] .project-nav-label{color:#19364d}
+.featured-project-nav button[aria-label="The Sleds"] .project-nav-label{color:#19364d}
 .folder-tab[data-project="afroman"] .project-nav-label{color:#000}
+.featured-project-nav button[aria-label="Afroman"] .project-nav-label{color:#000}
 .folder-tab{position:absolute;left:calc(var(--tab-index)*100%/var(--tab-count,5));top:var(--folder-tab-top,0px);width:calc(100%/var(--tab-count,5));height:var(--folder-tab-height,0px);background:var(--tab-color);border-radius:var(--project-panel-radius) var(--project-panel-radius) 0 0;visibility:hidden;transform:translateY(var(--tab-hidden-offset,24px));transition:transform var(--tab-motion-duration,140ms) linear,visibility 0s var(--tab-motion-duration,140ms)}
 .folder-tab[data-tab-level="half"]{visibility:visible;transform:translateY(4px);transition-delay:0s}
 .folder-stack[data-index-idle="true"] .folder-tab[data-tab-level="half"]{transform:translateY(calc(var(--tab-hidden-offset,24px)/2 + 2px))}
 .folder-tab[data-tab-level="full"]{visibility:visible;transform:translateY(0px);transition-delay:0s}
+.folder-stack[data-return-snap="true"] .folder-tab{transition:none!important}
 /* Click dip/release is quicker; scheduled waves retain their shared stroke clock. */
 /* One absolute timeline reverses each passing face as the next one rises. */
 .featured-project-nav .project-nav-indicator{background:none;transition:none;overflow:visible}

@@ -6,13 +6,14 @@ import {RecordGallery} from '../../components/RecordGallery';
 import {ExpressiveText} from '../../components/ExpressiveText';
 import {FlierGallery} from '../../components/FlierGallery';
 import {designSections,designChapters,designIdentities,designProcess,designInterface,designFilms,type DesignArtwork} from '../../content/design';
+import {GRAPHIC_DESIGN_TEAL} from '../../content/palette';
 const chapterLabels=designChapters.map(chapter=>chapter.indexTitle);
 const chapterItems=Object.fromEntries(designSections.map(section=>[section.id,section.items]));
 const chapterPalettes:Record<string,{surface:string;ink:string;accent:string}>={
- identities:{surface:'#ffffff',ink:'#173458',accent:'#008477'},
+ identities:{surface:'#ffffff',ink:'#173458',accent:GRAPHIC_DESIGN_TEAL},
  digital:{surface:'#006b64',ink:'#fff7e9',accent:'#ffd19a'},
  covers:{surface:'#573b2b',ink:'#fff2df',accent:'#f0cd95'},
- posters:{surface:'#cba58e',ink:'#173458',accent:'#006b64'},
+ posters:{surface:'#a5503e',ink:'#fff6ed',accent:GRAPHIC_DESIGN_TEAL},
  film:{surface:'#173458',ink:'#fff7e9',accent:'#72cfbc'},
 };
 export function DesignProject({onSurfaceChange}:{onSurfaceChange?:(surface:string)=>void}){

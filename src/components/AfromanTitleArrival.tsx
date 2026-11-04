@@ -1,6 +1,7 @@
 import {useLayoutEffect,useRef} from 'preact/hooks';
 import walk from '../content/afroman-walk.json';
 import {textLineMetrics} from './textMetrics';
+import {afromanWalkTiming} from '../features/landing/afromanWalkTiming';
 
 const PREVIEW_SPEED=1.6;
 
@@ -34,23 +35,28 @@ export function AfromanTitleArrival({ready,reduced,onBusyChange}:{ready:boolean;
    const panelHeight=panel.clientHeight;
    let top=0,node:HTMLElement|null=element;
    while(node&&node!==panel){top+=node.offsetTop;node=node.offsetParent as HTMLElement|null;}
-   const padding=12,height=Math.min(60,panelHeight-12),scale=height/walk.frames[0].height;
+   const padding=12,height=Math.min(60,panelHeight-12)*.81,scale=height/walk.frames[0].height;
    const spriteWidth=walk.frames[0].width*scale;
-   const parkingGap=spriteWidth*.2;
+   const parkingGap=spriteWidth*.2+6;
    lane.style.left=`-${padding}px`;
    lane.style.top=`${-top}px`;lane.style.height=`${panelHeight}px`;
    actor.style.width=`${spriteWidth}px`;actor.style.height=`${height}px`;
    actor.style.top=`${(panelHeight-height)/2+1}px`;
    actor.style.backgroundSize=`${walk.sheetWidth*scale}px ${walk.sheetHeight*scale}px`;
    actor.style.visibility='visible';
-   const cycleMs=walk.frames.reduce((sum,frame)=>sum+frame.ms,0)/PREVIEW_SPEED;
-   const frames=walk.frames.map((frame,index)=>({backgroundPosition:`${-frame.x*scale}px ${-frame.y*scale}px`,offset:index/walk.frames.length,easing:'steps(1,end)'}));
+   const sourceCycleMs=walk.frames.reduce((sum,frame)=>sum+frame.ms,0);
+   let frameTime=0;
+   const frames=walk.frames.map(frame=>{
+    const offset=frameTime/sourceCycleMs;frameTime+=frame.ms;
+    return {backgroundPosition:`${-frame.x*scale}px ${-frame.y*scale}px`,offset,easing:'steps(1,end)'};
+   });
    frames.push({...frames[0],offset:1});
-   const cycle=actor.animate(frames,{duration:cycleMs,iterations:Infinity});
    // Accelerate the original 8px/update at 60Hz and its cadence together.
    const from=-spriteWidth,to=width+parkingGap+padding,distance=to-from;
    lane.style.width=`${width+padding+parkingGap+spriteWidth}px`;
    const duration=distance/(walk.gamePixelsPerSecond*scale*PREVIEW_SPEED)*1000;
+   const gait=afromanWalkTiming(walk.frames.map(frame=>frame.ms),PREVIEW_SPEED,duration);
+   const cycle=actor.animate(frames,{duration:gait.cycleMs,delay:gait.delay,iterations:gait.iterations,fill:'both'});
    const revealFraction=Math.max(0,Math.min(1,(width+padding-spriteWidth*.12-from)/distance));
    const revealDuration=duration*revealFraction;
    const movement=actor.animate([{transform:`translate3d(${from}px,0,0)`},{transform:`translate3d(${to}px,0,0)`}],{duration,easing:'linear',fill:'both'});
@@ -58,15 +64,16 @@ export function AfromanTitleArrival({ready,reduced,onBusyChange}:{ready:boolean;
     const progress=index/48,x=from+distance*progress-padding+spriteWidth*.12;
     return {clipPath:`inset(0 ${Math.max(0,Math.min(width,width-x))}px 0 0)`,offset:progress};
    }),{duration:revealDuration,easing:'linear',fill:'forwards'});
+   const startTime=document.timeline.currentTime;
+   if(typeof startTime==='number'){cycle.startTime=startTime;movement.startTime=startTime;reveal.startTime=startTime;}
    animations.push(cycle,movement,reveal);
    // Stop beside the title in the extended-arm running pose, pause briefly, then
    // turn the color sprite into a silhouette without moving it from its mark.
    movement.onfinish=()=>{
     actor.style.transform=`translate3d(${to}px,0,0)`;
     movement.cancel();
-    cycle.cancel();
-    const landingFrame=walk.frames[0];
-    actor.style.backgroundPosition=`${-landingFrame.x*scale}px ${-landingFrame.y*scale}px`;
+    // The finite walk animation reaches the extended-arm frame at this exact
+    // moment and keeps it through fill, with no forced frame substitution.
     restTimeout=window.setTimeout(()=>{
       if(cancelled)return;
       const silhouette=actor.animate([{filter:'brightness(1)'},{filter:'brightness(0)'}],{duration:360,easing:'ease-out',fill:'forwards'});

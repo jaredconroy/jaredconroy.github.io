@@ -47,6 +47,7 @@
 @media(max-width:1000px){
  .landing .identity{display:flex;flex-direction:column;align-items:stretch}
  .landing .role-system{width:100%;max-width:390px;margin-inline:auto}
+ .shell-home>.view-container{z-index:3}
 }
 @media(min-width:680px) and (max-width:1000px){
  .landing .identity{--identity-arrangement:row;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:32px;align-items:center}
@@ -58,7 +59,7 @@
 
 /* The caption is part of the project link, with a contrast-safe accent surface. */
 .feature-caption{--caption-ink:#fff;background:var(--accent);color:var(--caption-ink);transition:none}
-.app-shell[data-project-theme="foul-balls"] .feature-caption{--caption-ink:#fffaf3}
+.app-shell[data-project-theme="foul-balls"] .feature-caption{--caption-ink:#fff}
 .app-shell[data-project-theme="the-sleds"] .feature-caption{--caption-ink:#19364d}
 .app-shell[data-project-theme="afroman"] .feature-caption{--caption-ink:#000}
 .app-shell[data-project-theme="illustration"] .feature-caption{--caption-ink:#fff}
@@ -80,6 +81,7 @@
 
 /* Desktop tabs live in the topbar; stacked layouts retain five tabs above media. */
 .feature>.carousel-status{margin:0}
+.app-shell[data-project-theme="design"] .feature>.carousel-status .progress-track>span{will-change:transform;backface-visibility:hidden}
 .app-shell[data-project-theme="afroman"] .feature>.carousel-status .progress-track{background:#000}
 .app-shell[data-project-theme="afroman"] .feature>.carousel-status .progress-track>span{background:var(--accent)}
 .feature-project-index{position:relative;z-index:0;height:56px;margin:0 0 10px;container-type:inline-size;--main-nav-offset:3px}
@@ -255,7 +257,7 @@
 @media(max-width:540px){.feature .feature-details .foul-title-probe{left:12px}}
 
 /* One continuous rule crosses the reserved o slot, regardless of its ball. */
-.feature .feature-details .foul-balls-feature-title{position:relative;text-decoration:none}
+.feature .feature-details .foul-balls-feature-title{position:relative;text-decoration:none;color:#fff}
 .foul-balls-feature-title:after{content:'';position:absolute;left:0;right:0;top:var(--foul-underline-top,100%);height:2px;background:currentColor;opacity:0;transition:opacity 180ms}
 .feature-details:is(:hover,:focus-visible) .foul-balls-feature-title:after,
 .feature:has(.folder-cover>.feature-visual .media-link:is(:hover,:focus-visible)) .foul-balls-feature-title:after{opacity:1}
@@ -268,3 +270,5 @@
 /* The document canvas owns the page color. Avoid independent shell/body fades
    exposing a stale surface when composited transition layers finish. */
 .app-shell,.app-shell.shell-project-route[data-project-theme="design"]{background:transparent;transition:color 400ms var(--ease)}
+/* Keep the mobile tagline at the same optical offset used on desktop. */
+@media(max-width:679px){.identity-heading .identity-tagline{top:var(--identity-tagline-top,0px);translate:0 15px}}

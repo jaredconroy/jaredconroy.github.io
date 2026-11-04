@@ -1,0 +1,127 @@
+/* Dedicated project pages use the same one-panel-at-a-time scroll rhythm as
+   Graphic Design while keeping the global header and player in place. */
+.app-shell.shell-project-route:not([data-project-theme="design"])>.view-container{
+ height:calc(100dvh - var(--header-height) - var(--player-height) - env(safe-area-inset-top,0px));
+ min-height:0;overflow-x:clip;overflow-y:auto;overscroll-behavior-y:contain;
+ scroll-snap-type:y mandatory;scroll-behavior:smooth;scrollbar-width:thin;
+ scrollbar-color:color-mix(in srgb,var(--accent) 40%,transparent) transparent;
+}
+.project-scroll-page{width:100%;max-width:none;min-height:0;margin:0;padding:0;color:var(--ink)}
+.project-scroll-page>.project-snap-panel{min-height:100%;scroll-snap-align:start;scroll-snap-stop:always;scroll-margin:0;padding:clamp(22px,3vh,44px) clamp(20px,4.2vw,64px)}
+.project-scroll-page>.project-snap-intro{justify-content:center;gap:clamp(12px,2vh,22px)}
+.project-role-list{display:flex;align-items:baseline;gap:.8em;width:100%;min-width:0;margin:0 0 12px}
+.project-role-list>.eyebrow{display:inline;flex:0 0 auto;margin:0;color:var(--accent-text,var(--accent));white-space:nowrap}
+.project-role-list ul{display:block;flex:1;min-width:0;width:auto;list-style:none;padding:0;margin:0}
+.project-role-list li{display:inline;font-size:clamp(13px,1.25vw,17px);line-height:1.5;letter-spacing:-.035em;font-weight:700}
+.project-role-list li:not(:last-child):after{content:' · ';font-size:1.3em;font-weight:700;opacity:.9;vertical-align:-.02em}
+.project-scroll-page .project-intro-aside>p{margin-top:10px}
+.project-scroll-page .project-masthead{margin:0}
+.project-scroll-page .project-masthead h1{margin:4px 0 0}
+.project-role-wide{grid-column:1/-1;width:100%;min-width:0}
+.project-scroll-page .project-note{max-width:none;margin:0;font-size:inherit;line-height:inherit}
+.project-scroll-page .project-note p{max-width:680px;margin-bottom:16px}
+.project-scroll-page .foul-balls-feature{max-height:min(58vh,calc(100% - 170px));aspect-ratio:1.6}
+.foul-balls-overview{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);align-items:center;gap:clamp(24px,8vw,120px)}
+.foul-balls-overview h2{font-size:clamp(34px,5vw,68px);line-height:1.03;color:var(--accent)}
+.foul-balls-overview p{font-size:clamp(16px,1.55vw,22px);line-height:1.6;max-width:640px}
+.foul-balls-overview .muted{font-size:14px;margin-top:18px}
+.project-scroll-page .foul-balls-artworks{display:flex;flex-direction:column;gap:18px;overflow:auto}
+.project-scroll-page .foul-balls-artworks>h2{flex:none;font-size:clamp(28px,3.5vw,44px);margin:0}
+.project-scroll-page .foul-balls-music{display:grid;place-items:center;text-align:center}
+.project-scroll-page .foul-balls-music h2{font-size:clamp(42px,7vw,92px);line-height:1;margin-bottom:18px}
+.project-scroll-page .foul-balls-music p{font-size:17px;line-height:1.6}
+.project-scroll-page .foul-balls-music .see-more{display:inline-block;margin-top:14px}
+.project-scroll-page .sleds-videos,.project-scroll-page .sleds-releases,.project-scroll-page .sleds-music{justify-content:center}
+.project-scroll-page .sleds-releases{padding-top:clamp(22px,3vh,44px)}
+.project-scroll-page .afroman-overview{justify-content:center}
+.project-scroll-page .afroman-heading{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end}
+.afroman-heading .project-role-wide{grid-row:2}
+.afroman-overview .afroman-hero{max-height:min(55vh,calc(100% - 180px))}
+.afroman-overview .afroman-hero img{width:100%;height:100%;max-height:inherit;object-fit:contain}
+.project-scroll-page .afroman-story,.project-scroll-page .afroman-restoration{align-content:center}
+.project-scroll-page .afroman-levels{display:flex;flex-direction:column;justify-content:center}
+.illustration-intro-panel{justify-content:center}
+
+/* The portrait Foul Balls poster fills the left side; project copy sits beside it. */
+.app-shell.shell-project-route[data-project-theme="foul-balls"]>.view-container{width:100%;margin:0}
+@media(min-width:1001px){.app-shell.shell-project-route[data-project-theme="foul-balls"]>.view-container{width:calc(100% + var(--site-inset)*2);margin-inline:calc(-1*var(--site-inset))}}
+.foul-balls-intro{height:calc(100dvh - var(--header-height) - var(--player-height) - env(safe-area-inset-top,0px));padding:0!important;display:grid;grid-template-columns:min(48vw,calc((100dvh - var(--header-height) - var(--player-height) - env(safe-area-inset-top,0px)) * .773)) minmax(0,1fr);align-content:stretch;justify-content:stretch;gap:0;overflow:hidden}
+.foul-balls-poster{min-width:0;min-height:0;height:100%;margin:0;display:grid;place-items:center;background:transparent;overflow:hidden}
+.foul-balls-poster img{display:block;width:100%;height:100%;min-height:0;object-fit:contain}
+.foul-balls-copy{min-width:0;padding:clamp(24px,5vw,80px);display:flex;flex-direction:column;justify-content:center;gap:clamp(22px,5vh,56px)}
+.foul-balls-masthead{display:flex;flex-direction:column;align-items:flex-start;gap:8px;margin:0}
+.foul-balls-masthead h1{font-size:clamp(38px,5vw,68px);line-height:1.05;margin:0}
+.foul-balls-masthead .project-role-wide{width:100%}
+.foul-balls-logline{align-self:stretch;max-width:780px;padding:0}
+.foul-balls-logline>.eyebrow{display:block;color:var(--accent);margin-bottom:clamp(12px,2vh,22px)}
+.foul-balls-logline>p:first-of-type{font-size:clamp(18px,1.8vw,25px);line-height:1.34;letter-spacing:-.035em}
+.foul-balls-logline>.muted{font-size:13px;margin-top:clamp(12px,2vh,22px)}
+
+/* The Sleds gets an edge-to-edge photographic hero with its copy in the image. */
+.app-shell.shell-project-route[data-project-theme="the-sleds"]>.view-container{width:100%;margin:0}
+@media(min-width:1001px){.app-shell.shell-project-route[data-project-theme="the-sleds"]>.view-container{width:calc(100% + var(--site-inset)*2);margin-inline:calc(-1*var(--site-inset))}}
+.sleds-page>.project-snap-panel:not(.sleds-overview){padding-inline:var(--site-inset,6%)}
+.sleds-overview{width:100vw;margin-left:calc(50% - 50vw);padding:0!important;overflow:hidden}
+.sleds-hero{position:relative;width:100%;height:100%;min-height:calc(100dvh - var(--header-height) - var(--player-height) - env(safe-area-inset-top,0px));margin:0;overflow:hidden;color:#fff}
+.sleds-hero>img{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover;object-position:center top}
+.sleds-hero:after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,#102a3a5c 0%,transparent 28%,#102a3a08 48%,#102a3aee 100%);pointer-events:none}
+.sleds-hero .sleds-section-links{position:absolute;z-index:2;top:clamp(96px,15vh,144px);right:var(--site-inset,6%);margin:0;justify-content:flex-end;color:#fff}
+.sleds-hero-roles{position:absolute;z-index:2;top:clamp(18px,3vh,30px);left:var(--site-inset,6%);right:var(--site-inset,6%);color:#fff}
+.sleds-hero-roles .project-role-list{width:100%;margin:0}
+.sleds-hero-roles .project-role-list>.eyebrow{color:#fff;text-shadow:0 1px 8px #102a3a}
+.sleds-hero-roles .project-role-list li{text-shadow:0 1px 8px #102a3a}
+.sleds-hero figcaption.sleds-hero-copy{position:absolute;z-index:2;left:var(--site-inset,6%);right:var(--site-inset,6%);bottom:clamp(22px,4vh,48px);display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:8px 28px;padding:0;color:#fff}
+.sleds-hero-copy>.eyebrow{grid-column:1/-1;color:#fff;font-size:clamp(13px,1.35vw,18px);letter-spacing:var(--standard-tracking);font-kerning:normal;text-transform:uppercase}
+.sleds-hero-copy .sleds-project-wordmark{grid-column:1;grid-row:2;width:min(530px,100%);height:auto;min-height:0;margin:0;padding:0;background:transparent;color:#fff}
+.sleds-hero-copy .sleds-project-wordmark .sleds-wordmark{display:block;width:100%;height:auto;color:inherit}
+.sleds-hero-copy .project-role-list{grid-column:1/-1;margin:4px 0 0;color:#fff}
+.sleds-hero-copy .project-role-list>.eyebrow{color:#fff}
+.sleds-hero-caption{grid-column:2;grid-row:2;align-self:end;display:flex;flex-direction:column;gap:5px;text-align:right;font-size:clamp(11px,1vw,14px);line-height:1.5;color:#fff}
+.sleds-hero-caption>span:last-child{opacity:.82}
+.sleds-hero .sleds-section-links a{border-color:#ffffffa6}
+@media(max-width:700px){
+ .project-scroll-page>.project-snap-panel{padding:22px 6%}
+ .project-role-list li{font-size:14px}
+ .foul-balls-overview{grid-template-columns:1fr;gap:20px;align-content:center}
+ .project-scroll-page .foul-balls-feature{max-height:48vh}
+ .project-scroll-page .afroman-heading{gap:14px}
+ .afroman-overview .afroman-hero{max-height:45vh}
+.illustration-masthead{display:block}
+}
+@media(max-width:800px){
+ .foul-balls-intro{height:auto;min-height:calc(100dvh - var(--header-height) - var(--player-height) - env(safe-area-inset-top,0px));grid-template-columns:1fr;grid-template-rows:auto 1fr}
+ .foul-balls-poster{height:min(62vh,600px);width:100%}
+ .foul-balls-copy{padding:24px 6%;gap:22px}
+ .foul-balls-logline>p:first-of-type{font-size:clamp(17px,2vw,22px)}
+ .sleds-hero>img{object-position:center top}
+ .sleds-hero figcaption.sleds-hero-copy{grid-template-columns:1fr;gap:8px}
+ .sleds-hero-copy .sleds-project-wordmark{grid-row:auto;width:min(420px,80%)}
+ .sleds-hero-caption{grid-column:1;grid-row:auto;text-align:left;margin-top:4px}
+}
+@media(max-width:600px){
+ .foul-balls-intro{grid-template-rows:auto auto;align-content:start}
+ .foul-balls-poster{height:min(58vh,560px)}
+ .foul-balls-poster img{width:100%;height:100%}
+ .foul-balls-copy{padding:24px 5%;gap:18px}
+ .foul-balls-logline>.eyebrow{margin-bottom:10px}
+ .foul-balls-logline>p:first-of-type{font-size:18px}
+ .foul-balls-logline>.muted{margin-top:14px}
+ .sleds-hero .sleds-section-links{top:96px;left:5%;right:5%;gap:8px 16px;font-size:12px}
+ .sleds-hero-roles{top:14px;left:5%;right:5%}
+ .sleds-hero figcaption.sleds-hero-copy{left:5%;right:5%;bottom:18px}
+ .sleds-hero-copy .sleds-project-wordmark{width:min(340px,90%)}
+ .sleds-hero-copy .project-role-list li{font-size:12px}
+}
+@media(max-width:800px){.app-shell.shell-project-route:not([data-project-theme="design"])>.view-container{scroll-snap-type:y proximity}}
+.app-shell.shell-project-route[data-project-theme="illustration"]>.view-container{height:auto;min-height:0;overflow:visible;scroll-snap-type:none;scroll-behavior:auto}
+@media(max-width:520px){
+ .project-scroll-page>.project-snap-panel{padding:18px 5%}
+ .project-scroll-page .foul-balls-artworks{overflow:visible}
+ .project-scroll-page .sleds-videos{justify-content:flex-start}
+ .project-scroll-page .sleds-video-grid{grid-template-columns:1fr;gap:16px;overflow:auto}
+ .project-scroll-page .sleds-video-frame{min-height:0}
+ .project-scroll-page .sleds-release-grid{max-height:100%;overflow:auto}
+}
+@media(prefers-reduced-motion:reduce){
+ .app-shell.shell-project-route:not([data-project-theme="design"])>.view-container{scroll-behavior:auto;scroll-snap-type:y proximity}
+}

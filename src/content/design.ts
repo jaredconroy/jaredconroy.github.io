@@ -15,7 +15,7 @@ export const designSections:{id:string;title:string;description:string;items:Des
  {id:'identities',title:'Logos & Identities',description:'',items:[
  art('LNI/LNI-stack.png','Late Night Idle','Stacked band wordmark.',true),
  art('LNI/LNI-wide.png','Late Night Idle · horizontal','Single-line wordmark.',true),
- art('slimthick/big-logo.png','Slim Thick Sports','Custom logo for a comedic sports blog.',true),
+ art('slimthick/sts-new.png','Slim Thick Sports','Custom logo and wordmark for a comedic sports blog.',true),
  art('six-pack-w-jack.png','Six Pack with Jack','Commissioned podcast identity.'),
  ]},
  {id:'digital',title:'UI / UX Design & Development',description:'',items:[
@@ -57,7 +57,6 @@ const chapterOrder=[
  {id:'identities',indexTitle:'Logos'},
  {id:'covers',indexTitle:'Albums'},
  {id:'digital',indexTitle:'UI / UX'},
- {id:'film',indexTitle:'Movies'},
  {id:'posters',indexTitle:'Flyers'},
 ] as const;
 export const designChapters=chapterOrder.map(chapter=>({...chapter,title:designSections.find(section=>section.id===chapter.id)!.title}));
@@ -68,16 +67,15 @@ export const designIdentities=[
  {kind:'six-pack',name:'Six Pack with Jack',detail:'Commissioned podcast identity.',background:'#efe4d5',items:[logos[3]]},
  {kind:'slim',name:'Slim Thick Sports',detail:'A custom logo and wordmark for a comedic sports blog.',background:'#0f75bc',items:[logos[2]]},
  {kind:'boots',name:'Boots & Cats',detail:'A boot, a cat, a music note. Logo explorations lead to an identity for a songwriting app.',background:'#4555a5',items:[digital[0]]},
- {kind:'sleds',name:'The Sleds',detail:'The wordmark for my rock ’n’ roll band.',background:'#19364d',items:[{title:'The Sleds',caption:'Band wordmark.',src:`${base}media/the-sleds/wordmark.svg`,width:1008.17,height:697.6}]},
+ {kind:'sleds',name:'The Sleds',detail:'The wordmark for my rock ’n’ roll band.',background:'#66534b',items:[{title:'The Sleds',caption:'Band wordmark.',src:`${base}media/the-sleds/wordmark.svg`,width:1008.17,height:697.6,background:'#a8c5da'}]},
 ];
-// Fixed homepage composition: square artwork around a thumbnail and portrait, with corner wordmarks.
+// The homepage collage uses the five selected square artworks.
 export const designPreview=[
  {...designIdentities[1].items[0],background:designIdentities[1].background},
+ {...designIdentities[0].items[0],background:designIdentities[0].background},
+ sledAlbum('Dirty Hearts & Restless Minds'),
  {...designIdentities[2].items[0],background:designIdentities[2].background},
- film[3],designSections.find(section=>section.id==='posters')!.items[0],
- sledAlbum('Dirty Hearts & Restless Minds'),sledAlbum('Sixth Sense'),
- {...art('slimthick/logo+wordmark.png','Slim Thick Sports','Logo and wordmark.'),background:'#0f75bc'},
- {...logos[1],src:`${base}media/design/preview-lni-wide.svg`,small:undefined,width:1915,height:429,background:'#000000'},
+ {...designIdentities[3].items[0],background:designIdentities[3].background},
 ];
 export const designProcess=digital[1];
 export const designInterface=digital[3];

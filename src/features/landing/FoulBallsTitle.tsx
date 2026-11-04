@@ -1,12 +1,12 @@
 import {useId,useLayoutEffect,useRef} from 'preact/hooks';
 import {createPortal} from 'preact/compat';
 import {textLineMetrics} from '../../components/textMetrics';
-import {ILLUSTRATION_MAROON} from '../../content/palette';
+import {FOUL_BALLS_BASEBALL,ILLUSTRATION_MAROON} from '../../content/palette';
 import {baseballMotion,baseballLetterFit,baseballSpinFrames,BASEBALL_LANDING_MS,BASEBALL_REST_ANGLE} from './baseballMotion';
 
 function Baseball(){
  const id=useId();
- return <svg viewBox="0 0 100 100" aria-hidden="true"><defs><clipPath id={id}><circle cx="50" cy="50" r="48"/></clipPath></defs><circle cx="50" cy="50" r="48" fill="white"/><g fill="none" stroke={ILLUSTRATION_MAROON} stroke-width="8.75" stroke-dasharray="4.5 10.5" stroke-linecap="round" clip-path={`url(#${id})`}><path d="M12 -4 C36 25 36 75 12 104"/><path d="M88 -4 C64 25 64 75 88 104"/></g></svg>;
+ return <svg viewBox="0 0 100 100" aria-hidden="true"><defs><clipPath id={id}><circle cx="50" cy="50" r="48"/></clipPath></defs><circle cx="50" cy="50" r="48" fill={FOUL_BALLS_BASEBALL}/><g fill="none" stroke={ILLUSTRATION_MAROON} stroke-width="8.75" stroke-dasharray="4.5 10.5" stroke-linecap="round" clip-path={`url(#${id})`}><path d="M12 -4 C36 25 36 75 12 104"/><path d="M88 -4 C64 25 64 75 88 104"/></g></svg>;
 }
 export function FoulBallsTitle({settled,probe=false}:{settled:boolean;probe?:boolean}){
  const slot=useRef<HTMLSpanElement>(null);
@@ -36,7 +36,7 @@ export function FoulBallsArrival({run,enabled,reduced,onBusyChange,onSettled,onL
   if(!run||!enabled)return;
   if(reduced){onSettled(true);onLabelRestore(true);return;}
   onSettled(false);onLabelRestore(false);onBusyChange(true);
-  let frame=0,cancelled=false,animation:Animation|undefined,spin:Animation|undefined,restoreTimer=0,labelsRestored=false;
+  let frame=0,targetFrame=0,cancelled=false,animation:Animation|undefined,spin:Animation|undefined,restoreTimer=0,labelsRestored=false;
   const erased:{letter:HTMLElement;animation:Animation}[]=[],fades:Animation[]=[];
   const ball=flight.current!;
   const restoreLabel=()=>{
@@ -55,6 +55,7 @@ export function FoulBallsArrival({run,enabled,reduced,onBusyChange,onSettled,onL
   };
   const settle=()=>{
    if(cancelled)return;
+   cancelAnimationFrame(targetFrame);
    onSettled(true);ball.style.visibility='hidden';onBusyChange(false);
    const indexStillEngaged=!!document.querySelector('.featured-project-nav:hover,.featured-project-nav button:focus-visible');
    if(indexStillEngaged)restoreLabel();
@@ -73,7 +74,16 @@ export function FoulBallsArrival({run,enabled,reduced,onBusyChange,onSettled,onL
    const x=rect.left+rect.width/2+fit.shift-size/2,y=rect.top+fit.top;
    const startX=Math.max(x+size,tab.getBoundingClientRect().right-size);
    const rollFraction=run.rollMs/(run.rollMs+BASEBALL_LANDING_MS);
-   const motion=baseballMotion(startX,x,Math.min(baseline-size,y-size),y,size,rollFraction);
+   // Animate relative to the letter slot. Its viewport position can move while
+   // the homepage's shared header and column geometry are being restored.
+   let anchorX=NaN,anchorY=NaN;
+   const anchorToTitle=()=>{
+    const target=hole.getBoundingClientRect();
+    const nextX=target.left+target.width/2+fit.shift-size/2,nextY=target.top+fit.top;
+    if(nextX!==anchorX||nextY!==anchorY){ball.style.translate=`${nextX}px ${nextY}px`;anchorX=nextX;anchorY=nextY;}
+   };
+   anchorToTitle();
+   const motion=baseballMotion(startX-x,0,Math.min(baseline-size,y-size)-y,0,size,rollFraction);
    const actualHole=document.querySelector<HTMLElement>('#featured-title .foul-title-o');
    actualHole?.style.setProperty('--baseball-rotation',`${BASEBALL_REST_ANGLE}deg`);
    // The target title may mount after the roll starts; preserve the same resting tilt.
@@ -81,6 +91,8 @@ export function FoulBallsArrival({run,enabled,reduced,onBusyChange,onSettled,onL
    ball.style.width=`${size}px`;ball.style.height=`${size}px`;ball.style.visibility='visible';
    animation=ball.animate(motion.frames,{duration:run.rollMs+BASEBALL_LANDING_MS,fill:'forwards'});
    spin=ball.firstElementChild!.animate(baseballSpinFrames(motion.rotation,rollFraction),{duration:run.rollMs+BASEBALL_LANDING_MS,fill:'forwards'});
+   const followTitle=()=>{if(cancelled)return;anchorToTitle();targetFrame=requestAnimationFrame(followTitle);};
+   targetFrame=requestAnimationFrame(followTitle);
    for(const letter of run.wipeLabel===false?[]:letters){
     const bounds=letter.getBoundingClientRect();
     const progress=Math.max(0,Math.min(.92,(startX+size/2-(bounds.left+bounds.right)/2)/(startX-x)));
@@ -92,7 +104,7 @@ export function FoulBallsArrival({run,enabled,reduced,onBusyChange,onSettled,onL
   });});
   const stopForGeometryChange=()=>{cancelAnimationFrame(frame);animation?.cancel();spin?.cancel();settle();cancelled=true;};
   window.addEventListener('resize',stopForGeometryChange);window.addEventListener('scroll',stopForGeometryChange,{passive:true});
-  return()=>{cancelled=true;cancelAnimationFrame(frame);window.clearTimeout(restoreTimer);animation?.cancel();spin?.cancel();erased.forEach(({letter,animation})=>{animation.cancel();letter.style.removeProperty('opacity');});fades.forEach(fade=>fade.cancel());ball.style.visibility='hidden';onBusyChange(false);window.removeEventListener('resize',stopForGeometryChange);window.removeEventListener('scroll',stopForGeometryChange);};
+  return()=>{cancelled=true;cancelAnimationFrame(frame);cancelAnimationFrame(targetFrame);window.clearTimeout(restoreTimer);animation?.cancel();spin?.cancel();erased.forEach(({letter,animation})=>{animation.cancel();letter.style.removeProperty('opacity');});fades.forEach(fade=>fade.cancel());ball.style.visibility='hidden';onBusyChange(false);window.removeEventListener('resize',stopForGeometryChange);window.removeEventListener('scroll',stopForGeometryChange);};
  },[run,enabled,reduced,onBusyChange,onSettled,onLabelRestore]);
  return createPortal(<span ref={flight} class="foul-baseball-flight" aria-hidden="true"><Baseball/></span>,document.body);
 }

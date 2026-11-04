@@ -38,7 +38,10 @@
 .identity-ctt .identity-primary{padding:0;overflow:hidden}
 .identity-ctt .identity-primary img{width:min(100%,560px);height:auto;flex:none}
 .identity-six-pack .identity-primary{padding:0}
+.identity-sleds .identity-board{background:#66534b!important}
 .identity-sleds .identity-primary img{filter:brightness(0) invert(1)}
+.identity-sleds .identity-caption h3,.identity-sleds .identity-caption p{color:#a8c5da}
+.design-lightbox-image img[src*="/media/the-sleds/wordmark.svg"]{filter:brightness(0)}
 .identity-lni .identity-caption{display:block}
 .identity-lni .identity-caption p{max-width:none;margin-top:6px}
 .design-section-heading>span{display:none}
@@ -133,7 +136,7 @@
    changes panel geometry, and scroll selection never depends on changed-only
    intersection entries. */
 .app-shell.shell-project-route[data-project-theme="design"]{height:100dvh;min-height:0;overflow:hidden;padding-inline:0;background:transparent;transition:color 500ms var(--ease)}
-.app-shell.shell-project-route[data-project-theme="design"]>.view-container{width:100%;height:calc(100dvh - var(--header-height) - var(--player-height) - env(safe-area-inset-top,0px));min-height:0;margin:0;overflow-x:clip;overflow-y:auto;overscroll-behavior-y:contain;scroll-snap-type:y mandatory;scroll-behavior:smooth;scrollbar-width:thin;scrollbar-color:#00847766 transparent}
+.app-shell.shell-project-route[data-project-theme="design"]>.view-container{width:100%;height:calc(100dvh - var(--header-height) - var(--player-height) - env(safe-area-inset-top,0px));min-height:0;margin:0;overflow-x:clip;overflow-y:auto;overscroll-behavior-y:contain;scroll-snap-type:y mandatory;scroll-behavior:smooth;scrollbar-width:thin;scrollbar-color:color-mix(in srgb,var(--accent) 40%,transparent) transparent}
 .app-shell.shell-project-route[data-project-theme="design"]>.view-container>main.design-page{--design-masthead-height:96px;--design-panel-height:calc(100dvh - var(--header-height) - var(--player-height) - 96px);--chapter-pad:clamp(14px,2.5vh,28px);width:100%;max-width:none;min-height:100%;margin:0;padding:0;position:relative;background:none;color:var(--design-ink);transition:color 500ms var(--ease)}
 /* The document paints the chapter color; this layer supplies venue texture only. */
 .design-page .design-backdrop{position:fixed;inset:0;z-index:-1;pointer-events:none}
@@ -164,6 +167,7 @@
 .design-page .identity-board{width:min(100%,var(--identity-size));height:auto;max-height:none;aspect-ratio:1;flex:none;overflow:hidden}
 .design-page .identity-primary{width:100%;height:100%;padding:clamp(8px,1.4vw,18px)}
 .design-page .identity-lni .identity-primary{height:calc(100% - 44px);padding:8px}
+.design-page .identity-lni .identity-primary img{transform:scale(1.4)}
 .design-page .identity-comparison{width:100%;height:44px;padding:0 6px 8px;flex:none}
 .design-page .identity-comparison img{object-fit:contain}
 .design-page .identity-boots .identity-primary{padding-bottom:38px}

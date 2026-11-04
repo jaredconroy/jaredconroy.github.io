@@ -2,7 +2,7 @@
 .app-shell[data-project-theme="the-sleds"] :is(a,button,input):focus-visible{outline-color:var(--accent)}
 /* Powder surfaces keep the navy foreground used in the chosen palette. */
 .app-shell[data-project-theme="the-sleds"] .player{color:#19364d;--muted:#19364d;border-top-color:#19364d20}
-.app-shell[data-project-theme="the-sleds"] .player .play-button{background:var(--painted-play-button-surface,#19364d);color:#91b2cb}
+.app-shell[data-project-theme="the-sleds"] .player .play-button{background:var(--painted-play-button-surface,#19364d);color:var(--accent)}
 .app-shell[data-project-theme="the-sleds"] .player .seek input::-webkit-slider-runnable-track{background:linear-gradient(to right,#19364d var(--progress),#19364d40 var(--progress))}
 .app-shell[data-project-theme="the-sleds"] .player .seek input::-webkit-slider-thumb{background:#19364d}
 .app-shell[data-project-theme="the-sleds"] .player .seek input::-moz-range-track{background:#19364d40}
@@ -83,7 +83,7 @@
 .sleds-wordmark-arrival{display:block;position:relative;width:100%;isolation:isolate}
 .sleds-wake{display:block}
 .sleds-rider{position:absolute;left:0;top:0;visibility:hidden;pointer-events:none;color:currentColor;z-index:1;will-change:transform}
-.sleds-rider svg{display:block;width:100%;height:auto;fill:currentColor}
+.sleds-rider svg{display:block;width:100%;height:auto;fill:currentColor;transform:scale(1.1);transform-origin:center}
 /* Keep the wordmark's intrinsic shape through the additional reveal wrapper. */
 .sleds-feature-wordmark .sleds-wordmark-arrival .sleds-wordmark{height:auto}
 /* Riders enter and leave behind the edges of the title panel. */

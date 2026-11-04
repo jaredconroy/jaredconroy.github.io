@@ -30,6 +30,7 @@ export function Landing({overlayOpen,reduced,onIntroDone,visible,onThemeChange,n
  const [ampEntering,setAmpEntering]=useState(false);
  const [introTransition,setIntroTransition]=useState(false);
  const [tabTransition,setTabTransition]=useState<TabTransition|null>(null);
+ const [returnSnap,setReturnSnap]=useState(false);
  const [baseballBusy,setBaseballBusy]=useState(false);
  const [sledsBusy,setSledsBusy]=useState(false);
  const [afromanBusy,setAfromanBusy]=useState(false);
@@ -42,6 +43,8 @@ export function Landing({overlayOpen,reduced,onIntroDone,visible,onThemeChange,n
  const introAnimating=useRef(false);
  const introRef=useRef(intro);
  const identityRef=useRef<HTMLElement>(null);
+ const returnSnapFrame=useRef(0);
+ useEffect(()=>()=>cancelAnimationFrame(returnSnapFrame.current),[]);
  useLayoutEffect(()=>{
   if(!visible)return;
   const identity=identityRef.current;
@@ -216,6 +219,11 @@ export function Landing({overlayOpen,reduced,onIntroDone,visible,onThemeChange,n
   const destination=projects.findIndex(project=>project.id===returnProjectId);
   if(destination<0)return;
   lastReturnProject.current=returnProjectId;
+  // The carousel was hidden on the project page. Restore its resting tab pose
+  // before its first visible paint, without animating down from stale hover state.
+  setReturnSnap(true);
+  cancelAnimationFrame(returnSnapFrame.current);
+  returnSnapFrame.current=requestAnimationFrame(()=>{returnSnapFrame.current=requestAnimationFrame(()=>setReturnSnap(false));});
   setUserPaused(false);
   // Routing back from a project page is a restore, not a carousel selection.
   // Snap every carousel source of truth before paint and start at 2s remaining.
@@ -226,6 +234,7 @@ export function Landing({overlayOpen,reduced,onIntroDone,visible,onThemeChange,n
   setTabTransition(null);setStage('idle');setIntroTransition(false);setAmpEntering(false);
   setActive(destination);setDisplayed(destination);setElapsed(CYCLE_MS-2000);
   setBaseballBusy(false);setSledsBusy(false);setAfromanBusy(false);
+  setPreviewIndex(null);setPressedTab(null);setExpanded(false);setHoverRoles(false);
   setHideFoulBallsLabel(false);
   onThemeChange(projects[destination].id);
  },[visible,returnProjectId]);
@@ -269,7 +278,7 @@ export function Landing({overlayOpen,reduced,onIntroDone,visible,onThemeChange,n
   return()=>observer.disconnect();
  },[roleOpen,p.id]);
  const lead=!intro&&!introTransition&&!tabTransition&&!reduced&&elapsed>=CYCLE_MS-1000?(active+1)%projects.length:null;
- const levels=tabLevels(projects.length,active,tabTransition,lead,baseballBusy?active:previewIndex,pressedTab);
+ const levels=returnSnap?projects.map(()=>'half' as const):tabLevels(projects.length,active,tabTransition,lead,baseballBusy?active:previewIndex,pressedTab);
  const phase=tabTransition?.phase||'idle';
  const indexAwake=baseballBusy||sledsBusy||afromanBusy||previewIndex!==null||lead!==null||(!!tabTransition&&phase!=='cleanup')||pressedTab!==null;
  useLayoutEffect(()=>{onIndexAwakeChange(indexAwake);},[indexAwake]);
@@ -292,7 +301,7 @@ export function Landing({overlayOpen,reduced,onIntroDone,visible,onThemeChange,n
  </section>
  <section inert={intro} data-autoplay-interaction="" data-project-transitioning={introTransition||stage!=='idle'||!!tabTransition?'true':undefined} class="feature" aria-label="Featured project">
  {desktop&&navigationTarget?createPortal(projectNavigation,navigationTarget):<div class="feature-project-index">{projectNavigation}</div>}
- <div class="folder-stack" data-index-idle={!indexAwake?'true':undefined} data-tab-phase={phase} data-pressed-project={pressedTab===null?undefined:projects[pressedTab].id} data-lead-project={lead===null?undefined:projects[lead].id}>
+ <div class="folder-stack" data-index-idle={!indexAwake||returnSnap?'true':undefined} data-return-snap={returnSnap?'true':undefined} data-tab-phase={phase} data-pressed-project={pressedTab===null?undefined:projects[pressedTab].id} data-lead-project={lead===null?undefined:projects[lead].id}>
  <div class={`folder-cover ${introTransition?'project-content transition-in':''}`} style={{'--folder-color':p.theme.accent,'--tab-count':projects.length}}>
  <div class="folder-tabs" aria-hidden="true">{projects.map((project,index)=><FolderTab key={project.id} id={project.id} index={index} color={project.theme.accent} level={levels[index]} pass={tabTransition?.phase!=='cleanup'?tabTransition?.passes.find(pass=>pass.index===index):undefined} reduced={reduced} pressed={pressedTab===index} wave={!!tabTransition}/>)}</div>
  <a class="feature-caption feature-details" href={projectRoute(p.id)} aria-labelledby="featured-title">

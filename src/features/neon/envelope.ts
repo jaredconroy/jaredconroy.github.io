@@ -37,7 +37,7 @@ export function createNeonVisualSampler(){
  };
 }
 
-const DARK_ORANGE=[140,62,11] as const,THEME_ORANGE=[239,130,22] as const,BRIGHT_YELLOW=[245,213,4] as const;
+const DARK_ORANGE=[140,62,11] as const,THEME_ORANGE=[244,122,10] as const,BRIGHT_YELLOW=[245,213,4] as const;
 /** The lit tube stays opaque. Its color and halo carry the brightness cycle. */
 export function neonAppearance(level:number,phase:NeonPhase){
  // The ignition flickers and idle state still extinguish completely. Once

@@ -53,7 +53,7 @@
 .afroman-play:hover span{color:var(--surface)}
 /* Every theme uses the same filled text glyph and its single color transition.
    The SVG is only the neon outline revealed during Afroman interaction. */
-.app-shell{--neon-halo:drop-shadow(0 0 4px #ef8216) drop-shadow(0 0 12px #ef8216) drop-shadow(0 0 28px #ef8216);--neon-tube-width:2.4px}
+.app-shell{--neon-halo:drop-shadow(0 0 4px var(--accent)) drop-shadow(0 0 12px var(--accent)) drop-shadow(0 0 28px var(--accent));--neon-tube-width:2.4px}
 .afroman-neon{
  display:block;position:absolute;left:.15em;top:0;
  width:calc(100% - .3em);height:1em;pointer-events:none;

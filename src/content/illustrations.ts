@@ -7,5 +7,5 @@ const base=import.meta.env.BASE_URL;
 export const illustrations:IllustrationArtwork[]=manifest.map(item=>({...item,src:`${base}${item.src}`,small:`${base}${item.small}`}));
 export const standaloneIllustrations=illustrations.filter(item=>item.collection==='illustration');
 export const foulBallsIllustrations=illustrations.filter(item=>item.collection==='foul-balls');
-const previewOrder=['illustration-boone','illustration-golfer','illustration-speech','illustration-angry','foul-balls-poster','illustration-newhopes','illustration-dog'];
+const previewOrder=['illustration-boone','illustration-golfer','illustration-angry','illustration-speech','foul-balls-poster','illustration-newhopes','illustration-dog'];
 export const illustrationPreview=[...previewOrder.map(id=>illustrations.find(item=>item.id===id)).filter((item):item is IllustrationArtwork=>Boolean(item)),...illustrations.filter(item=>!previewOrder.includes(item.id))];

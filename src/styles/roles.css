@@ -18,5 +18,6 @@
 .role-system .role-measure{display:block;position:absolute;inset:0 auto auto 0;width:max-content;max-width:none;white-space:pre}
 .intro-handoff .role-pair.transition-in .role{animation:none}
 
-/* Neutral-theme supporting roles use the same teal as the ampersand. */
+/* Neutral supporting roles follow the ampersand; Illustration uses its peach. */
 .app-shell:is(:not([data-project-theme]),[data-project-theme="design"],[data-project-theme="illustration"]) .extra-role{color:var(--accent)}
+.app-shell[data-project-theme="illustration"] :is(.extra-role,.chain-token.chain-role){color:#ca907e}
