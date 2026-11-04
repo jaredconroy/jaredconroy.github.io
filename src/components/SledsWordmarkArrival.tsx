@@ -30,17 +30,18 @@ export function SledsWordmarkArrival({ready,reduced,onBusyChange}:{ready:boolean
   const riders=[...element.querySelectorAll<HTMLElement>('.sleds-rider')];
   let cancelled=false;
   const animations:Animation[]=[];
-  const finish=()=>{element.dataset.revealed='true';wordmark.style.clipPath='none';riders.forEach(rider=>rider.style.visibility='hidden');animations.forEach(animation=>animation.cancel());onBusyChange(false);};
+  const hideRiders=()=>{riders.forEach(rider=>rider.style.visibility='hidden');onBusyChange(false);};
+  const settle=()=>{wordmark.style.clipPath='polygon(0% 0%,100% 0%,100% 100%,0% 100%,0% 100%,0% 100%)';animations.forEach(animation=>animation.cancel());hideRiders();};
   onBusyChange(true);
   void document.fonts.ready.then(()=>{
    if(cancelled)return;
    const bounds=element.getBoundingClientRect(),style=getComputedStyle(element);
    // Layout dimensions stay stable while the parent is still zooming into place.
    const width=parseFloat(style.width),height=parseFloat(style.height);
-   if(!width||!height){finish();return;}
+   if(!width||!height){settle();return;}
    const size=Math.max(24,Math.min(46,height*.92));
    const cross=width*dy+height*dx,spread=cross*.28;
-   const duration=1350,stagger=125;
+   const duration=1350,stagger=210;
    const scaleY=bounds.height/height||1;
    const panelBottom=((element.closest('.feature-details')?.getBoundingClientRect().bottom??bounds.bottom)-bounds.top)/scaleY;
    const bodyHeight=size*(399.36/335.5),centerX=width*.42,centerY=height/2;
@@ -56,7 +57,7 @@ export function SledsWordmarkArrival({ready,reduced,onBusyChange}:{ready:boolean
     const animation=rider.animate([
      {transform:`translate3d(${startX}px,${startY}px,0)`},
      {transform:`translate3d(${startX+dx*travel}px,${startY+dy*travel}px,0)`},
-    ],{duration,delay:index*stagger,easing:'linear',fill:'both'});
+    ],{duration,delay:(2-index)*stagger,easing:'linear',fill:'both'});
     animations.push(animation);
    });
    const initialFront=centerX*dx+centerY*dy+start-size*.25;
@@ -64,14 +65,14 @@ export function SledsWordmarkArrival({ready,reduced,onBusyChange}:{ready:boolean
     const progress=index/48;
     return {clipPath:wake(width,height,initialFront+travel*progress),offset:progress};
    });
-   const reveal=wordmark.animate(frames,{duration,delay:stagger,easing:'linear',fill:'forwards'});
+   const reveal=wordmark.animate(frames,{duration,delay:stagger+90,easing:'linear',fill:'forwards'});
    animations.push(reveal);
-   reveal.onfinish=()=>{element.dataset.revealed='true';};
-   animations[2].onfinish=finish;
+   // Retain the completed clipping layer: removing it causes a compositor flash.
+   animations[0].onfinish=hideRiders;
   });
-  const resize=()=>{animations.forEach(animation=>animation.cancel());finish();};
+  const resize=settle;
   window.addEventListener('resize',resize,{passive:true});
-  return()=>{cancelled=true;animations.forEach(animation=>animation.cancel());window.removeEventListener('resize',resize);finish();};
+  return()=>{cancelled=true;animations.forEach(animation=>animation.cancel());window.removeEventListener('resize',resize);settle();};
  },[ready,reduced,onBusyChange]);
  return <span ref={root} aria-hidden="true" class={`sleds-wordmark-arrival${reduced?' is-reduced':''}`}>
   <span class="sleds-wake"><SledsWordmark/></span>

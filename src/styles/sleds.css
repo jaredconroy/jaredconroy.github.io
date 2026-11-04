@@ -81,7 +81,7 @@
 
 /* One arrival per selected Sleds preview; the project-page wordmark stays static. */
 .sleds-wordmark-arrival{display:block;position:relative;width:100%;isolation:isolate}
-.sleds-wake{display:block;clip-path:inset(0 100% 0 0)}
+.sleds-wake{display:block;clip-path:polygon(0 0,0 0,0 0,0 0,0 0,0 0)}
 .sleds-wordmark-arrival.is-reduced .sleds-wake{clip-path:none}
 .sleds-rider{position:absolute;left:0;top:0;visibility:hidden;pointer-events:none;color:currentColor;z-index:1;will-change:transform}
 .sleds-rider svg{display:block;width:100%;height:auto;fill:currentColor}
@@ -89,4 +89,3 @@
 .sleds-feature-wordmark .sleds-wordmark-arrival .sleds-wordmark{height:auto}
 /* Riders enter and leave behind the edges of the title panel. */
 .feature-details:has(.sleds-wordmark-arrival){overflow:hidden}
-.sleds-wordmark-arrival[data-revealed="true"] .sleds-wake{clip-path:none!important}
